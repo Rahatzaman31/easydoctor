@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function AdminLogin() {
   const navigate = useNavigate()
   const [credentials, setCredentials] = useState({ username: '', password: '' })
@@ -19,7 +21,7 @@ function AdminLogin() {
     setError('')
 
     try {
-      const response = await fetch('/api/admin/login', {
+      const response = await fetch(`${API_URL}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -78,7 +80,7 @@ function AdminLogin() {
     }
 
     try {
-      const response = await fetch('/api/admin/generate-otp', {
+      const response = await fetch(`${API_URL}/api/admin/generate-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -117,7 +119,7 @@ function AdminLogin() {
     }
 
     try {
-      const response = await fetch('/api/admin/verify-otp', {
+      const response = await fetch(`${API_URL}/api/admin/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ otp })

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminSidebar from '../../components/AdminSidebar'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function AdminAdvertisementSettings() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -24,7 +26,7 @@ function AdminAdvertisementSettings() {
 
   async function fetchAdSettings() {
     try {
-      const response = await fetch('/api/advertisement-settings')
+      const response = await fetch(`${API_URL}/api/advertisement-settings`)
       const result = await response.json()
 
       if (result.success) {
@@ -105,7 +107,7 @@ function AdminAdvertisementSettings() {
 
       const adminAuth = JSON.parse(adminAuthStr)
 
-      const response = await fetch('/api/advertisement-settings', {
+      const response = await fetch(`${API_URL}/api/advertisement-settings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -149,7 +151,7 @@ function AdminAdvertisementSettings() {
 
       const adminAuth = JSON.parse(adminAuthStr)
 
-      const response = await fetch('/api/advertisement-settings', {
+      const response = await fetch(`${API_URL}/api/advertisement-settings`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

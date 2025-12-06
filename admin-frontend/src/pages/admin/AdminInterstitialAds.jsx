@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminSidebar from '../../components/AdminSidebar'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const defaultSettings = {
   is_enabled: false,
   desktop_image_url: '',
@@ -32,7 +34,7 @@ function AdminInterstitialAds() {
 
   async function fetchSettings() {
     try {
-      const response = await fetch('/api/interstitial-ads')
+      const response = await fetch(`${API_URL}/api/interstitial-ads`)
       const result = await response.json()
 
       if (result.success && result.data) {
@@ -80,7 +82,7 @@ function AdminInterstitialAds() {
         updateData.id = settingsId
       }
 
-      const response = await fetch('/api/interstitial-ads', {
+      const response = await fetch(`${API_URL}/api/interstitial-ads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData)

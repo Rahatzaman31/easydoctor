@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminSidebar from '../../components/AdminSidebar'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function AdminDoctorPackages() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -33,7 +35,7 @@ function AdminDoctorPackages() {
 
   async function fetchPackages() {
     try {
-      const response = await fetch('/api/doctor-packages')
+      const response = await fetch(`${API_URL}/api/doctor-packages`)
       const result = await response.json()
 
       if (result.success) {
@@ -128,7 +130,7 @@ function AdminDoctorPackages() {
 
       const adminAuth = JSON.parse(adminAuthStr)
 
-      const response = await fetch('/api/doctor-packages', {
+      const response = await fetch(`${API_URL}/api/doctor-packages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -167,7 +169,7 @@ function AdminDoctorPackages() {
 
       const adminAuth = JSON.parse(adminAuthStr)
 
-      const response = await fetch(`/api/doctor-packages/${pkg.id}`, {
+      const response = await fetch(`${API_URL}/api/doctor-packages/${pkg.id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ adminAuth })

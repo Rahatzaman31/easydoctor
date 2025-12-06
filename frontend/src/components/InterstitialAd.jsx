@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function InterstitialAd() {
   const [show, setShow] = useState(false)
   const [settings, setSettings] = useState(null)
@@ -59,7 +61,7 @@ function InterstitialAd() {
     
     async function fetchSettings() {
       try {
-        const response = await fetch('/api/interstitial-ads')
+        const response = await fetch(`${API_URL}/api/interstitial-ads`)
         const result = await response.json()
 
         if (result.success && result.data && result.data.is_enabled && isMountedRef.current) {

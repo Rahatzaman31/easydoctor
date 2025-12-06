@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../lib/supabase'
 import html2canvas from 'html2canvas'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const toBengaliNumber = (num) => {
   const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
   return String(num).replace(/[0-9]/g, (digit) => bengaliDigits[parseInt(digit)])
@@ -258,7 +260,7 @@ function PaidBookAppointment() {
         doctorChamberAddress: doctor?.chamber_address
       }))
       
-      const response = await fetch('/api/bkash/create-payment', {
+      const response = await fetch(`${API_URL}/api/bkash/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -334,7 +336,7 @@ function PaidBookAppointment() {
     if (status === 'success') {
       setSubmitting(true)
       try {
-        const response = await fetch('/api/bkash/execute-payment', {
+        const response = await fetch(`${API_URL}/api/bkash/execute-payment`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

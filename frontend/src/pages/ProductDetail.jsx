@@ -4,6 +4,8 @@ import { supabase, isConfigured } from '../lib/supabase'
 import ProductCard from '../components/ProductCard'
 import Footer from '../components/Footer'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -135,7 +137,7 @@ function ProductDetail() {
         orderNumber
       }))
 
-      const response = await fetch('/api/bkash/create-payment', {
+      const response = await fetch(`${API_URL}/api/bkash/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

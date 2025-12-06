@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase, isConfigured } from '../lib/supabase'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function ProductOrderCallback() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -51,7 +53,7 @@ function ProductOrderCallback() {
 
     if (status === 'success') {
       try {
-        const response = await fetch('/api/bkash/execute-payment', {
+        const response = await fetch(`${API_URL}/api/bkash/execute-payment`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

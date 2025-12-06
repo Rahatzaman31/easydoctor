@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
 import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const defaultBannerPricing = [
   { days: 3, price: 500, label: '৩ দিন' },
   { days: 7, price: 1000, label: '৭ দিন' },
@@ -89,7 +91,7 @@ function DoctorAdvertisements() {
 
   async function fetchAdTypesFromAPI() {
     try {
-      const response = await fetch('/api/advertisement-settings')
+      const response = await fetch(`${API_URL}/api/advertisement-settings`)
       const result = await response.json()
       if (result.success && result.data && result.data.length > 0) {
         const transformedAdTypes = result.data.map(adType => ({
