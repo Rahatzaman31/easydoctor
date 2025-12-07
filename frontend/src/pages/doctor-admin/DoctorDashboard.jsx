@@ -34,49 +34,82 @@ function DoctorDashboard() {
 
       const today = new Date().toISOString().split('T')[0]
 
-      const [confirmedApptsRes, confirmedPaidRes, pendingApptsRes, pendingPaidRes] = await Promise.all([
+      const [
+        completedApptsRes, 
+        completedPaidRes, 
+        pendingApptsRes, 
+        pendingPaidRes,
+        todayConfirmedApptsRes,
+        todayConfirmedPaidRes,
+        recentApptsRes,
+        recentPaidRes
+      ] = await Promise.all([
         supabase
           .from('appointments')
-          .select('*')
+          .select('id', { count: 'exact' })
           .eq('doctor_id', doctorId)
-          .eq('status', 'confirmed')
-          .order('created_at', { ascending: false }),
+          .eq('status', 'completed'),
         supabase
           .from('paid_appointments')
-          .select('*')
+          .select('id', { count: 'exact' })
           .eq('doctor_id', doctorId)
-          .eq('status', 'confirmed')
-          .order('created_at', { ascending: false }),
+          .eq('status', 'completed'),
         supabase
           .from('appointments')
-          .select('*')
+          .select('id', { count: 'exact' })
           .eq('doctor_id', doctorId)
           .eq('status', 'pending'),
         supabase
           .from('paid_appointments')
+          .select('id', { count: 'exact' })
+          .eq('doctor_id', doctorId)
+          .eq('status', 'pending'),
+        supabase
+          .from('appointments')
+          .select('id', { count: 'exact' })
+          .eq('doctor_id', doctorId)
+          .eq('status', 'confirmed')
+          .eq('appointment_date', today),
+        supabase
+          .from('paid_appointments')
+          .select('id', { count: 'exact' })
+          .eq('doctor_id', doctorId)
+          .eq('status', 'confirmed')
+          .eq('appointment_date', today),
+        supabase
+          .from('appointments')
           .select('*')
           .eq('doctor_id', doctorId)
-          .eq('status', 'pending')
+          .in('status', ['confirmed', 'pending'])
+          .order('created_at', { ascending: false })
+          .limit(5),
+        supabase
+          .from('paid_appointments')
+          .select('*')
+          .eq('doctor_id', doctorId)
+          .in('status', ['confirmed', 'pending'])
+          .order('created_at', { ascending: false })
+          .limit(5)
       ])
 
-      const confirmedAppts = confirmedApptsRes.data || []
-      const confirmedPaid = confirmedPaidRes.data || []
-      const pendingAppts = pendingApptsRes.data || []
-      const pendingPaid = pendingPaidRes.data || []
-
-      const allConfirmed = [...confirmedAppts, ...confirmedPaid]
-      const todayApts = allConfirmed.filter(apt => apt.appointment_date === today)
-      const totalPending = pendingAppts.length + pendingPaid.length
+      const completedAppts = completedApptsRes.count || 0
+      const completedPaid = completedPaidRes.count || 0
+      const pendingAppts = pendingApptsRes.count || 0
+      const pendingPaid = pendingPaidRes.count || 0
+      const todayConfirmedGeneral = todayConfirmedApptsRes.count || 0
+      const todayConfirmedPaid = todayConfirmedPaidRes.count || 0
 
       setStats({
-        totalAppointments: allConfirmed.length + totalPending,
-        pendingAppointments: totalPending,
-        todayAppointments: todayApts.length,
-        paidAppointments: confirmedPaid.length,
-        generalAppointments: confirmedAppts.length
+        totalAppointments: completedAppts + completedPaid,
+        pendingAppointments: pendingAppts + pendingPaid,
+        todayAppointments: todayConfirmedGeneral + todayConfirmedPaid,
+        paidAppointments: todayConfirmedPaid,
+        generalAppointments: todayConfirmedGeneral
       })
 
-      const recentAll = [...confirmedAppts.slice(0, 5), ...confirmedPaid.slice(0, 5)]
+      const recentAppts = recentApptsRes.data || []
+      const recentPaid = recentPaidRes.data || []
+      const recentAll = [...recentAppts, ...recentPaid]
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .slice(0, 10)
       
