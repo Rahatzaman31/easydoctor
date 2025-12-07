@@ -189,7 +189,7 @@ function DoctorProfile() {
             title,
             image_url,
             link_url,
-            mobile_link_url,
+            mobile_image_url,
             is_active
           )
         `)
@@ -312,11 +312,16 @@ function DoctorProfile() {
 
   const getBannerLink = () => {
     if (!adBanner) return null
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-    if (isMobile && adBanner.mobile_link_url) {
-      return adBanner.mobile_link_url
-    }
     return adBanner.link_url
+  }
+
+  const getBannerImageUrl = () => {
+    if (!adBanner) return null
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    if (isMobile && adBanner.mobile_image_url) {
+      return adBanner.mobile_image_url
+    }
+    return adBanner.image_url
   }
 
   if (!doctor) {
@@ -340,17 +345,17 @@ function DoctorProfile() {
               className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               <img 
-                src={adBanner.image_url} 
+                src={getBannerImageUrl()} 
                 alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px]"
+                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
               />
             </a>
           ) : (
             <div className="overflow-hidden rounded-lg shadow-sm">
               <img 
-                src={adBanner.image_url} 
+                src={getBannerImageUrl()} 
                 alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px]"
+                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
               />
             </div>
           )}
@@ -758,17 +763,17 @@ function DoctorProfile() {
                   className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
                 >
                   <img 
-                    src={adBanner.image_url} 
+                    src={getBannerImageUrl()} 
                     alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px]"
+                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
                   />
                 </a>
               ) : (
                 <div className="overflow-hidden rounded-lg shadow-sm">
                   <img 
-                    src={adBanner.image_url} 
+                    src={getBannerImageUrl()} 
                     alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px]"
+                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
                   />
                 </div>
               )}
