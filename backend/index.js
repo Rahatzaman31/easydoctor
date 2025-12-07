@@ -219,15 +219,20 @@ app.post('/api/bkash/create-payment', async (req, res) => {
 app.get('/api/bkash/callback', async (req, res) => {
   const { paymentID, status, type } = req.query
   
-  let frontendURL = ''
-  if (process.env.REPLIT_DOMAINS) {
-    frontendURL = `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-  } else if (process.env.REPLIT_DEV_DOMAIN) {
-    frontendURL = `https://${process.env.REPLIT_DEV_DOMAIN}`
-  } else {
-    const protocol = req.headers['x-forwarded-proto'] || 'https'
-    const host = req.headers['x-forwarded-host'] || req.headers.host
-    frontendURL = `${protocol}://${host}`
+  // Use the configured frontend URL from environment variable for production
+  // This is needed when backend is deployed separately from frontend (e.g., Render + Vercel)
+  let frontendURL = process.env.FRONTEND_URL || ''
+  
+  if (!frontendURL) {
+    // Fallback for development/Replit environment
+    if (process.env.REPLIT_DOMAINS) {
+      frontendURL = `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+    } else if (process.env.REPLIT_DEV_DOMAIN) {
+      frontendURL = `https://${process.env.REPLIT_DEV_DOMAIN}`
+    } else {
+      // Default to production frontend URL
+      frontendURL = 'https://easydoctorrangpur01.vercel.app'
+    }
   }
   
   if (type === 'product') {
@@ -490,19 +495,23 @@ app.get('/doctor/:slug', async (req, res) => {
       return res.redirect('/')
     }
     
-    let baseURL = ''
-    if (process.env.REPLIT_DOMAINS) {
-      baseURL = `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-    } else if (process.env.REPLIT_DEV_DOMAIN) {
-      baseURL = `https://${process.env.REPLIT_DEV_DOMAIN}`
-    } else {
-      baseURL = 'https://easy-doctor-rangpur.replit.app'
+    // Use frontend URL for redirects (when backend is deployed separately)
+    let frontendURL = process.env.FRONTEND_URL || ''
+    if (!frontendURL) {
+      if (process.env.REPLIT_DOMAINS) {
+        frontendURL = `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+      } else if (process.env.REPLIT_DEV_DOMAIN) {
+        frontendURL = `https://${process.env.REPLIT_DEV_DOMAIN}`
+      } else {
+        frontendURL = 'https://easydoctorrangpur01.vercel.app'
+      }
     }
     
-    const doctorUrl = `${baseURL}/doctor/${doctor.slug || doctor.id}`
-    const doctorImage = doctor.image_url || `${baseURL}/logo.png`
+    const doctorUrl = `${frontendURL}/doctor/${doctor.slug || doctor.id}`
+    const doctorImage = doctor.image_url || `${frontendURL}/logo.png`
     const rating = doctor.rating ? `${doctor.rating} স্টার রেটিং` : ''
-    const description = `${doctor.category_name || ''} ${rating ? '| ' + rating : ''} | ${doctor.chamber_address || 'রংপুর'}`
+    const degreeInfo = doctor.degrees ? ` | ${doctor.degrees}` : ''
+    const description = `${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'}${degreeInfo} ${rating ? '| ' + rating : ''} | ${doctor.chamber_address || 'রংপুর'}`
     
     const html = `<!DOCTYPE html>
 <html lang="bn">
@@ -511,32 +520,55 @@ app.get('/doctor/:slug', async (req, res) => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${doctor.name} - ${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'} | ইজি ডক্টর রংপুর</title>
   
-  <!-- Open Graph Meta Tags -->
+  <!-- Open Graph Meta Tags for Social Sharing -->
   <meta property="og:title" content="${doctor.name} - ${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${doctorImage}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${doctor.name} - ${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'}">
   <meta property="og:url" content="${doctorUrl}">
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="ইজি ডক্টর রংপুর">
   <meta property="og:locale" content="bn_BD">
+  <meta property="profile:first_name" content="${doctor.name.split(' ')[0] || doctor.name}">
   
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EasyDoctorRangpur">
   <meta name="twitter:title" content="${doctor.name} - ${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'}">
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${doctorImage}">
   
   <!-- Standard Meta Tags -->
   <meta name="description" content="${description}">
+  <meta name="author" content="${doctor.name}">
+  <meta name="keywords" content="${doctor.name}, ${doctor.category_name || 'ডাক্তার'}, রংপুর, অ্যাপয়েন্টমেন্ট, ${doctor.district || 'রংপুর'}">
   <link rel="canonical" href="${doctorUrl}">
-  <link rel="icon" type="image/png" href="/logo-icon.png">
+  <link rel="icon" type="image/png" href="${frontendURL}/logo-icon.png">
+  
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); }
+    .card { background: white; border-radius: 16px; padding: 32px; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #14b8a6; margin-bottom: 16px; }
+    .name { font-size: 24px; font-weight: 700; color: #1f2937; margin: 0 0 8px; }
+    .category { font-size: 16px; color: #14b8a6; font-weight: 500; margin: 0 0 16px; }
+    .loader { color: #6b7280; }
+  </style>
   
   <script>
-    window.location.replace('/doctor/${doctor.slug || doctor.id}');
+    setTimeout(function() {
+      window.location.replace('${doctorUrl}');
+    }, 100);
   </script>
 </head>
 <body>
-  <p>Redirecting to ${doctor.name}'s profile...</p>
+  <div class="card">
+    ${doctor.image_url ? `<img src="${doctorImage}" alt="${doctor.name}" class="avatar" />` : ''}
+    <h1 class="name">${doctor.name}</h1>
+    <p class="category">${doctor.category_name || 'বিশেষজ্ঞ ডাক্তার'}</p>
+    <p class="loader">প্রোফাইলে নিয়ে যাওয়া হচ্ছে...</p>
+  </div>
 </body>
 </html>`
     
@@ -1253,6 +1285,73 @@ app.delete('/api/advertisement-settings', async (req, res) => {
     console.error('Error deleting ad settings:', error)
     res.status(500).json({ success: false, message: 'মুছে ফেলতে সমস্যা হয়েছে' })
   }
+})
+
+// Auto-complete confirmed appointments endpoint (for cron job)
+// This should be called at midnight Bangladesh time (GMT+6)
+app.post('/api/appointments/auto-complete', async (req, res) => {
+  try {
+    if (!supabase) {
+      return res.status(500).json({ success: false, message: 'Database not configured' })
+    }
+
+    // Get current date in Bangladesh timezone (GMT+6)
+    const now = new Date()
+    const bdTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }))
+    const todayBD = bdTime.toISOString().split('T')[0]
+
+    // Auto-complete confirmed appointments from regular appointments table
+    const { data: regularCompleted, error: regularError } = await supabase
+      .from('appointments')
+      .update({ status: 'completed' })
+      .eq('status', 'confirmed')
+      .lt('appointment_date', todayBD)
+      .select('id')
+
+    if (regularError) {
+      console.error('Error auto-completing regular appointments:', regularError)
+    }
+
+    // Auto-complete confirmed appointments from paid appointments table
+    const { data: paidCompleted, error: paidError } = await supabase
+      .from('paid_appointments')
+      .update({ status: 'completed' })
+      .eq('status', 'confirmed')
+      .lt('appointment_date', todayBD)
+      .select('id')
+
+    if (paidError) {
+      console.error('Error auto-completing paid appointments:', paidError)
+    }
+
+    const regularCount = regularCompleted?.length || 0
+    const paidCount = paidCompleted?.length || 0
+
+    console.log(`Auto-completed ${regularCount} regular and ${paidCount} paid appointments on ${todayBD}`)
+
+    res.json({
+      success: true,
+      message: `সফলভাবে ${regularCount + paidCount}টি অ্যাপয়েন্টমেন্ট সম্পন্ন করা হয়েছে`,
+      regularCompleted: regularCount,
+      paidCompleted: paidCount,
+      date: todayBD
+    })
+  } catch (error) {
+    console.error('Auto-complete error:', error)
+    res.status(500).json({ success: false, message: 'Auto-complete failed' })
+  }
+})
+
+// Get current Bangladesh time (for debugging/verification)
+app.get('/api/time/bd', (req, res) => {
+  const now = new Date()
+  const bdTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }))
+  res.json({
+    utc: now.toISOString(),
+    bangladesh: bdTime.toISOString(),
+    bangladeshDate: bdTime.toISOString().split('T')[0],
+    bangladeshTime: bdTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour12: true })
+  })
 })
 
 const PORT = process.env.PORT || 3001

@@ -112,6 +112,12 @@ function AdminAppointments() {
               >
                 বাতিল
               </button>
+              <button
+                onClick={() => setFilter('completed')}
+                className={`px-3 lg:px-4 py-2 rounded-lg text-sm lg:text-base ${filter === 'completed' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}`}
+              >
+                সম্পন্ন
+              </button>
             </div>
           </div>
         </div>
@@ -156,9 +162,10 @@ function AdminAppointments() {
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                             apt.status === 'confirmed' ? 'bg-green-100 text-green-700' :
                             apt.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                            apt.status === 'completed' ? 'bg-blue-100 text-blue-700' :
                             'bg-yellow-100 text-yellow-700'
                           }`}>
-                            {apt.status === 'confirmed' ? 'নিশ্চিত' : apt.status === 'cancelled' ? 'বাতিল' : 'অপেক্ষমান'}
+                            {apt.status === 'confirmed' ? 'নিশ্চিত' : apt.status === 'cancelled' ? 'বাতিল' : apt.status === 'completed' ? 'সম্পন্ন' : 'অপেক্ষমান'}
                           </span>
                         </td>
                         <td className="px-6 py-4">
@@ -180,12 +187,23 @@ function AdminAppointments() {
                               </>
                             )}
                             {apt.status === 'confirmed' && (
-                              <button
-                                onClick={() => updateStatus(apt.id, 'cancelled')}
-                                className="text-red-600 hover:underline text-sm"
-                              >
-                                বাতিল
-                              </button>
+                              <>
+                                <button
+                                  onClick={() => updateStatus(apt.id, 'completed')}
+                                  className="text-blue-600 hover:underline text-sm"
+                                >
+                                  সম্পন্ন
+                                </button>
+                                <button
+                                  onClick={() => updateStatus(apt.id, 'cancelled')}
+                                  className="text-red-600 hover:underline text-sm"
+                                >
+                                  বাতিল
+                                </button>
+                              </>
+                            )}
+                            {apt.status === 'completed' && (
+                              <span className="text-blue-600 text-sm">সম্পন্ন হয়েছে</span>
                             )}
                             {apt.status === 'cancelled' && (
                               <button
@@ -212,9 +230,10 @@ function AdminAppointments() {
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       apt.status === 'confirmed' ? 'bg-green-100 text-green-700' :
                       apt.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                      apt.status === 'completed' ? 'bg-blue-100 text-blue-700' :
                       'bg-yellow-100 text-yellow-700'
                     }`}>
-                      {apt.status === 'confirmed' ? 'নিশ্চিত' : apt.status === 'cancelled' ? 'বাতিল' : 'অপেক্ষমান'}
+                      {apt.status === 'confirmed' ? 'নিশ্চিত' : apt.status === 'cancelled' ? 'বাতিল' : apt.status === 'completed' ? 'সম্পন্ন' : 'অপেক্ষমান'}
                     </span>
                   </div>
                   
@@ -246,12 +265,25 @@ function AdminAppointments() {
                       </>
                     )}
                     {apt.status === 'confirmed' && (
-                      <button
-                        onClick={() => updateStatus(apt.id, 'cancelled')}
-                        className="flex-1 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-medium hover:bg-red-200"
-                      >
-                        বাতিল করুন
-                      </button>
+                      <>
+                        <button
+                          onClick={() => updateStatus(apt.id, 'completed')}
+                          className="flex-1 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200"
+                        >
+                          সম্পন্ন করুন
+                        </button>
+                        <button
+                          onClick={() => updateStatus(apt.id, 'cancelled')}
+                          className="flex-1 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-medium hover:bg-red-200"
+                        >
+                          বাতিল করুন
+                        </button>
+                      </>
+                    )}
+                    {apt.status === 'completed' && (
+                      <span className="flex-1 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium text-center">
+                        সম্পন্ন হয়েছে
+                      </span>
                     )}
                     {apt.status === 'cancelled' && (
                       <button

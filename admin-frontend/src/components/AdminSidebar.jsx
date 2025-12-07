@@ -31,6 +31,7 @@ function AdminSidebar() {
     { path: '/admin/legal-pages', icon: '⚖️', label: 'আইনগত পেজ' },
     { path: '/admin/banners', icon: '🖼️', label: 'হোম ব্যানার' },
     { path: '/admin/promotional-banners', icon: '📣', label: 'প্রোমোশনাল ব্যানার' },
+    { path: '/admin/profile-ad-banners', icon: '🎯', label: 'বিজ্ঞাপন ব্যানার' },
     { path: '/admin/interstitial-ads', icon: '📺', label: 'ইন্টারস্টিশিয়াল বিজ্ঞাপন' },
     { path: '/admin/doctor-portal', icon: '🔐', label: 'ডাক্তার পোর্টাল' },
     { path: '/admin/doctor-packages', icon: '📦', label: 'ডাক্তার প্যাকেজ' },

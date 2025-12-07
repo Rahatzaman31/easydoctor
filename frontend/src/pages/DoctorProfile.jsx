@@ -70,6 +70,7 @@ function DoctorProfile() {
     review_text: ''
   })
   const [showSerialTypeModal, setShowSerialTypeModal] = useState(false)
+  const [adBanner, setAdBanner] = useState(null)
 
   useEffect(() => {
     fetchDoctor()
@@ -79,6 +80,7 @@ function DoctorProfile() {
     if (doctorId) {
       fetchExpertise()
       fetchReviews()
+      fetchAdBanner()
     }
   }, [doctorId])
 
@@ -171,6 +173,42 @@ function DoctorProfile() {
       setReviews(data || [])
     } catch (error) {
       console.error('Error fetching reviews:', error)
+    }
+  }
+
+  async function fetchAdBanner() {
+    try {
+      if (!supabase || !isConfigured || !doctorId) return
+      setAdBanner(null)
+      const { data, error } = await supabase
+        .from('profile_ad_banner_doctors')
+        .select(`
+          banner_id,
+          profile_ad_banners!inner (
+            id,
+            title,
+            image_url,
+            link_url,
+            is_active
+          )
+        `)
+        .eq('doctor_id', doctorId)
+        .eq('profile_ad_banners.is_active', true)
+        .limit(1)
+        .single()
+      
+      if (error) {
+        if (error.code !== 'PGRST116') {
+          console.error('Error fetching ad banner:', error)
+        }
+        return
+      }
+      
+      if (data?.profile_ad_banners) {
+        setAdBanner(data.profile_ad_banners)
+      }
+    } catch (error) {
+      console.error('Error fetching ad banner:', error)
     }
   }
 
@@ -337,6 +375,33 @@ function DoctorProfile() {
             </div>
           </div>
         </div>
+
+        {adBanner && (
+          <div className="mx-4 mt-4 md:mx-8">
+            {adBanner.link_url ? (
+              <a 
+                href={adBanner.link_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              >
+                <img 
+                  src={adBanner.image_url} 
+                  alt={adBanner.title}
+                  className="w-full h-auto object-contain max-h-24"
+                />
+              </a>
+            ) : (
+              <div className="overflow-hidden rounded-lg shadow-sm">
+                <img 
+                  src={adBanner.image_url} 
+                  alt={adBanner.title}
+                  className="w-full h-auto object-contain max-h-24"
+                />
+              </div>
+            )}
+          </div>
+        )}
 
         {doctor.notice && (
           <div className="mx-4 mt-4 -mb-4 md:mx-8">

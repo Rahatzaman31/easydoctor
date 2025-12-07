@@ -24,6 +24,21 @@ function AdminDoctorPackages() {
     { value: 'pink', from: 'pink-500', to: 'pink-600', border: 'border-pink-300' },
   ]
 
+  const colorMap = {
+    'gray-500': '#6b7280', 'gray-600': '#4b5563',
+    'blue-500': '#3b82f6', 'blue-600': '#2563eb',
+    'purple-500': '#a855f7', 'purple-600': '#9333ea',
+    'teal-500': '#14b8a6', 'teal-600': '#0d9488',
+    'green-500': '#22c55e', 'green-600': '#16a34a',
+    'orange-500': '#f97316', 'orange-600': '#ea580c',
+    'red-500': '#ef4444', 'red-600': '#dc2626',
+    'pink-500': '#ec4899', 'pink-600': '#db2777',
+  }
+
+  function getGradientColor(colorClass) {
+    return colorMap[colorClass] || '#6b7280'
+  }
+
   useEffect(() => {
     const loggedIn = localStorage.getItem('adminLoggedIn')
     if (!loggedIn) {
@@ -234,7 +249,7 @@ function AdminDoctorPackages() {
                 key={pkg.id}
                 className={`bg-white rounded-2xl shadow-lg overflow-hidden border-2 ${pkg.border_color} ${!pkg.is_active ? 'opacity-60' : ''}`}
               >
-                <div className={`bg-gradient-to-r from-${pkg.color_from} to-${pkg.color_to} p-6 text-white relative`}>
+                <div className="p-6 text-white relative" style={{ background: `linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to))`, '--tw-gradient-from': getGradientColor(pkg.color_from), '--tw-gradient-to': getGradientColor(pkg.color_to) }}>
                   {pkg.badge && (
                     <span className="absolute top-4 right-4 bg-white/20 px-3 py-1 rounded-full text-xs font-medium">
                       {pkg.badge}

@@ -25,6 +25,7 @@ import AdminInterstitialAds from './pages/admin/AdminInterstitialAds'
 import AdminSEO from './pages/admin/AdminSEO'
 import AdminDoctorPackages from './pages/admin/AdminDoctorPackages'
 import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings'
+import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/admin/seo" element={<AdminSEO />} />
           <Route path="/admin/doctor-packages" element={<AdminDoctorPackages />} />
           <Route path="/admin/advertisement-settings" element={<AdminAdvertisementSettings />} />
+          <Route path="/admin/profile-ad-banners" element={<AdminProfileAdBanners />} />
           </Routes>
         </div>
       </Router>
