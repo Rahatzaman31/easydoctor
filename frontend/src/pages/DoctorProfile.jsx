@@ -320,6 +320,33 @@ function DoctorProfile() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 select-none">
+      {adBanner && (
+        <div className="mb-4">
+          {adBanner.link_url ? (
+            <a 
+              href={adBanner.link_url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <img 
+                src={adBanner.image_url} 
+                alt={adBanner.title}
+                className="w-full h-auto object-contain max-h-24"
+              />
+            </a>
+          ) : (
+            <div className="overflow-hidden rounded-lg shadow-sm">
+              <img 
+                src={adBanner.image_url} 
+                alt={adBanner.title}
+                className="w-full h-auto object-contain max-h-24"
+              />
+            </div>
+          )}
+        </div>
+      )}
+
       <Link 
         to={getBackUrl()} 
         className="inline-flex items-center gap-2 bg-white hover:bg-primary-50 text-primary-600 px-4 py-2 rounded-full shadow-md hover:shadow-lg border border-primary-100 transition-all duration-300 mb-6 group"
@@ -375,33 +402,6 @@ function DoctorProfile() {
             </div>
           </div>
         </div>
-
-        {adBanner && (
-          <div className="mx-4 mt-4 md:mx-8">
-            {adBanner.link_url ? (
-              <a 
-                href={adBanner.link_url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <img 
-                  src={adBanner.image_url} 
-                  alt={adBanner.title}
-                  className="w-full h-auto object-contain max-h-24"
-                />
-              </a>
-            ) : (
-              <div className="overflow-hidden rounded-lg shadow-sm">
-                <img 
-                  src={adBanner.image_url} 
-                  alt={adBanner.title}
-                  className="w-full h-auto object-contain max-h-24"
-                />
-              </div>
-            )}
-          </div>
-        )}
 
         {doctor.notice && (
           <div className="mx-4 mt-4 -mb-4 md:mx-8">
@@ -737,6 +737,33 @@ function DoctorProfile() {
               </button>
             </div>
           </div>
+
+          {adBanner && (
+            <div className="mt-6">
+              {adBanner.link_url ? (
+                <a 
+                  href={adBanner.link_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <img 
+                    src={adBanner.image_url} 
+                    alt={adBanner.title}
+                    className="w-full h-auto object-contain max-h-24"
+                  />
+                </a>
+              ) : (
+                <div className="overflow-hidden rounded-lg shadow-sm">
+                  <img 
+                    src={adBanner.image_url} 
+                    alt={adBanner.title}
+                    className="w-full h-auto object-contain max-h-24"
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
           {expertise.length > 0 && (
             <div className="mt-8 pt-6 border-t">

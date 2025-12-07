@@ -27,11 +27,12 @@ function DoctorAppointments() {
         return
       }
 
+      // Fetch both confirmed and completed status appointments
       const { data, error } = await supabase
         .from('appointments')
         .select('*')
         .eq('doctor_id', doctorId)
-        .eq('status', 'confirmed')
+        .in('status', ['confirmed', 'completed'])
         .order('appointment_date', { ascending: false })
 
       if (error) throw error
@@ -54,9 +55,12 @@ function DoctorAppointments() {
     const monthAgo = new Date(today)
     monthAgo.setMonth(monthAgo.getMonth() - 1)
 
-    const daily = data.filter(apt => apt.appointment_date === todayStr).length
-    const weekly = data.filter(apt => new Date(apt.appointment_date) >= weekAgo).length
-    const monthly = data.filter(apt => new Date(apt.appointment_date) >= monthAgo).length
+    // আজকে: শুধু 'confirmed' স্ট্যাটাস
+    const daily = data.filter(apt => apt.appointment_date === todayStr && apt.status === 'confirmed').length
+    // এই সপ্তাহে: বিগত ৭ দিন, শুধু 'completed' স্ট্যাটাস
+    const weekly = data.filter(apt => new Date(apt.appointment_date) >= weekAgo && apt.status === 'completed').length
+    // এই মাসে: বিগত ৩০ দিন, শুধু 'completed' স্ট্যাটাস
+    const monthly = data.filter(apt => new Date(apt.appointment_date) >= monthAgo && apt.status === 'completed').length
 
     setStats({ daily, weekly, monthly })
   }
@@ -75,16 +79,22 @@ function DoctorAppointments() {
     const today = new Date()
     const todayStr = today.toISOString().split('T')[0]
 
-    if (dateFilter === 'today') {
-      filtered = filtered.filter(apt => apt.appointment_date === todayStr)
+    if (dateFilter === 'all') {
+      // সব: শুধু 'completed' স্ট্যাটাস
+      filtered = filtered.filter(apt => apt.status === 'completed')
+    } else if (dateFilter === 'today') {
+      // আজকে: শুধু 'confirmed' স্ট্যাটাস
+      filtered = filtered.filter(apt => apt.appointment_date === todayStr && apt.status === 'confirmed')
     } else if (dateFilter === 'week') {
+      // এই সপ্তাহ: বিগত ৭ দিন, শুধু 'completed' স্ট্যাটাস
       const weekAgo = new Date(today)
       weekAgo.setDate(weekAgo.getDate() - 7)
-      filtered = filtered.filter(apt => new Date(apt.appointment_date) >= weekAgo)
+      filtered = filtered.filter(apt => new Date(apt.appointment_date) >= weekAgo && apt.status === 'completed')
     } else if (dateFilter === 'month') {
+      // এই মাস: বিগত ৩০ দিন, শুধু 'completed' স্ট্যাটাস
       const monthAgo = new Date(today)
       monthAgo.setMonth(monthAgo.getMonth() - 1)
-      filtered = filtered.filter(apt => new Date(apt.appointment_date) >= monthAgo)
+      filtered = filtered.filter(apt => new Date(apt.appointment_date) >= monthAgo && apt.status === 'completed')
     }
 
     return filtered
