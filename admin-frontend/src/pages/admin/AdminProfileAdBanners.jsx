@@ -94,6 +94,7 @@ function AdminProfileAdBanners() {
         title: banner.title,
         image_url: banner.image_url,
         link_url: banner.link_url || '',
+        mobile_link_url: banner.mobile_link_url || '',
         is_active: banner.is_active,
         sort_order: banner.sort_order
       })
@@ -107,6 +108,7 @@ function AdminProfileAdBanners() {
         title: '',
         image_url: '',
         link_url: '',
+        mobile_link_url: '',
         is_active: true,
         sort_order: banners.length
       })
@@ -167,6 +169,7 @@ function AdminProfileAdBanners() {
             title: editingBanner.title,
             image_url: editingBanner.image_url,
             link_url: editingBanner.link_url || null,
+            mobile_link_url: editingBanner.mobile_link_url || null,
             is_active: editingBanner.is_active,
             sort_order: editingBanner.sort_order
           })
@@ -184,6 +187,7 @@ function AdminProfileAdBanners() {
             title: editingBanner.title,
             image_url: editingBanner.image_url,
             link_url: editingBanner.link_url || null,
+            mobile_link_url: editingBanner.mobile_link_url || null,
             is_active: editingBanner.is_active,
             sort_order: editingBanner.sort_order
           }])
@@ -287,8 +291,8 @@ function AdminProfileAdBanners() {
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
             <h3 className="font-semibold text-blue-800 mb-2">ব্যানার সাইজ সুপারিশ:</h3>
             <ul className="text-blue-700 text-sm space-y-1">
-              <li>• সাইজ: <strong>728 x 90 px</strong> (স্ট্যান্ডার্ড লিডারবোর্ড)</li>
-              <li>• বা: <strong>970 x 90 px</strong> (বড় লিডারবোর্ড)</li>
+              <li>• সাইজ: <strong>728 x 120 px</strong> (স্ট্যান্ডার্ড লিডারবোর্ড)</li>
+              <li>• বা: <strong>970 x 120 px</strong> (বড় লিডারবোর্ড)</li>
               <li>• ফরম্যাট: JPG, PNG, WebP</li>
               <li>• ফাইল সাইজ: সর্বোচ্চ 150KB</li>
             </ul>
@@ -423,7 +427,19 @@ function AdminProfileAdBanners() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="https://example.com/landing-page"
                 />
-                <p className="text-xs text-gray-500 mt-1">ব্যানারে ক্লিক করলে এই পেজে যাবে</p>
+                <p className="text-xs text-gray-500 mt-1">ব্যানারে ক্লিক করলে এই পেজে যাবে (ডেস্কটপ)</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">মোবাইল লিংক URL (ঐচ্ছিক)</label>
+                <input
+                  type="url"
+                  value={editingBanner.mobile_link_url}
+                  onChange={(e) => setEditingBanner({ ...editingBanner, mobile_link_url: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  placeholder="https://example.com/mobile-landing-page"
+                />
+                <p className="text-xs text-gray-500 mt-1">মোবাইলে ব্যানারে ক্লিক করলে এই পেজে যাবে (খালি থাকলে উপরের লিংক ব্যবহার হবে)</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

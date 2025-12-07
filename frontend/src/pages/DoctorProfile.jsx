@@ -189,6 +189,7 @@ function DoctorProfile() {
             title,
             image_url,
             link_url,
+            mobile_link_url,
             is_active
           )
         `)
@@ -309,6 +310,15 @@ function DoctorProfile() {
     return '/rangpur-specialist-doctors-list-online-serial'
   }
 
+  const getBannerLink = () => {
+    if (!adBanner) return null
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    if (isMobile && adBanner.mobile_link_url) {
+      return adBanner.mobile_link_url
+    }
+    return adBanner.link_url
+  }
+
   if (!doctor) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -322,9 +332,9 @@ function DoctorProfile() {
     <div className="max-w-4xl mx-auto px-4 py-8 select-none">
       {adBanner && (
         <div className="mb-4">
-          {adBanner.link_url ? (
+          {getBannerLink() ? (
             <a 
-              href={adBanner.link_url} 
+              href={getBannerLink()} 
               target="_blank" 
               rel="noopener noreferrer"
               className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
@@ -332,7 +342,7 @@ function DoctorProfile() {
               <img 
                 src={adBanner.image_url} 
                 alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-24"
+                className="w-full h-auto object-contain max-h-[120px]"
               />
             </a>
           ) : (
@@ -340,7 +350,7 @@ function DoctorProfile() {
               <img 
                 src={adBanner.image_url} 
                 alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-24"
+                className="w-full h-auto object-contain max-h-[120px]"
               />
             </div>
           )}
@@ -740,9 +750,9 @@ function DoctorProfile() {
 
           {adBanner && (
             <div className="mt-6">
-              {adBanner.link_url ? (
+              {getBannerLink() ? (
                 <a 
-                  href={adBanner.link_url} 
+                  href={getBannerLink()} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
@@ -750,7 +760,7 @@ function DoctorProfile() {
                   <img 
                     src={adBanner.image_url} 
                     alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-24"
+                    className="w-full h-auto object-contain max-h-[120px]"
                   />
                 </a>
               ) : (
@@ -758,7 +768,7 @@ function DoctorProfile() {
                   <img 
                     src={adBanner.image_url} 
                     alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-24"
+                    className="w-full h-auto object-contain max-h-[120px]"
                   />
                 </div>
               )}
