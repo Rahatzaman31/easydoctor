@@ -159,7 +159,7 @@ function PaidBookAppointment() {
       const { data: paidAppointments, error: err } = await supabase
         .from('paid_appointments')
         .select('appointment_date')
-        .eq('doctor_id', doctorId)
+        .eq('doctor_id', doctor.id)
         .in('appointment_date', dateStrings)
       
       if (err) {
@@ -252,12 +252,18 @@ function PaidBookAppointment() {
     setPaymentError('')
     
     try {
+      if (!doctor?.id) {
+        setPaymentError('ডাক্তার তথ্য লোড হয়নি। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।')
+        setSubmitting(false)
+        return
+      }
+      
       sessionStorage.setItem('pendingPaidAppointment', JSON.stringify({
         formData,
-        doctorId,
-        doctorName: doctor?.name,
-        doctorCategory: doctor?.category_name,
-        doctorChamberAddress: doctor?.chamber_address
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        doctorCategory: doctor.category_name,
+        doctorChamberAddress: doctor.chamber_address
       }))
       
       const response = await fetch(`${API_URL}/api/bkash/create-payment`, {
@@ -404,7 +410,7 @@ function PaidBookAppointment() {
       
       let appointmentFormData = formData
       let savedDoctorName = doctor?.name
-      let savedDoctorId = doctorId
+      let savedDoctorId = doctor?.id
       let savedDoctorCategory = doctor?.category_name
       let savedDoctorChamberAddress = doctor?.chamber_address
       
@@ -412,12 +418,16 @@ function PaidBookAppointment() {
         const parsed = JSON.parse(savedData)
         appointmentFormData = parsed.formData || formData
         savedDoctorName = parsed.doctorName || doctor?.name
-        savedDoctorId = parsed.doctorId || doctorId
+        savedDoctorId = parsed.doctorId || doctor?.id
         savedDoctorCategory = parsed.doctorCategory || doctor?.category_name
         savedDoctorChamberAddress = parsed.doctorChamberAddress || doctor?.chamber_address
         
         if (!appointmentFormData.patient_name || !appointmentFormData.patient_phone) {
           throw new Error('Incomplete form data')
+        }
+        
+        if (!savedDoctorId) {
+          throw new Error('Doctor ID not found')
         }
       } catch (e) {
         console.error('Error parsing saved data:', e)
