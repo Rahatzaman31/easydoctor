@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
 
@@ -277,22 +278,22 @@ function DoctorProfile() {
     }
   }
 
-  const shouldShowReadMore = (text) => {
-    if (!text) return false
-    const lines = text.split('\n')
-    return lines.length > 8 || text.length > 500
+  const stripHtmlTags = (html) => {
+    if (!html) return ''
+    return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ')
   }
 
-  const getTruncatedText = (text) => {
-    if (!text) return ''
-    const lines = text.split('\n')
-    if (lines.length > 8) {
-      return lines.slice(0, 8).join('\n') + '...'
-    }
-    if (text.length > 500) {
-      return text.substring(0, 500) + '...'
-    }
-    return text
+  const shouldShowReadMore = (text) => {
+    if (!text) return false
+    const plainText = stripHtmlTags(text)
+    return plainText.length > 500
+  }
+
+  const getTruncatedHtml = (html) => {
+    if (!html) return ''
+    const plainText = stripHtmlTags(html)
+    if (plainText.length <= 500) return html
+    return plainText.substring(0, 500) + '...'
   }
 
   if (loading) {
@@ -590,9 +591,16 @@ function DoctorProfile() {
               {doctor.about && (
                 <div className="mt-6">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">পরিচিতি</h2>
-                  <div className="text-gray-700 whitespace-pre-line">
-                    {showFullAbout ? doctor.about : getTruncatedText(doctor.about)}
-                  </div>
+                  {showFullAbout ? (
+                    <div 
+                      className="prose prose-sm max-w-none text-gray-700"
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
+                    />
+                  ) : (
+                    <div className="text-gray-700">
+                      {getTruncatedHtml(doctor.about)}
+                    </div>
+                  )}
                   {shouldShowReadMore(doctor.about) && (
                     <button
                       onClick={() => setShowFullAbout(!showFullAbout)}
