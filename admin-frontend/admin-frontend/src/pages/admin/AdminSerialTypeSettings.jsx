@@ -354,43 +354,38 @@ function AdminSerialTypeSettings() {
               </h2>
             </div>
             <div className="p-4 lg:p-6">
-              <div className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 rounded-2xl p-4 lg:p-6 max-w-lg mx-auto shadow-2xl">
-                <div className="bg-white rounded-xl p-4 lg:p-6">
-                  <div className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mx-auto mb-4 shadow-lg">
-                    <svg className="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-base lg:text-xl font-bold text-gray-800 text-center mb-2">{settings.terms_popup_title || 'শিরোনাম'}</h3>
-                  <p className="text-xs lg:text-sm text-gray-600 text-center mb-4 lg:mb-6">{settings.terms_popup_subtitle || 'সাবটাইটেল'}</p>
+              <div className="bg-gray-800 rounded-2xl p-4 max-w-sm mx-auto">
+                <div className="bg-white rounded-xl p-4">
+                  <h3 className="text-sm lg:text-base font-bold text-gray-800 mb-1">{settings.terms_popup_title || 'শিরোনাম'}</h3>
+                  <p className="text-xs text-gray-500 mb-3">{settings.terms_popup_subtitle || 'সাবটাইটেল'}</p>
                   
-                  <div className="space-y-2 lg:space-y-3 mb-4 lg:mb-6 max-h-32 lg:max-h-40 overflow-y-auto">
+                  <div className="space-y-1.5 mb-3">
                     {settings.terms_points.slice(0, 3).map((point, index) => (
-                      <div key={index} className="flex items-start gap-2 lg:gap-3 p-2 lg:p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg border border-orange-100">
-                        <div className="w-5 h-5 lg:w-6 lg:h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white text-[10px] lg:text-xs font-bold flex-shrink-0">
+                      <div key={index} className="flex items-start gap-2 p-2 bg-gray-50 rounded-lg">
+                        <span className="w-4 h-4 bg-pink-500 rounded-full flex items-center justify-center text-white text-[10px] font-medium flex-shrink-0">
                           {index + 1}
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-800 text-xs lg:text-sm">{point.title || 'শিরোনাম'}</p>
-                          <p className="text-[10px] lg:text-xs text-gray-600">{point.description || 'বিবরণ'}</p>
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-gray-800 text-xs leading-tight">{point.title || 'শিরোনাম'}</p>
+                          <p className="text-[10px] text-gray-500 leading-tight">{point.description || 'বিবরণ'}</p>
                         </div>
                       </div>
                     ))}
                     {settings.terms_points.length > 3 && (
-                      <p className="text-center text-[10px] lg:text-xs text-gray-500">+{settings.terms_points.length - 3} আরও পয়েন্ট</p>
+                      <p className="text-center text-[10px] text-gray-400">+{settings.terms_points.length - 3} আরও</p>
                     )}
                   </div>
 
-                  <label className="flex items-start gap-2 lg:gap-3 p-2 lg:p-3 bg-purple-50 rounded-lg cursor-pointer border border-purple-100 mb-4">
-                    <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-purple-500 rounded bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg className="w-2.5 h-2.5 lg:w-3 lg:h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <label className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg mb-2">
+                    <div className="w-3.5 h-3.5 border-2 border-purple-500 rounded bg-purple-500 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-[10px] lg:text-xs text-gray-700">{settings.terms_popup_checkbox_text || 'চেকবক্স টেক্সট'}</span>
+                    <span className="text-[10px] text-gray-700 leading-tight">{settings.terms_popup_checkbox_text || 'চেকবক্স টেক্সট'}</span>
                   </label>
 
-                  <button className="w-full py-2.5 lg:py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold text-xs lg:text-sm shadow-lg">
+                  <button className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold text-xs">
                     {settings.terms_popup_button_text || 'বাটন টেক্সট'}
                   </button>
                 </div>
