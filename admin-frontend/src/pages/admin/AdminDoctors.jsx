@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
 import AdminSidebar from '../../components/AdminSidebar'
+import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
   { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ' },
@@ -764,7 +765,11 @@ function AdminDoctors() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">পরিচিতি</label>
-                <textarea name="about" rows="2" className="input-field" value={formData.about} onChange={handleChange}></textarea>
+                <RichTextEditor
+                  value={formData.about}
+                  onChange={(value) => setFormData({ ...formData, about: value })}
+                  placeholder="ডাক্তারের পরিচিতি লিখুন..."
+                />
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
