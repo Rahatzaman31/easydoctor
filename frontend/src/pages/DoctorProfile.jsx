@@ -197,7 +197,7 @@ function DoctorProfile() {
         .eq('doctor_id', doctorId)
         .eq('profile_ad_banners.is_active', true)
         .limit(1)
-        .single()
+        .maybeSingle()
       
       if (error) {
         if (error.code !== 'PGRST116') {
