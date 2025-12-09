@@ -16,6 +16,7 @@ function AdminSidebar() {
     { path: '/admin/doctors', icon: '👨‍⚕️', label: 'ডাক্তার' },
     { path: '/admin/paid-appointments', icon: '💎', label: 'পেইড সিরিয়াল' },
     { path: '/admin/appointments', icon: '📅', label: 'অ্যাপয়েন্টমেন্ট' },
+    { path: '/admin/serial-type-settings', icon: '🔄', label: 'সিরিয়ালের ধরন' },
     { path: '/admin/products', icon: '🛍️', label: 'মেডি পণ্য' },
     { path: '/admin/product-orders', icon: '📦', label: 'পণ্য অর্ডার' },
     { path: '/admin/product-reviews', icon: '⭐', label: 'পণ্য রিভিউ' },

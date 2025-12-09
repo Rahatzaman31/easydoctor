@@ -26,6 +26,7 @@ import AdminSEO from './pages/admin/AdminSEO'
 import AdminDoctorPackages from './pages/admin/AdminDoctorPackages'
 import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings'
 import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
+import AdminSerialTypeSettings from './pages/admin/AdminSerialTypeSettings'
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="/admin/doctor-packages" element={<AdminDoctorPackages />} />
           <Route path="/admin/advertisement-settings" element={<AdminAdvertisementSettings />} />
           <Route path="/admin/profile-ad-banners" element={<AdminProfileAdBanners />} />
+          <Route path="/admin/serial-type-settings" element={<AdminSerialTypeSettings />} />
           </Routes>
         </div>
       </Router>
