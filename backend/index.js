@@ -1354,6 +1354,111 @@ app.get('/api/time/bd', (req, res) => {
   })
 })
 
+// Get site settings (public)
+app.get('/api/site-settings', async (req, res) => {
+  try {
+    if (!supabase) {
+      return res.json({ success: true, data: { medi_products_visible: false } })
+    }
+
+    const { data, error } = await supabase
+      .from('site_settings')
+      .select('*')
+      .eq('setting_key', 'medi_products_visible')
+      .single()
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Error fetching site settings:', error)
+      return res.json({ success: true, data: { medi_products_visible: false } })
+    }
+
+    const value = data?.setting_value
+    const isVisible = value === 'true' || value === true
+    
+    res.json({ 
+      success: true, 
+      data: { 
+        medi_products_visible: isVisible 
+      } 
+    })
+  } catch (error) {
+    console.error('Error fetching site settings:', error)
+    res.json({ success: true, data: { medi_products_visible: false } })
+  }
+})
+
+// Update site settings (Admin only)
+app.post('/api/site-settings', async (req, res) => {
+  try {
+    if (!supabase) {
+      return res.status(500).json({ success: false, message: 'ডাটাবেস সংযোগ নেই' })
+    }
+
+    const { setting_key, setting_value, adminAuth } = req.body
+
+    if (!adminAuth || !adminAuth.username || !adminAuth.password) {
+      return res.status(401).json({ success: false, message: 'অননুমোদিত অ্যাক্সেস' })
+    }
+
+    const { data: adminData, error: adminError } = await supabase
+      .from('admin_credentials')
+      .select('*')
+      .eq('username', adminAuth.username)
+      .single()
+
+    let isAuthenticated = false
+
+    if (adminError || !adminData) {
+      if (adminAuth.username === 'admin' && adminAuth.password === 'admin123') {
+        isAuthenticated = true
+      }
+    } else {
+      const isHashed = adminData.password.startsWith('$2')
+      if (isHashed) {
+        isAuthenticated = await bcrypt.compare(adminAuth.password, adminData.password)
+      } else {
+        isAuthenticated = adminData.password === adminAuth.password
+      }
+    }
+
+    if (!isAuthenticated) {
+      return res.status(401).json({ success: false, message: 'অননুমোদিত অ্যাক্সেস' })
+    }
+
+    const { data: existing } = await supabase
+      .from('site_settings')
+      .select('id')
+      .eq('setting_key', setting_key)
+      .single()
+
+    if (existing) {
+      const { error } = await supabase
+        .from('site_settings')
+        .update({ setting_value: String(setting_value), updated_at: new Date().toISOString() })
+        .eq('setting_key', setting_key)
+
+      if (error) {
+        console.error('Error updating site setting:', error)
+        return res.status(500).json({ success: false, message: 'সংরক্ষণ করতে সমস্যা হয়েছে' })
+      }
+    } else {
+      const { error } = await supabase
+        .from('site_settings')
+        .insert([{ setting_key, setting_value: String(setting_value) }])
+
+      if (error) {
+        console.error('Error inserting site setting:', error)
+        return res.status(500).json({ success: false, message: 'সংরক্ষণ করতে সমস্যা হয়েছে' })
+      }
+    }
+
+    res.json({ success: true, message: 'সেটিংস সফলভাবে সংরক্ষণ করা হয়েছে!' })
+  } catch (error) {
+    console.error('Error saving site settings:', error)
+    res.status(500).json({ success: false, message: 'সংরক্ষণ করতে সমস্যা হয়েছে' })
+  }
+})
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`API server running on port ${PORT}`)

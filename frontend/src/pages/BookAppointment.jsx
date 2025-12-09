@@ -148,13 +148,13 @@ function BookAppointment() {
       const { data: regularAppointments, error: err1 } = await supabase
         .from('appointments')
         .select('appointment_date')
-        .eq('doctor_id', doctor.id)
+        .eq('doctor_id', doctorId)
         .in('appointment_date', dateStrings)
       
       const { data: paidAppointments, error: err2 } = await supabase
         .from('paid_appointments')
         .select('appointment_date')
-        .eq('doctor_id', doctor.id)
+        .eq('doctor_id', doctorId)
         .in('appointment_date', dateStrings)
       
       if (err1 || err2) {
@@ -228,7 +228,7 @@ function BookAppointment() {
       const ref = 'RD' + Date.now().toString().slice(-8)
       
       const { error } = await supabase.from('appointments').insert([{
-        doctor_id: doctor.id,
+        doctor_id: doctorId,
         doctor_name: doctor.name,
         ...formData,
         booking_ref: ref,
