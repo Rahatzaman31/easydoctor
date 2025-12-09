@@ -96,6 +96,16 @@ function Navbar() {
               </Link>
             )}
             <Link 
+              to="/about-us" 
+              className={`font-medium transition-all ${
+                location.pathname === '/about-us' 
+                  ? 'text-primary-600 bg-primary-50 px-3 py-2 rounded-lg' 
+                  : 'text-gray-700 hover:text-primary-600'
+              }`}
+            >
+              আমাদের সম্পর্কে
+            </Link>
+            <Link 
               to="/contact" 
               className={`font-medium transition-all ${
                 location.pathname === '/contact' 
@@ -198,6 +208,17 @@ function Navbar() {
                 মেডি পণ্য
               </Link>
             )}
+            <Link 
+              to="/about-us" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                location.pathname === '/about-us'
+                  ? 'bg-primary-100 text-primary-700 font-semibold'
+                  : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+              }`}
+            >
+              আমাদের সম্পর্কে
+            </Link>
             <Link 
               to="/contact" 
               onClick={() => setIsOpen(false)}
