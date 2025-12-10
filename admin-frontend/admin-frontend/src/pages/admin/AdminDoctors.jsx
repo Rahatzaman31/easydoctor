@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
 import AdminSidebar from '../../components/AdminSidebar'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
   { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ' },
@@ -766,26 +765,11 @@ function AdminDoctors() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">পরিচিতি</label>
-                <div className="bg-white rounded-lg border border-gray-200">
-                  <ReactQuill
-                    theme="snow"
-                    value={formData.about}
-                    onChange={(value) => setFormData({ ...formData, about: value })}
-                    modules={{
-                      toolbar: [
-                        ['bold', 'italic', 'underline'],
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        ['blockquote'],
-                        ['clean']
-                      ]
-                    }}
-                    formats={['bold', 'italic', 'underline', 'size', 'list', 'bullet', 'blockquote']}
-                    placeholder="ডাক্তারের পরিচিতি লিখুন..."
-                    className="min-h-[150px]"
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">টেক্সট বোল্ড, ইটালিক, আন্ডারলাইন, ফন্ট সাইজ, বুলেট/নাম্বার লিস্ট, কোট ইত্যাদি যোগ করতে পারবেন</p>
+                <RichTextEditor
+                  value={formData.about}
+                  onChange={(value) => setFormData({ ...formData, about: value })}
+                  placeholder="ডাক্তারের পরিচিতি লিখুন..."
+                />
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">

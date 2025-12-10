@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../../lib/supabase'
 import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
@@ -447,7 +448,14 @@ function DoctorProfile() {
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
                   />
                 ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl whitespace-pre-wrap">{doctor?.about || '-'}</p>
+                  doctor?.about ? (
+                    <div 
+                      className="prose prose-sm max-w-none text-gray-800 bg-gray-50 px-4 py-3 rounded-xl"
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
+                    />
+                  ) : (
+                    <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">-</p>
+                  )
                 )}
               </div>
             </div>

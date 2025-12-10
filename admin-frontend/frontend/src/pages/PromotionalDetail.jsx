@@ -11,7 +11,8 @@ const themeStyles = {
     badgeColor: 'bg-pink-100 text-pink-800',
     headerBg: 'bg-gradient-to-r from-pink-50 to-rose-50',
     borderColor: 'border-pink-200',
-    decorativeIcons: ['🎊', '✨', '🎉', '🌟', '💐', '🎈']
+    decorativeIcons: ['🎊', '✨', '🎉', '🌟', '💐', '🎈'],
+    showHeaderBanner: true
   },
   mourning: {
     gradient: 'from-gray-600 via-gray-700 to-gray-800',
@@ -21,7 +22,8 @@ const themeStyles = {
     badgeColor: 'bg-gray-100 text-gray-800',
     headerBg: 'bg-gradient-to-r from-gray-50 to-gray-100',
     borderColor: 'border-gray-300',
-    decorativeIcons: []
+    decorativeIcons: [],
+    showHeaderBanner: true
   },
   new_chamber: {
     gradient: 'from-blue-500 via-indigo-500 to-purple-500',
@@ -31,7 +33,8 @@ const themeStyles = {
     badgeColor: 'bg-blue-100 text-blue-800',
     headerBg: 'bg-gradient-to-r from-blue-50 to-indigo-50',
     borderColor: 'border-blue-200',
-    decorativeIcons: ['🏥', '🏨', '⚕️', '🩺', '💊', '🏛️']
+    decorativeIcons: ['🏥', '🏨', '⚕️', '🩺', '💊', '🏛️'],
+    showHeaderBanner: true
   },
   promotion: {
     gradient: 'from-violet-500 via-purple-500 to-fuchsia-500',
@@ -41,7 +44,19 @@ const themeStyles = {
     badgeColor: 'bg-purple-100 text-purple-800',
     headerBg: 'bg-gradient-to-r from-purple-50 to-violet-50',
     borderColor: 'border-purple-200',
-    decorativeIcons: ['⭐', '🌟', '✨', '💫', '🔥', '💎']
+    decorativeIcons: ['⭐', '🌟', '✨', '💫', '🔥', '💎'],
+    showHeaderBanner: true
+  },
+  custom_banner: {
+    gradient: 'from-purple-500 via-indigo-500 to-blue-500',
+    bgPattern: 'bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-600',
+    icon: '🖼️',
+    badge: 'কাস্টম ব্যানার',
+    badgeColor: 'bg-purple-100 text-purple-800',
+    headerBg: 'bg-gradient-to-r from-purple-50 to-indigo-50',
+    borderColor: 'border-purple-200',
+    decorativeIcons: [],
+    showHeaderBanner: false
   }
 }
 
@@ -119,89 +134,91 @@ function PromotionalDetail() {
   }
 
   const theme = themeStyles[promotional.theme_type] || themeStyles.promotion
+  const showHeaderBanner = theme.showHeaderBanner !== false
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className={`relative ${theme.bgPattern} overflow-hidden`}>
-        <div className="absolute inset-0 bg-black/10"></div>
-        
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMSIvPjxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIxIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjEiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjA1Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2EpIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-50"></div>
-        
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZGVmcz48cGF0dGVybiBpZD0iZGlhZyIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAxMEwxMCAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4wNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNkaWFnKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==')] opacity-40"></div>
-        
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
-        
-        {theme.decorativeIcons?.length > 0 && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {theme.decorativeIcons.map((icon, index) => (
-              <span 
-                key={index}
-                className="absolute text-3xl md:text-4xl opacity-[0.08] select-none"
-                style={{
-                  top: `${15 + (index * 18) % 70}%`,
-                  left: `${8 + (index * 16) % 85}%`,
-                  transform: `rotate(${index * 12 - 25}deg)`
-                }}
-              >
-                {icon}
-              </span>
-            ))}
-            {theme.decorativeIcons.map((icon, index) => (
-              <span 
-                key={`b-${index}`}
-                className="absolute text-2xl md:text-3xl opacity-[0.06] select-none"
-                style={{
-                  bottom: `${10 + (index * 15) % 60}%`,
-                  right: `${5 + (index * 14) % 80}%`,
-                  transform: `rotate(${-index * 18 + 20}deg)`
-                }}
-              >
-                {icon}
-              </span>
-            ))}
-          </div>
-        )}
-        
-        <div className="relative max-w-4xl mx-auto px-4 py-12 sm:py-16">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {promotional.image_url && (
-              <div className="flex-shrink-0">
-                <div className={`w-32 h-32 md:w-40 md:h-40 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl border-2 border-white/30 overflow-hidden ${promotional.theme_type === 'mourning' ? 'grayscale' : ''}`}>
-                  <img 
-                    src={promotional.image_url} 
-                    alt={promotional.title}
-                    className="w-full h-full object-cover"
-                  />
+      {showHeaderBanner && (
+        <div className={`relative ${theme.bgPattern} overflow-hidden`}>
+          <div className="absolute inset-0 bg-black/10"></div>
+          
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMSIvPjxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIxIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjEiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjA1Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2EpIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-50"></div>
+          
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZGVmcz48cGF0dGVybiBpZD0iZGlhZyIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAxMEwxMCAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4wNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNkaWFnKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==')] opacity-40"></div>
+          
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
+          
+          {theme.decorativeIcons?.length > 0 && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {theme.decorativeIcons.map((icon, index) => (
+                <span 
+                  key={index}
+                  className="absolute text-3xl md:text-4xl opacity-[0.08] select-none"
+                  style={{
+                    top: `${15 + (index * 18) % 70}%`,
+                    left: `${8 + (index * 16) % 85}%`,
+                    transform: `rotate(${index * 12 - 25}deg)`
+                  }}
+                >
+                  {icon}
+                </span>
+              ))}
+              {theme.decorativeIcons.map((icon, index) => (
+                <span 
+                  key={`b-${index}`}
+                  className="absolute text-2xl md:text-3xl opacity-[0.06] select-none"
+                  style={{
+                    bottom: `${10 + (index * 15) % 60}%`,
+                    right: `${5 + (index * 14) % 80}%`,
+                    transform: `rotate(${-index * 18 + 20}deg)`
+                  }}
+                >
+                  {icon}
+                </span>
+              ))}
+            </div>
+          )}
+          
+          <div className="relative max-w-4xl mx-auto px-4 py-12 sm:py-16">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              {promotional.image_url && (
+                <div className="flex-shrink-0">
+                  <div className={`w-32 h-32 md:w-40 md:h-40 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl border-2 border-white/30 overflow-hidden ${promotional.theme_type === 'mourning' ? 'grayscale' : ''}`}>
+                    <img 
+                      src={promotional.image_url} 
+                      alt={promotional.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-            
-            <div className="text-center md:text-left">
-              <div className={`inline-flex items-center gap-2 ${theme.badgeColor} px-4 py-1.5 rounded-full mb-4`}>
-                <span className="text-lg">{theme.icon}</span>
-                <span className="text-sm font-medium">{theme.badge}</span>
-              </div>
-              
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
-                {promotional.detailed_title || promotional.title}
-              </h1>
-              
-              {promotional.subtitle && (
-                <p className="text-white/80 text-base sm:text-lg max-w-2xl">
-                  {promotional.subtitle}
-                </p>
               )}
+              
+              <div className="text-center md:text-left">
+                <div className={`inline-flex items-center gap-2 ${theme.badgeColor} px-4 py-1.5 rounded-full mb-4`}>
+                  <span className="text-lg">{theme.icon}</span>
+                  <span className="text-sm font-medium">{theme.badge}</span>
+                </div>
+                
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+                  {promotional.detailed_title || promotional.title}
+                </h1>
+                
+                {promotional.subtitle && (
+                  <p className="text-white/80 text-base sm:text-lg max-w-2xl">
+                    {promotional.subtitle}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+      <div className={`max-w-4xl mx-auto px-4 ${showHeaderBanner ? 'py-8 sm:py-12' : 'pt-4 pb-8 sm:pb-12'}`}>
         <div className={`bg-white rounded-2xl shadow-lg border ${theme.borderColor} overflow-hidden`}>
           <div className={`${theme.headerBg} px-6 py-4 border-b ${theme.borderColor}`}>
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{theme.icon}</span>
               <h2 className="text-lg font-semibold text-gray-800">বিস্তারিত তথ্য</h2>
             </div>
           </div>

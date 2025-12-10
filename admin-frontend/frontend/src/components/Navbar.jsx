@@ -1,9 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [mediProductsVisible, setMediProductsVisible] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    async function fetchSiteSettings() {
+      try {
+        const response = await fetch(`${API_URL}/api/site-settings`)
+        const result = await response.json()
+        if (result.success && result.data) {
+          setMediProductsVisible(result.data.medi_products_visible || false)
+        }
+      } catch (error) {
+        console.error('Error fetching site settings:', error)
+      }
+    }
+    fetchSiteSettings()
+  }, [])
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -65,15 +83,27 @@ function Navbar() {
             >
               স্বাস্থ্য ব্লগ
             </Link>
+            {mediProductsVisible && (
+              <Link 
+                to="/medi-products" 
+                className={`font-medium transition-all ${
+                  location.pathname === '/medi-products' || location.pathname.startsWith('/product/') 
+                    ? 'text-primary-600 bg-primary-50 px-3 py-2 rounded-lg' 
+                    : 'text-gray-700 hover:text-primary-600'
+                }`}
+              >
+                মেডি পণ্য
+              </Link>
+            )}
             <Link 
-              to="/medi-products" 
+              to="/about-us" 
               className={`font-medium transition-all ${
-                location.pathname === '/medi-products' || location.pathname.startsWith('/product/') 
+                location.pathname === '/about-us' 
                   ? 'text-primary-600 bg-primary-50 px-3 py-2 rounded-lg' 
                   : 'text-gray-700 hover:text-primary-600'
               }`}
             >
-              মেডি পণ্য
+              আমাদের সম্পর্কে
             </Link>
             <Link 
               to="/contact" 
@@ -165,16 +195,29 @@ function Navbar() {
             >
               স্বাস্থ্য ব্লগ
             </Link>
+            {mediProductsVisible && (
+              <Link 
+                to="/medi-products" 
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                  location.pathname === '/medi-products' || location.pathname.startsWith('/product/')
+                    ? 'bg-primary-100 text-primary-700 font-semibold'
+                    : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+                }`}
+              >
+                মেডি পণ্য
+              </Link>
+            )}
             <Link 
-              to="/medi-products" 
+              to="/about-us" 
               onClick={() => setIsOpen(false)}
               className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
-                location.pathname === '/medi-products' || location.pathname.startsWith('/product/')
+                location.pathname === '/about-us'
                   ? 'bg-primary-100 text-primary-700 font-semibold'
                   : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
               }`}
             >
-              মেডি পণ্য
+              আমাদের সম্পর্কে
             </Link>
             <Link 
               to="/contact" 
