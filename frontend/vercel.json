@@ -1,5 +1,16 @@
 {
   "rewrites": [
+    {
+      "source": "/doctor/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot).*"
+        }
+      ],
+      "destination": "/api/og-doctor?slug=:slug"
+    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
