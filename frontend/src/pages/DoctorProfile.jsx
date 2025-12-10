@@ -287,14 +287,14 @@ function DoctorProfile() {
   const shouldShowReadMore = (text) => {
     if (!text) return false
     const plainText = stripHtmlTags(text)
-    return plainText.length > 500
+    return plainText.length > 300
   }
 
-  const getTruncatedHtml = (html) => {
+  const getTruncatedContent = (html) => {
     if (!html) return ''
     const plainText = stripHtmlTags(html)
-    if (plainText.length <= 500) return html
-    return plainText.substring(0, 500) + '...'
+    if (plainText.length <= 300) return plainText
+    return plainText.substring(0, 300) + '...'
   }
 
   if (loading) {
@@ -606,8 +606,8 @@ function DoctorProfile() {
                       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
                     />
                   ) : (
-                    <div className="text-gray-700">
-                      {getTruncatedHtml(doctor.about)}
+                    <div className="text-gray-700 whitespace-pre-line">
+                      {getTruncatedContent(doctor.about)}
                     </div>
                   )}
                   {shouldShowReadMore(doctor.about) && (

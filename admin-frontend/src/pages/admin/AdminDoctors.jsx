@@ -344,34 +344,61 @@ function AdminDoctors() {
 
   async function handleExpertiseSubmit(e) {
     e.preventDefault()
+    e.stopPropagation()
+    
+    if (!expertiseForm.title || !expertiseForm.title.trim()) {
+      alert('শিরোনাম দিতে হবে')
+      return
+    }
+    
+    if (!expertiseForm.description || !expertiseForm.description.trim()) {
+      alert('বিবরণ দিতে হবে')
+      return
+    }
     
     try {
       if (!supabase || !isConfigured) {
         alert('ডাটাবেস সংযোগ নেই')
         return
       }
+      
+      if (!selectedDoctor || !selectedDoctor.id) {
+        alert('ডাক্তার নির্বাচন করা হয়নি')
+        return
+      }
+
+      const dataToSave = {
+        title: expertiseForm.title.trim(),
+        description: expertiseForm.description.trim()
+      }
 
       if (editingExpertise) {
         const { error } = await supabase
           .from('doctor_expertise')
-          .update({ title: expertiseForm.title, description: expertiseForm.description })
+          .update(dataToSave)
           .eq('id', editingExpertise.id)
         
-        if (error) throw error
+        if (error) {
+          console.error('Update error:', error)
+          throw error
+        }
       } else {
         const { error } = await supabase
           .from('doctor_expertise')
-          .insert([{ doctor_id: selectedDoctor.id, ...expertiseForm }])
+          .insert([{ doctor_id: selectedDoctor.id, ...dataToSave }])
         
-        if (error) throw error
+        if (error) {
+          console.error('Insert error:', error)
+          throw error
+        }
       }
       
       setExpertiseForm({ title: '', description: '' })
       setEditingExpertise(null)
-      fetchExpertise(selectedDoctor.id)
+      await fetchExpertise(selectedDoctor.id)
     } catch (error) {
-      console.error('Error:', error)
-      alert('সংরক্ষণ করতে সমস্যা হয়েছে')
+      console.error('Error saving expertise:', error)
+      alert('সংরক্ষণ করতে সমস্যা হয়েছে: ' + (error.message || 'অজানা ত্রুটি'))
     }
   }
 

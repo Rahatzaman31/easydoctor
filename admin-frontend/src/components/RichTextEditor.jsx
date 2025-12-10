@@ -1,10 +1,35 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
 const fontSizeArr = ['small', false, 'large', 'huge']
 
 function RichTextEditor({ value, onChange, placeholder = '' }) {
+  const [editorValue, setEditorValue] = useState('')
+  const [isReady, setIsReady] = useState(false)
+  const quillRef = useRef(null)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setEditorValue(value || '')
+      setIsReady(true)
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (isReady && value !== editorValue) {
+      setEditorValue(value || '')
+    }
+  }, [value])
+
+  const handleChange = (content) => {
+    setEditorValue(content)
+    if (onChange) {
+      onChange(content)
+    }
+  }
+
   const modules = useMemo(() => ({
     toolbar: [
       ['bold', 'italic', 'underline'],
@@ -22,12 +47,23 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
     'blockquote'
   ]
 
+  if (!isReady) {
+    return (
+      <div className="rich-text-editor">
+        <div className="border border-gray-300 rounded-lg p-4 min-h-[120px] bg-gray-50 animate-pulse">
+          <div className="text-gray-400">লোড হচ্ছে...</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="rich-text-editor">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
-        value={value || ''}
-        onChange={onChange}
+        value={editorValue}
+        onChange={handleChange}
         modules={modules}
         formats={formats}
         placeholder={placeholder}
