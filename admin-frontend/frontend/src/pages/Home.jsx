@@ -136,31 +136,15 @@ const themeStyles = {
   }
 }
 
-const API_URL = import.meta.env.VITE_API_URL || ''
-
 function Home() {
   const [banner, setBanner] = useState(defaultBanner)
   const [promotionalBanner, setPromotionalBanner] = useState(null)
   const [bannerReady, setBannerReady] = useState(false)
-  const [mediProductsVisible, setMediProductsVisible] = useState(false)
 
   useEffect(() => {
     fetchBanner()
     fetchPromotionalBanner()
-    fetchSiteSettings()
   }, [])
-
-  async function fetchSiteSettings() {
-    try {
-      const response = await fetch(`${API_URL}/api/site-settings`)
-      const result = await response.json()
-      if (result.success && result.data) {
-        setMediProductsVisible(result.data.medi_products_visible || false)
-      }
-    } catch (error) {
-      console.error('Error fetching site settings:', error)
-    }
-  }
 
   async function fetchBanner() {
     try {
@@ -526,7 +510,7 @@ function Home() {
 
       <FeaturedDoctorsSlider />
 
-      {mediProductsVisible && <FeaturedProducts />}
+      <FeaturedProducts />
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

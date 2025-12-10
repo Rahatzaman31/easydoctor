@@ -18,7 +18,7 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
   const formats = [
     'bold', 'italic', 'underline',
     'size',
-    'list', 'bullet',
+    'list',
     'blockquote'
   ]
 

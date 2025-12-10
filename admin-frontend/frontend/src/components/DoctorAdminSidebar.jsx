@@ -11,6 +11,7 @@ function DoctorAdminSidebar() {
     { path: '/doctor.admin', icon: '📊', label: 'ড্যাশবোর্ড' },
     { path: '/doctor.admin/profile', icon: '👤', label: 'আমার প্রোফাইল' },
     { path: '/doctor.admin/appointments', icon: '📅', label: 'সাধারন সিরিয়াল' },
+    { path: '/doctor.admin/paid-appointments', icon: '💎', label: 'পেইড সিরিয়াল' },
     { path: '/doctor.admin/blog-posts', icon: '📝', label: 'আমার ব্লগ পোষ্ট' },
     { path: '/doctor.admin/packages', icon: '📦', label: 'প্যাকেজ' },
     { path: '/doctor.admin/advertisements', icon: '📣', label: 'বিজ্ঞাপন' },

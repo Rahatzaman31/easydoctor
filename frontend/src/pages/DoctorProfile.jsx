@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
+import SEOHead, { getDoctorStructuredData } from '../components/SEOHead'
 
 const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
 
@@ -336,6 +337,14 @@ function DoctorProfile() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 select-none">
+      <SEOHead 
+        title={`${doctor.name} - ${doctor.category_name} | ইজি ডক্টর রংপুর`}
+        description={`${doctor.name}, ${doctor.degrees}। ${doctor.category_name}। চেম্বার: ${doctor.chamber_address}। অনলাইন সিরিয়াল নিন।`}
+        image={doctor.image_url || '/og-image.png'}
+        url={`/doctor/${doctor.slug || doctor.id}`}
+        type="profile"
+        structuredData={getDoctorStructuredData(doctor)}
+      />
       {adBanner && (
         <div className="mb-4">
           {getBannerLink() ? (

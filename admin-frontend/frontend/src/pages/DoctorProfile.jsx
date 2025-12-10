@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
-import SEOHead, { getDoctorStructuredData } from '../components/SEOHead'
 
 const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
 
@@ -191,14 +189,13 @@ function DoctorProfile() {
             title,
             image_url,
             link_url,
-            mobile_image_url,
             is_active
           )
         `)
         .eq('doctor_id', doctorId)
         .eq('profile_ad_banners.is_active', true)
         .limit(1)
-        .maybeSingle()
+        .single()
       
       if (error) {
         if (error.code !== 'PGRST116') {
@@ -279,22 +276,22 @@ function DoctorProfile() {
     }
   }
 
-  const stripHtmlTags = (html) => {
-    if (!html) return ''
-    return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ')
-  }
-
   const shouldShowReadMore = (text) => {
     if (!text) return false
-    const plainText = stripHtmlTags(text)
-    return plainText.length > 500
+    const lines = text.split('\n')
+    return lines.length > 8 || text.length > 500
   }
 
-  const getTruncatedHtml = (html) => {
-    if (!html) return ''
-    const plainText = stripHtmlTags(html)
-    if (plainText.length <= 500) return html
-    return plainText.substring(0, 500) + '...'
+  const getTruncatedText = (text) => {
+    if (!text) return ''
+    const lines = text.split('\n')
+    if (lines.length > 8) {
+      return lines.slice(0, 8).join('\n') + '...'
+    }
+    if (text.length > 500) {
+      return text.substring(0, 500) + '...'
+    }
+    return text
   }
 
   if (loading) {
@@ -312,20 +309,6 @@ function DoctorProfile() {
     return '/rangpur-specialist-doctors-list-online-serial'
   }
 
-  const getBannerLink = () => {
-    if (!adBanner) return null
-    return adBanner.link_url
-  }
-
-  const getBannerImageUrl = () => {
-    if (!adBanner) return null
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-    if (isMobile && adBanner.mobile_image_url) {
-      return adBanner.mobile_image_url
-    }
-    return adBanner.image_url
-  }
-
   if (!doctor) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -337,41 +320,6 @@ function DoctorProfile() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 select-none">
-      <SEOHead 
-        title={`${doctor.name} - ${doctor.category_name} | ইজি ডক্টর রংপুর`}
-        description={`${doctor.name}, ${doctor.degrees}। ${doctor.category_name}। চেম্বার: ${doctor.chamber_address}। অনলাইন সিরিয়াল নিন।`}
-        image={doctor.image_url || '/og-image.png'}
-        url={`/doctor/${doctor.slug || doctor.id}`}
-        type="profile"
-        structuredData={getDoctorStructuredData(doctor)}
-      />
-      {adBanner && (
-        <div className="mb-4">
-          {getBannerLink() ? (
-            <a 
-              href={getBannerLink()} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
-            >
-              <img 
-                src={getBannerImageUrl()} 
-                alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
-              />
-            </a>
-          ) : (
-            <div className="overflow-hidden rounded-lg shadow-sm">
-              <img 
-                src={getBannerImageUrl()} 
-                alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
-              />
-            </div>
-          )}
-        </div>
-      )}
-
       <Link 
         to={getBackUrl()} 
         className="inline-flex items-center gap-2 bg-white hover:bg-primary-50 text-primary-600 px-4 py-2 rounded-full shadow-md hover:shadow-lg border border-primary-100 transition-all duration-300 mb-6 group"
@@ -427,6 +375,33 @@ function DoctorProfile() {
             </div>
           </div>
         </div>
+
+        {adBanner && (
+          <div className="mx-4 mt-4 md:mx-8">
+            {adBanner.link_url ? (
+              <a 
+                href={adBanner.link_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              >
+                <img 
+                  src={adBanner.image_url} 
+                  alt={adBanner.title}
+                  className="w-full h-auto object-contain max-h-24"
+                />
+              </a>
+            ) : (
+              <div className="overflow-hidden rounded-lg shadow-sm">
+                <img 
+                  src={adBanner.image_url} 
+                  alt={adBanner.title}
+                  className="w-full h-auto object-contain max-h-24"
+                />
+              </div>
+            )}
+          </div>
+        )}
 
         {doctor.notice && (
           <div className="mx-4 mt-4 -mb-4 md:mx-8">
@@ -600,16 +575,9 @@ function DoctorProfile() {
               {doctor.about && (
                 <div className="mt-6">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">পরিচিতি</h2>
-                  {showFullAbout ? (
-                    <div 
-                      className="prose prose-sm max-w-none text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
-                    />
-                  ) : (
-                    <div className="text-gray-700">
-                      {getTruncatedHtml(doctor.about)}
-                    </div>
-                  )}
+                  <div className="text-gray-700 whitespace-pre-line">
+                    {showFullAbout ? doctor.about : getTruncatedText(doctor.about)}
+                  </div>
                   {shouldShowReadMore(doctor.about) && (
                     <button
                       onClick={() => setShowFullAbout(!showFullAbout)}
@@ -769,33 +737,6 @@ function DoctorProfile() {
               </button>
             </div>
           </div>
-
-          {adBanner && (
-            <div className="mt-6">
-              {getBannerLink() ? (
-                <a 
-                  href={getBannerLink()} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <img 
-                    src={getBannerImageUrl()} 
-                    alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
-                  />
-                </a>
-              ) : (
-                <div className="overflow-hidden rounded-lg shadow-sm">
-                  <img 
-                    src={getBannerImageUrl()} 
-                    alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
-                  />
-                </div>
-              )}
-            </div>
-          )}
 
           {expertise.length > 0 && (
             <div className="mt-8 pt-6 border-t">

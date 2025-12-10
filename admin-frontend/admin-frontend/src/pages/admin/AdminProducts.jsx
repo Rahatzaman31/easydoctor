@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import AdminLayout from '../../components/AdminLayout'
 import { supabase, isConfigured } from '../../lib/supabase'
 
-const API_URL = import.meta.env.VITE_API_URL || ''
-
 const defaultCategories = [
   'থার্মোমিটার',
   'ব্লাড প্রেসার মনিটর',
@@ -47,8 +45,6 @@ function AdminProducts() {
   const [editingProduct, setEditingProduct] = useState(null)
   const [customCategory, setCustomCategory] = useState('')
   const [showCustomInput, setShowCustomInput] = useState(false)
-  const [mediProductsVisible, setMediProductsVisible] = useState(false)
-  const [visibilityLoading, setVisibilityLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -75,57 +71,7 @@ function AdminProducts() {
       return
     }
     fetchProducts()
-    fetchVisibilitySetting()
   }, [navigate])
-
-  async function fetchVisibilitySetting() {
-    try {
-      const response = await fetch(`${API_URL}/api/site-settings`)
-      const result = await response.json()
-      if (result.success && result.data) {
-        setMediProductsVisible(result.data.medi_products_visible || false)
-      }
-    } catch (error) {
-      console.error('Error fetching visibility setting:', error)
-    }
-  }
-
-  async function toggleVisibility() {
-    setVisibilityLoading(true)
-    try {
-      const adminAuthStr = sessionStorage.getItem('adminAuth')
-      if (!adminAuthStr) {
-        alert('সেশন মেয়াদ শেষ। পুনরায় লগইন করুন।')
-        navigate('/admin/login')
-        return
-      }
-
-      const adminAuth = JSON.parse(adminAuthStr)
-      const newValue = !mediProductsVisible
-
-      const response = await fetch(`${API_URL}/api/site-settings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          setting_key: 'medi_products_visible',
-          setting_value: newValue,
-          adminAuth
-        })
-      })
-
-      const result = await response.json()
-      if (result.success) {
-        setMediProductsVisible(newValue)
-      } else {
-        alert(result.message || 'সেটিংস সংরক্ষণ করতে সমস্যা হয়েছে')
-      }
-    } catch (error) {
-      console.error('Error toggling visibility:', error)
-      alert('সেটিংস সংরক্ষণ করতে সমস্যা হয়েছে')
-    } finally {
-      setVisibilityLoading(false)
-    }
-  }
 
   async function fetchProducts() {
     try {
@@ -270,36 +216,15 @@ function AdminProducts() {
             <h1 className="text-2xl font-bold text-gray-800">মেডি পণ্য</h1>
             <p className="text-gray-600">স্বাস্থ্য পণ্যসমূহ পরিচালনা করুন</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2">
-              <span className="text-sm text-gray-600">ওয়েবসাইটে দেখান:</span>
-              <button
-                onClick={toggleVisibility}
-                disabled={visibilityLoading}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  mediProductsVisible ? 'bg-green-500' : 'bg-gray-300'
-                } ${visibilityLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    mediProductsVisible ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-              <span className={`text-xs font-medium ${mediProductsVisible ? 'text-green-600' : 'text-gray-500'}`}>
-                {mediProductsVisible ? 'অন' : 'অফ'}
-              </span>
-            </div>
-            <button
-              onClick={() => openModal()}
-              className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              নতুন পণ্য
-            </button>
-          </div>
+          <button
+            onClick={() => openModal()}
+            className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            নতুন পণ্য
+          </button>
         </div>
 
         {loading ? (

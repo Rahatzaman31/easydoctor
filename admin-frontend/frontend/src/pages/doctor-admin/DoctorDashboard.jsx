@@ -10,7 +10,8 @@ function DoctorDashboard() {
     totalAppointments: 0,
     pendingAppointments: 0,
     todayAppointments: 0,
-    totalCompleted: 0
+    paidAppointments: 0,
+    generalAppointments: 0
   })
   const [recentAppointments, setRecentAppointments] = useState([])
   const doctorId = localStorage.getItem('doctorId')
@@ -33,49 +34,53 @@ function DoctorDashboard() {
 
       const today = new Date().toISOString().split('T')[0]
 
-      const [
-        completedApptsRes,
-        pendingApptsRes,
-        todayConfirmedApptsRes,
-        recentApptsRes
-      ] = await Promise.all([
-        supabase
-          .from('appointments')
-          .select('id', { count: 'exact' })
-          .eq('doctor_id', doctorId)
-          .eq('status', 'completed'),
-        supabase
-          .from('appointments')
-          .select('id', { count: 'exact' })
-          .eq('doctor_id', doctorId)
-          .eq('status', 'pending'),
-        supabase
-          .from('appointments')
-          .select('id', { count: 'exact' })
-          .eq('doctor_id', doctorId)
-          .eq('status', 'confirmed')
-          .eq('appointment_date', today),
+      const [confirmedApptsRes, confirmedPaidRes, pendingApptsRes, pendingPaidRes] = await Promise.all([
         supabase
           .from('appointments')
           .select('*')
           .eq('doctor_id', doctorId)
-          .in('status', ['confirmed', 'pending'])
-          .order('created_at', { ascending: false })
-          .limit(10)
+          .eq('status', 'confirmed')
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('paid_appointments')
+          .select('*')
+          .eq('doctor_id', doctorId)
+          .eq('status', 'confirmed')
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('appointments')
+          .select('*')
+          .eq('doctor_id', doctorId)
+          .eq('status', 'pending'),
+        supabase
+          .from('paid_appointments')
+          .select('*')
+          .eq('doctor_id', doctorId)
+          .eq('status', 'pending')
       ])
 
-      const completedAppts = completedApptsRes.count || 0
-      const pendingAppts = pendingApptsRes.count || 0
-      const todayConfirmedGeneral = todayConfirmedApptsRes.count || 0
+      const confirmedAppts = confirmedApptsRes.data || []
+      const confirmedPaid = confirmedPaidRes.data || []
+      const pendingAppts = pendingApptsRes.data || []
+      const pendingPaid = pendingPaidRes.data || []
+
+      const allConfirmed = [...confirmedAppts, ...confirmedPaid]
+      const todayApts = allConfirmed.filter(apt => apt.appointment_date === today)
+      const totalPending = pendingAppts.length + pendingPaid.length
 
       setStats({
-        totalAppointments: completedAppts,
-        pendingAppointments: pendingAppts,
-        todayAppointments: todayConfirmedGeneral,
-        totalCompleted: completedAppts
+        totalAppointments: allConfirmed.length + totalPending,
+        pendingAppointments: totalPending,
+        todayAppointments: todayApts.length,
+        paidAppointments: confirmedPaid.length,
+        generalAppointments: confirmedAppts.length
       })
 
-      setRecentAppointments(recentApptsRes.data || [])
+      const recentAll = [...confirmedAppts.slice(0, 5), ...confirmedPaid.slice(0, 5)]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 10)
+      
+      setRecentAppointments(recentAll)
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
     } finally {
@@ -96,7 +101,8 @@ function DoctorDashboard() {
     { label: 'মোট অ্যাপয়েন্টমেন্ট', value: stats.totalAppointments, icon: '📋', color: 'from-blue-500 to-blue-600' },
     { label: 'অপেক্ষমান', value: stats.pendingAppointments, icon: '⏳', color: 'from-yellow-500 to-orange-500' },
     { label: 'আজকের সিরিয়াল', value: stats.todayAppointments, icon: '📅', color: 'from-green-500 to-emerald-600' },
-    { label: 'মোট সম্পন্ন', value: stats.totalCompleted, icon: '✅', color: 'from-teal-500 to-cyan-600' }
+    { label: 'পেইড সিরিয়াল', value: stats.paidAppointments, icon: '💎', color: 'from-purple-500 to-purple-600' },
+    { label: 'সাধারন সিরিয়াল', value: stats.generalAppointments, icon: '🩺', color: 'from-teal-500 to-cyan-600' }
   ]
 
   return (
@@ -115,7 +121,7 @@ function DoctorDashboard() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
               {statCards.map((card, idx) => (
                 <div key={idx} className={`bg-gradient-to-br ${card.color} rounded-2xl p-4 lg:p-6 text-white shadow-lg`}>
                   <div className="flex items-center justify-between mb-2">

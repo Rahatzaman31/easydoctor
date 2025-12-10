@@ -219,7 +219,6 @@ function PromotionalDetail() {
         <div className={`bg-white rounded-2xl shadow-lg border ${theme.borderColor} overflow-hidden`}>
           <div className={`${theme.headerBg} px-6 py-4 border-b ${theme.borderColor}`}>
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{theme.icon}</span>
               <h2 className="text-lg font-semibold text-gray-800">বিস্তারিত তথ্য</h2>
             </div>
           </div>

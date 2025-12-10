@@ -84,58 +84,94 @@ function SerialTypeModal({ isOpen, onClose, doctorId }) {
 
   if (showTermsPopup && !settings.show_serial_options) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3">
-        <div className="absolute inset-0 bg-black/60" onClick={handleCloseTermsPopup}></div>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-purple-900/90 to-gray-900/95 backdrop-blur-md" onClick={handleCloseTermsPopup}></div>
         
-        <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto">
+        <div className="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full animate-fade-in my-4 max-h-[95vh] overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"></div>
+          
           <button 
             onClick={handleCloseTermsPopup}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+            className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10 shadow-md"
           >
-            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
-          <div className="p-4 sm:p-5">
-            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-1 pr-8">{settings.terms_popup_title}</h2>
-            <p className="text-xs sm:text-sm text-gray-500 mb-4">{settings.terms_popup_subtitle}</p>
+          <div className="p-6 sm:p-8 overflow-y-auto max-h-[90vh]">
+            <div className="flex flex-col items-center mb-6">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center mb-4 shadow-xl animate-pulse">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">{settings.terms_popup_title}</h2>
+              <p className="text-sm sm:text-base text-gray-600 text-center">{settings.terms_popup_subtitle}</p>
+            </div>
 
-            <div className="space-y-2 mb-4">
+            <div className="space-y-3 sm:space-y-4 mb-6">
               {settings.terms_points.map((point, index) => (
-                <div key={index} className="flex items-start gap-2 p-2 bg-gray-50 rounded-lg">
-                  <span className="w-5 h-5 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
+                <div 
+                  key={index} 
+                  className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-100 hover:shadow-md transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg flex-shrink-0 group-hover:scale-110 transition-transform">
                     {index + 1}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-800 text-sm leading-tight">{point.title}</p>
-                    <p className="text-xs text-gray-500 leading-tight">{point.description}</p>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base mb-1">{point.title}</h4>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{point.description}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <label className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg cursor-pointer mb-3">
-              <input
-                type="checkbox"
-                checked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
-                className="w-4 h-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500"
-              />
-              <span className="text-xs sm:text-sm text-gray-700">{settings.terms_popup_checkbox_text}</span>
-            </label>
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border-2 border-purple-200">
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <div className="relative flex-shrink-0 mt-0.5">
+                  <input
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div className={`w-6 h-6 rounded-lg border-2 transition-all duration-300 flex items-center justify-center ${
+                    termsAccepted 
+                      ? 'bg-gradient-to-br from-purple-500 to-pink-500 border-transparent shadow-lg scale-110' 
+                      : 'border-gray-300 bg-white group-hover:border-purple-400'
+                  }`}>
+                    {termsAccepted && (
+                      <svg className="w-4 h-4 text-white animate-bounce-in" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="text-sm text-gray-700 leading-relaxed">{settings.terms_popup_checkbox_text}</span>
+              </label>
+            </div>
 
             <button
               onClick={handleProceedToBooking}
               disabled={!termsAccepted}
-              className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-all ${
+              className={`w-full py-3.5 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 ${
                 termsAccepted
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-xl hover:shadow-2xl hover:scale-[1.02]'
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
+              {termsAccepted && (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              )}
               {settings.terms_popup_button_text}
             </button>
+
+            <p className="text-center text-xs text-gray-500 mt-4">
+              চেকবক্সে টিক দিয়ে আপনার সম্মতি নিশ্চিত করুন
+            </p>
           </div>
         </div>
       </div>
