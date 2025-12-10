@@ -129,8 +129,8 @@ export default async function handler(req, res) {
     const doctor = doctors[0]
     const siteName = 'ইজি ডক্টর রংপুর'
     
-    const title = `${doctor.name} - ${doctor.category_name} | ${siteName}`
-    const description = `${doctor.name}, ${doctor.degrees}। ${doctor.category_name}। চেম্বার: ${doctor.chamber_address}। জেলা: ${doctor.district}। অনলাইন সিরিয়াল নিন।`
+    const title = `${doctor.name} - ${doctor.category_name}`
+    const description = `${doctor.category_name} | ${siteName}`
     const image = doctor.image_url || `${siteUrl}/og-image.png`
     const pageUrl = `${siteUrl}/doctor/${doctor.slug || doctor.id}`
 
