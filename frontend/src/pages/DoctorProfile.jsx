@@ -710,9 +710,8 @@ function DoctorProfile() {
                 onClick={() => {
                   const baseUrl = window.location.origin
                   const doctorSlug = doctor.slug || doctor.id
-                  const shareUrl = `${baseUrl}/doctor/${doctorSlug}`
-                  const text = `${doctor.name} - ${doctor.category_name}\n${doctor.degrees}\n\n`
-                  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(text)}`, '_blank', 'width=600,height=400')
+                  const shareUrl = `${baseUrl}/api/og-doctor?slug=${doctorSlug}`
+                  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400')
                 }}
                 className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors"
                 title="Facebook এ শেয়ার করুন"
