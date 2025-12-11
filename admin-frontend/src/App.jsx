@@ -27,6 +27,7 @@ import AdminDoctorPackages from './pages/admin/AdminDoctorPackages'
 import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings'
 import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
 import AdminSerialTypeSettings from './pages/admin/AdminSerialTypeSettings'
+import AdminChat from './pages/admin/AdminChat'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/" element={<Navigate to="/admin/login" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/chat" element={<AdminChat />} />
           <Route path="/admin/doctors" element={<AdminDoctors />} />
           <Route path="/admin/categories" element={<AdminCategories />} />
           <Route path="/admin/appointments" element={<AdminAppointments />} />

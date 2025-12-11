@@ -34,6 +34,7 @@ import DoctorPaidAppointments from './pages/doctor-admin/DoctorPaidAppointments'
 import DoctorBlogPosts from './pages/doctor-admin/DoctorBlogPosts'
 import DoctorPackages from './pages/doctor-admin/DoctorPackages'
 import DoctorAdvertisements from './pages/doctor-admin/DoctorAdvertisements'
+import DoctorChat from './pages/doctor-admin/DoctorChat'
 import InterstitialAd from './components/InterstitialAd'
 
 function ClientLayout({ children }) {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/doctor.admin/blog-posts" element={<DoctorBlogPosts />} />
           <Route path="/doctor.admin/packages" element={<DoctorPackages />} />
           <Route path="/doctor.admin/advertisements" element={<DoctorAdvertisements />} />
+          <Route path="/doctor.admin/chat" element={<DoctorChat />} />
           <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
           <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />
           <Route path="/specialist-doctors" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />

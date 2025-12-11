@@ -13,6 +13,7 @@ function AdminSidebar() {
 
   const menuItems = [
     { path: '/admin', icon: '📊', label: 'ড্যাশবোর্ড' },
+    { path: '/admin/chat', icon: '💬', label: 'ডাক্তারদের সাথে চ্যাট' },
     { path: '/admin/doctors', icon: '👨‍⚕️', label: 'ডাক্তার' },
     { path: '/admin/paid-appointments', icon: '💎', label: 'পেইড সিরিয়াল' },
     { path: '/admin/appointments', icon: '📅', label: 'অ্যাপয়েন্টমেন্ট' },
@@ -25,7 +26,7 @@ function AdminSidebar() {
     { path: '/admin/healthcare-providers', icon: '🏛️', label: 'স্বাস্থ্যসেবা প্রদানকারী' },
     { path: '/admin/blogs', icon: '📝', label: 'ব্লগ পোস্ট' },
     { path: '/admin/categories', icon: '📁', label: 'বিভাগসমূহ' },
-    { path: '/admin/reviews', icon: '💬', label: 'রিভিউ' },
+    { path: '/admin/reviews', icon: '💭', label: 'রিভিউ' },
     { path: '/admin/bkash-settings', icon: '💳', label: 'বিকাশ সেটিংস' },
     { path: '/admin/contact-settings', icon: '📞', label: 'যোগাযোগ সেটিংস' },
     { path: '/admin/about-us', icon: '👥', label: 'আমাদের সম্পর্কে' },

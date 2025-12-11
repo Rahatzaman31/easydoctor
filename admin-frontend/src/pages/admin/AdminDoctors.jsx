@@ -793,6 +793,7 @@ function AdminDoctors() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">পরিচিতি</label>
                 <RichTextEditor
+                  key={editingDoctor ? `edit-${editingDoctor.id}` : 'new'}
                   value={formData.about}
                   onChange={(value) => setFormData({ ...formData, about: value })}
                   placeholder="ডাক্তারের পরিচিতি লিখুন..."

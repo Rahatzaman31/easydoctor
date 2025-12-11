@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../../lib/supabase'
 import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
+import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
   { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ' },
@@ -441,11 +442,11 @@ function DoctorProfile() {
               <div className="lg:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">সম্পর্কে</label>
                 {editing ? (
-                  <textarea
+                  <RichTextEditor
+                    key={`about-${doctor?.id || 'new'}`}
                     value={formData.about}
-                    onChange={(e) => setFormData({ ...formData, about: e.target.value })}
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                    onChange={(value) => setFormData({ ...formData, about: value })}
+                    placeholder="আপনার সম্পর্কে লিখুন..."
                   />
                 ) : (
                   doctor?.about ? (

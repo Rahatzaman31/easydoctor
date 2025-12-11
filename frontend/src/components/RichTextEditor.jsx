@@ -76,11 +76,11 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
         .rich-text-editor .ql-toolbar {
           background: #f9fafb;
           border-color: #d1d5db;
-          border-radius: 0.5rem 0.5rem 0 0;
+          border-radius: 0.75rem 0.75rem 0 0;
         }
         .rich-text-editor .ql-container {
           border-color: #d1d5db;
-          border-radius: 0 0 0.5rem 0.5rem;
+          border-radius: 0 0 0.75rem 0.75rem;
         }
         .rich-text-editor .ql-editor.ql-blank::before {
           color: #9ca3af;

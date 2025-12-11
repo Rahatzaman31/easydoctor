@@ -10,6 +10,7 @@ function DoctorAdminSidebar() {
   const menuItems = [
     { path: '/doctor.admin', icon: '📊', label: 'ড্যাশবোর্ড' },
     { path: '/doctor.admin/profile', icon: '👤', label: 'আমার প্রোফাইল' },
+    { path: '/doctor.admin/chat', icon: '💬', label: 'এডমিনের সাথে চ্যাট' },
     { path: '/doctor.admin/appointments', icon: '📅', label: 'সাধারন সিরিয়াল' },
     { path: '/doctor.admin/blog-posts', icon: '📝', label: 'আমার ব্লগ পোষ্ট' },
     { path: '/doctor.admin/packages', icon: '📦', label: 'প্যাকেজ' },
