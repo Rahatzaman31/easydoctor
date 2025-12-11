@@ -4,24 +4,38 @@ import 'react-quill/dist/quill.snow.css'
 
 const fontSizeArr = ['small', false, 'large', 'huge']
 
+const normalizeContent = (content) => {
+  if (typeof content === 'string') {
+    return content.normalize('NFC')
+  }
+  return content || ''
+}
+
 function RichTextEditor({ value, onChange, placeholder = '' }) {
   const [editorKey, setEditorKey] = useState(0)
   const [isReady, setIsReady] = useState(false)
-  const initialValueRef = useRef(value || '')
+  const [normalizedValue, setNormalizedValue] = useState('')
   const quillRef = useRef(null)
 
   useEffect(() => {
-    initialValueRef.current = value || ''
+    const normalized = normalizeContent(value)
+    setNormalizedValue(normalized)
     setEditorKey(prev => prev + 1)
     const timer = setTimeout(() => {
       setIsReady(true)
-    }, 50)
+    }, 100)
     return () => clearTimeout(timer)
-  }, [])
+  }, [value])
 
   const handleChange = (content, delta, source) => {
     if (source === 'user' && onChange) {
-      onChange(content)
+      try {
+        const normalized = normalizeContent(content)
+        onChange(normalized)
+      } catch (error) {
+        console.warn('RichTextEditor: Error normalizing content', error)
+        onChange(content)
+      }
     }
   }
 
@@ -58,7 +72,7 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
         key={editorKey}
         ref={quillRef}
         theme="snow"
-        defaultValue={value || ''}
+        defaultValue={normalizedValue}
         onChange={handleChange}
         modules={modules}
         formats={formats}
