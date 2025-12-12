@@ -96,17 +96,24 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
       />
       <style>{`
         .rich-text-editor .ql-container {
-          min-height: 120px;
+          min-height: 200px;
+          max-height: 300px;
           font-size: 14px;
           font-family: inherit;
+          overflow-y: auto;
         }
         .rich-text-editor .ql-editor {
-          min-height: 100px;
+          min-height: 180px;
+          max-height: 280px;
+          overflow-y: auto;
         }
         .rich-text-editor .ql-toolbar {
           background: #f9fafb;
           border-color: #d1d5db;
           border-radius: 0.5rem 0.5rem 0 0;
+          position: sticky;
+          top: 0;
+          z-index: 1;
         }
         .rich-text-editor .ql-container {
           border-color: #d1d5db;
