@@ -49,6 +49,9 @@ function AdminDoctors() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingDoctor, setEditingDoctor] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const doctorsPerPage = 10
   const [formData, setFormData] = useState({
     name: '',
     degrees: '',
@@ -560,6 +563,26 @@ function AdminDoctors() {
     }
   }
 
+  const filteredDoctors = doctors.filter(doctor => 
+    doctor.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const totalPages = Math.ceil(filteredDoctors.length / doctorsPerPage)
+  const startIndex = (currentPage - 1) * doctorsPerPage
+  const endIndex = startIndex + doctorsPerPage
+  const currentDoctors = filteredDoctors.slice(startIndex, endIndex)
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+    setCurrentPage(1)
+  }
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <AdminSidebar />
@@ -575,6 +598,26 @@ function AdminDoctors() {
           </button>
         </div>
 
+        <div className="mb-6">
+          <div className="relative max-w-md">
+            <input
+              type="text"
+              placeholder="ডাক্তারের নাম দিয়ে খুঁজুন..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="input-field pl-10 w-full"
+            />
+            <svg className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          {searchQuery && (
+            <p className="text-sm text-gray-600 mt-2">
+              মোট {filteredDoctors.length} জন ডাক্তার পাওয়া গেছে
+            </p>
+          )}
+        </div>
+
         {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
@@ -583,6 +626,11 @@ function AdminDoctors() {
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
             <p className="text-gray-500 text-lg">কোনো ডাক্তার যোগ করা হয়নি</p>
             <button onClick={openAddModal} className="btn-primary mt-4">প্রথম ডাক্তার যোগ করুন</button>
+          </div>
+        ) : filteredDoctors.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-md p-12 text-center">
+            <p className="text-gray-500 text-lg">"{searchQuery}" নামে কোনো ডাক্তার পাওয়া যায়নি</p>
+            <button onClick={() => setSearchQuery('')} className="btn-secondary mt-4">সার্চ ক্লিয়ার করুন</button>
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -600,7 +648,7 @@ function AdminDoctors() {
                 </tr>
               </thead>
               <tbody>
-                {doctors.map(doctor => (
+                {currentDoctors.map(doctor => (
                   <tr key={doctor.id} className="border-t hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <p className="font-medium text-gray-800">{doctor.name}</p>
@@ -678,6 +726,67 @@ function AdminDoctors() {
                 ))}
               </tbody>
             </table>
+
+            {totalPages > 1 && (
+              <div className="px-6 py-4 border-t bg-gray-50 flex items-center justify-between">
+                <div className="text-sm text-gray-600">
+                  মোট {filteredDoctors.length} জন ডাক্তার | পৃষ্ঠা {currentPage} / {totalPages}
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => goToPage(1)}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-1 rounded text-sm ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  >
+                    প্রথম
+                  </button>
+                  <button
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-1 rounded text-sm ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  >
+                    পূর্ববর্তী
+                  </button>
+                  
+                  {[...Array(Math.min(5, totalPages))].map((_, idx) => {
+                    let pageNum
+                    if (totalPages <= 5) {
+                      pageNum = idx + 1
+                    } else if (currentPage <= 3) {
+                      pageNum = idx + 1
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + idx
+                    } else {
+                      pageNum = currentPage - 2 + idx
+                    }
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => goToPage(pageNum)}
+                        className={`px-3 py-1 rounded text-sm ${currentPage === pageNum ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                      >
+                        {pageNum}
+                      </button>
+                    )
+                  })}
+                  
+                  <button
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`px-3 py-1 rounded text-sm ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  >
+                    পরবর্তী
+                  </button>
+                  <button
+                    onClick={() => goToPage(totalPages)}
+                    disabled={currentPage === totalPages}
+                    className={`px-3 py-1 rounded text-sm ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  >
+                    শেষ
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

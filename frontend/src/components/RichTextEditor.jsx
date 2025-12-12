@@ -12,29 +12,46 @@ const normalizeContent = (content) => {
 }
 
 function RichTextEditor({ value, onChange, placeholder = '' }) {
-  const [editorKey, setEditorKey] = useState(0)
   const [isReady, setIsReady] = useState(false)
-  const [normalizedValue, setNormalizedValue] = useState('')
+  const [internalValue, setInternalValue] = useState('')
   const quillRef = useRef(null)
+  const isInitializedRef = useRef(false)
 
   useEffect(() => {
-    const normalized = normalizeContent(value)
-    setNormalizedValue(normalized)
-    setEditorKey(prev => prev + 1)
+    if (!isInitializedRef.current) {
+      const normalized = normalizeContent(value)
+      setInternalValue(normalized)
+      isInitializedRef.current = true
+    }
     const timer = setTimeout(() => {
       setIsReady(true)
     }, 100)
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (isInitializedRef.current && value !== undefined) {
+      const normalized = normalizeContent(value)
+      if (normalized !== internalValue) {
+        setInternalValue(normalized)
+      }
+    }
   }, [value])
 
   const handleChange = (content, delta, source) => {
-    if (source === 'user' && onChange) {
+    if (source === 'user') {
       try {
         const normalized = normalizeContent(content)
-        onChange(normalized)
+        setInternalValue(normalized)
+        if (onChange) {
+          onChange(normalized)
+        }
       } catch (error) {
         console.warn('RichTextEditor: Error normalizing content', error)
-        onChange(content)
+        setInternalValue(content)
+        if (onChange) {
+          onChange(content)
+        }
       }
     }
   }
@@ -69,10 +86,9 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
   return (
     <div className="rich-text-editor">
       <ReactQuill
-        key={editorKey}
         ref={quillRef}
         theme="snow"
-        defaultValue={normalizedValue}
+        value={internalValue}
         onChange={handleChange}
         modules={modules}
         formats={formats}

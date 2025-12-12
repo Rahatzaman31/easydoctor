@@ -5,44 +5,90 @@ function AdminSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
+  const [openDropdowns, setOpenDropdowns] = useState({})
 
   function handleLogout() {
     localStorage.removeItem('adminLoggedIn')
     navigate('/admin/login')
   }
 
-  const menuItems = [
+  const toggleDropdown = (key) => {
+    setOpenDropdowns(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
+
+  const topMenuItems = [
     { path: '/admin', icon: '📊', label: 'ড্যাশবোর্ড' },
     { path: '/admin/chat', icon: '💬', label: 'ডাক্তারদের সাথে চ্যাট' },
     { path: '/admin/doctors', icon: '👨‍⚕️', label: 'ডাক্তার' },
     { path: '/admin/paid-appointments', icon: '💎', label: 'পেইড সিরিয়াল' },
     { path: '/admin/appointments', icon: '📅', label: 'অ্যাপয়েন্টমেন্ট' },
+  ]
+
+  const dropdownMenus = [
+    {
+      key: 'products',
+      icon: '🛍️',
+      label: 'ইজি পণ্য',
+      items: [
+        { path: '/admin/products', icon: '🛍️', label: 'মেডি পণ্য' },
+        { path: '/admin/product-orders', icon: '📦', label: 'পণ্য অর্ডার' },
+        { path: '/admin/product-reviews', icon: '⭐', label: 'পণ্য রিভিউ' },
+      ]
+    },
+    {
+      key: 'services',
+      icon: '🏥',
+      label: 'সেবাসমূহ',
+      items: [
+        { path: '/admin/hospitals', icon: '🏥', label: 'হাসপাতাল ও ডায়াগনস্টিক' },
+        { path: '/admin/ambulance', icon: '🚑', label: 'অ্যাম্বুলেন্স সেবা' },
+        { path: '/admin/healthcare-providers', icon: '🏛️', label: 'স্বাস্থ্যসেবা প্রদানকারী' },
+        { path: '/admin/blogs', icon: '📝', label: 'ব্লগ পোস্ট' },
+        { path: '/admin/categories', icon: '📁', label: 'বিভাগসমূহ' },
+        { path: '/admin/reviews', icon: '💭', label: 'রিভিউ' },
+      ]
+    },
+    {
+      key: 'about',
+      icon: '📞',
+      label: 'সেবা সম্পর্কে',
+      items: [
+        { path: '/admin/contact-settings', icon: '📞', label: 'যোগাযোগ সেটিংস' },
+        { path: '/admin/about-us', icon: '👥', label: 'আমাদের সম্পর্কে' },
+        { path: '/admin/legal-pages', icon: '⚖️', label: 'আইনগত পেজ' },
+        { path: '/admin/seo', icon: '🔍', label: 'এসইও সেটিংস' },
+      ]
+    },
+    {
+      key: 'ads',
+      icon: '📣',
+      label: 'বিজ্ঞাপন সেবাসমূহ',
+      items: [
+        { path: '/admin/banners', icon: '🖼️', label: 'হোম ব্যানার' },
+        { path: '/admin/promotional-banners', icon: '📣', label: 'প্রোমোশনাল ব্যানার' },
+        { path: '/admin/profile-ad-banners', icon: '🎯', label: 'বিজ্ঞাপন ব্যানার' },
+        { path: '/admin/interstitial-ads', icon: '📺', label: 'ইন্টারস্টিশিয়াল বিজ্ঞাপন' },
+        { path: '/admin/doctor-portal', icon: '🔐', label: 'ডাক্তার পোর্টাল' },
+        { path: '/admin/doctor-packages', icon: '📦', label: 'ডাক্তার প্যাকেজ' },
+        { path: '/admin/advertisement-settings', icon: '📣', label: 'বিজ্ঞাপন সেটিংস' },
+      ]
+    },
+  ]
+
+  const bottomMenuItems = [
     { path: '/admin/serial-type-settings', icon: '🔄', label: 'সিরিয়ালের ধরন' },
-    { path: '/admin/products', icon: '🛍️', label: 'মেডি পণ্য' },
-    { path: '/admin/product-orders', icon: '📦', label: 'পণ্য অর্ডার' },
-    { path: '/admin/product-reviews', icon: '⭐', label: 'পণ্য রিভিউ' },
-    { path: '/admin/hospitals', icon: '🏥', label: 'হাসপাতাল ও ডায়াগনস্টিক' },
-    { path: '/admin/ambulance', icon: '🚑', label: 'অ্যাম্বুলেন্স সেবা' },
-    { path: '/admin/healthcare-providers', icon: '🏛️', label: 'স্বাস্থ্যসেবা প্রদানকারী' },
-    { path: '/admin/blogs', icon: '📝', label: 'ব্লগ পোস্ট' },
-    { path: '/admin/categories', icon: '📁', label: 'বিভাগসমূহ' },
-    { path: '/admin/reviews', icon: '💭', label: 'রিভিউ' },
     { path: '/admin/bkash-settings', icon: '💳', label: 'বিকাশ সেটিংস' },
-    { path: '/admin/contact-settings', icon: '📞', label: 'যোগাযোগ সেটিংস' },
-    { path: '/admin/about-us', icon: '👥', label: 'আমাদের সম্পর্কে' },
-    { path: '/admin/legal-pages', icon: '⚖️', label: 'আইনগত পেজ' },
-    { path: '/admin/banners', icon: '🖼️', label: 'হোম ব্যানার' },
-    { path: '/admin/promotional-banners', icon: '📣', label: 'প্রোমোশনাল ব্যানার' },
-    { path: '/admin/profile-ad-banners', icon: '🎯', label: 'বিজ্ঞাপন ব্যানার' },
-    { path: '/admin/interstitial-ads', icon: '📺', label: 'ইন্টারস্টিশিয়াল বিজ্ঞাপন' },
-    { path: '/admin/doctor-portal', icon: '🔐', label: 'ডাক্তার পোর্টাল' },
-    { path: '/admin/doctor-packages', icon: '📦', label: 'ডাক্তার প্যাকেজ' },
-    { path: '/admin/advertisement-settings', icon: '📣', label: 'বিজ্ঞাপন সেটিংস' },
-    { path: '/admin/seo', icon: '🔍', label: 'এসইও সেটিংস' },
   ]
 
   const handleLinkClick = () => {
     setIsOpen(false)
+  }
+
+  const isDropdownActive = (items) => {
+    return items.some(item => location.pathname === item.path)
   }
 
   return (
@@ -85,7 +131,71 @@ function AdminSidebar() {
 
         <nav className="p-2 lg:p-4 flex-1 overflow-y-auto">
           <ul className="space-y-1 lg:space-y-2">
-            {menuItems.map(item => (
+            {topMenuItems.map(item => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  onClick={handleLinkClick}
+                  className={`flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-colors text-sm lg:text-base ${
+                    location.pathname === item.path
+                      ? 'bg-primary-50 text-primary-700'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <span className="text-lg lg:text-xl">{item.icon}</span>
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              </li>
+            ))}
+
+            {dropdownMenus.map(dropdown => (
+              <li key={dropdown.key}>
+                <button
+                  onClick={() => toggleDropdown(dropdown.key)}
+                  className={`flex items-center justify-between w-full gap-2 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-colors text-sm lg:text-base ${
+                    isDropdownActive(dropdown.items)
+                      ? 'bg-primary-50 text-primary-700'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 lg:gap-3">
+                    <span className="text-lg lg:text-xl">{dropdown.icon}</span>
+                    <span className="font-medium">{dropdown.label}</span>
+                  </div>
+                  <svg 
+                    className={`w-4 h-4 transition-transform duration-200 ${openDropdowns[dropdown.key] ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {openDropdowns[dropdown.key] && (
+                  <ul className="mt-1 ml-4 pl-4 border-l-2 border-gray-200 space-y-1">
+                    {dropdown.items.map(item => (
+                      <li key={item.path}>
+                        <Link
+                          to={item.path}
+                          onClick={handleLinkClick}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-sm ${
+                            location.pathname === item.path
+                              ? 'bg-primary-50 text-primary-700'
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                        >
+                          <span className="text-base">{item.icon}</span>
+                          <span className="font-medium">{item.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+
+            {bottomMenuItems.map(item => (
               <li key={item.path}>
                 <Link
                   to={item.path}
