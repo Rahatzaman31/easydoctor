@@ -67,7 +67,7 @@ function DoctorLogin() {
       }
 
       if (accessCode.length !== 6) {
-        setError('অনুগ্রহ করে ৬ অক্ষরের কোড দিন')
+        setError('অনুগ্রহ করে ৬ ডিজিটের কোড দিন')
         setLoading(false)
         return
       }
@@ -137,13 +137,13 @@ function DoctorLogin() {
                 type="text"
                 maxLength={6}
                 value={accessCode}
-                onChange={(e) => setAccessCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6))}
-                placeholder="৬ অক্ষরের কোড দিন"
+                onChange={(e) => setAccessCode(e.target.value.replace(/\D/g, ''))}
+                placeholder="৬ ডিজিটের কোড দিন"
                 className="w-full px-4 py-3 text-center text-2xl tracking-widest font-mono border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 required
               />
               <p className="text-xs text-gray-500 mt-2 text-center">
-                এডমিন কর্তৃক প্রদত্ত ৬ অক্ষরের কোড প্রবেশ করুন
+                এডমিন কর্তৃক প্রদত্ত ৬ ডিজিটের কোড প্রবেশ করুন
               </p>
             </div>
 
