@@ -90,6 +90,19 @@ function Contact() {
 
   const whatsappLink = `https://wa.me/${settings.whatsapp_number?.replace(/[^0-9]/g, '')}?text=হ্যালো, ইজি ডক্টর রংপুর থেকে সাহায্য চাই`
 
+  const getMessengerLink = (url) => {
+    if (!url) return 'https://m.me/'
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
+    }
+    if (url.startsWith('m.me/')) {
+      return `https://${url}`
+    }
+    return `https://${url}`
+  }
+
+  const messengerLink = getMessengerLink(settings.facebook_messenger_url)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
       <section className="relative bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 text-white pt-28 pb-40 overflow-hidden">
@@ -380,7 +393,7 @@ function Contact() {
                   WhatsApp চ্যাট
                 </a>
                 <a
-                  href={settings.facebook_messenger_url}
+                  href={messengerLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors"
@@ -422,7 +435,7 @@ function Contact() {
                 )}
                 {settings.live_chat_messenger && (
                   <a
-                    href={settings.facebook_messenger_url}
+                    href={messengerLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"

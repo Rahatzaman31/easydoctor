@@ -116,7 +116,7 @@ function InterstitialAd() {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div className="relative w-full h-full flex items-center justify-center px-4 py-4 sm:p-6 md:p-8 box-border">
         {settings.show_close_button && (
           <button
             onClick={handleClose}
@@ -147,9 +147,9 @@ function InterstitialAd() {
             <img
               src={imageUrl || fallbackUrl}
               alt="বিজ্ঞাপন"
-              className="max-w-full max-h-[85vh] sm:max-h-[90vh] w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl"
+              className="max-w-full max-h-[85vh] sm:max-h-[90vh] w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl mx-auto"
               style={{ 
-                maxWidth: isMobile ? '95vw' : '90vw',
+                maxWidth: isMobile ? 'calc(100vw - 32px)' : '90vw',
               }}
             />
           </picture>

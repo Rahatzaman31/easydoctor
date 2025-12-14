@@ -258,7 +258,11 @@ function AdminDoctors() {
   }
 
   function generateAccessCode() {
-    return Math.floor(100000 + Math.random() * 900000).toString()
+    const numbers = Math.floor(1000 + Math.random() * 9000).toString()
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const letter1 = letters.charAt(Math.floor(Math.random() * letters.length))
+    const letter2 = letters.charAt(Math.floor(Math.random() * letters.length))
+    return numbers + letter1 + letter2
   }
 
   async function generateUniqueAccessCode(maxRetries = 5) {
