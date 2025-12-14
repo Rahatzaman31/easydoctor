@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase, isConfigured } from '../lib/supabase'
+import { supabase, isConfigured, getWebPUrl } from '../lib/supabase'
 
 function FeaturedHospitals() {
   const [hospitals, setHospitals] = useState([])
@@ -80,7 +80,7 @@ function FeaturedHospitals() {
               <div className="relative h-44 overflow-hidden">
                 {hospital.image_url ? (
                   <img 
-                    src={hospital.image_url} 
+                    src={getWebPUrl(hospital.image_url)} 
                     alt={hospital.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase, isConfigured } from '../lib/supabase'
+import { supabase, isConfigured, getWebPUrl } from '../lib/supabase'
 
 const toBengaliNumber = (num) => {
   const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
@@ -147,7 +147,7 @@ function FeaturedDoctorsSlider() {
                       <div className="flex flex-col items-center">
                         {doctor.image_url ? (
                           <img 
-                            src={doctor.image_url} 
+                            src={getWebPUrl(doctor.image_url)} 
                             alt={doctor.name}
                             className="w-24 h-24 object-cover rounded-full border-3 border-white shadow-lg"
                           />

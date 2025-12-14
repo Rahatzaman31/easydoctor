@@ -139,17 +139,18 @@ function InterstitialAd() {
         
         <div 
           onClick={handleAdClick}
-          className={`relative max-w-full max-h-full ${settings.link_url ? 'cursor-pointer' : ''}`}
+          className={`relative flex items-center justify-center ${settings.link_url ? 'cursor-pointer' : ''}`}
+          style={{ margin: '0 auto' }}
         >
-          <picture>
+          <picture className="flex items-center justify-center">
             <source media="(max-width: 767px)" srcSet={settings.mobile_image_url || settings.desktop_image_url} />
             <source media="(min-width: 768px)" srcSet={settings.desktop_image_url || settings.mobile_image_url} />
             <img
               src={imageUrl || fallbackUrl}
               alt="বিজ্ঞাপন"
-              className="max-w-full max-h-[85vh] sm:max-h-[90vh] w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl"
+              className="max-h-[85vh] sm:max-h-[90vh] w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl mx-auto"
               style={{ 
-                maxWidth: isMobile ? '95vw' : '90vw',
+                maxWidth: isMobile ? 'calc(100vw - 32px)' : '90vw',
               }}
             />
           </picture>

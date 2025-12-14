@@ -28,6 +28,7 @@ import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings
 import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
 import AdminSerialTypeSettings from './pages/admin/AdminSerialTypeSettings'
 import AdminChat from './pages/admin/AdminChat'
+import AdminImageUpload from './pages/admin/AdminImageUpload'
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           <Route path="/admin/advertisement-settings" element={<AdminAdvertisementSettings />} />
           <Route path="/admin/profile-ad-banners" element={<AdminProfileAdBanners />} />
           <Route path="/admin/serial-type-settings" element={<AdminSerialTypeSettings />} />
+          <Route path="/admin/image-upload" element={<AdminImageUpload />} />
           </Routes>
         </div>
       </Router>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { supabase, isConfigured } from '../lib/supabase'
+import { supabase, isConfigured, getWebPUrl } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
 
 const useSeoMeta = () => {
@@ -460,7 +460,7 @@ function SpecialistDoctors() {
                     {doctor.image_url ? (
                       <div className="relative">
                         <img 
-                          src={doctor.image_url} 
+                          src={getWebPUrl(doctor.image_url)} 
                           alt={doctor.name}
                           className="w-32 h-32 object-cover rounded-full border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300"
                         />
