@@ -28,7 +28,8 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/logo-top.png" alt="ইজি ডক্টর রংপুর" className="h-10 object-contain" />
+            <img src="/logo-icon.png" alt="ইজি ডক্টর রংপুর" className="w-10 h-10 rounded-full object-cover" />
+            <span className="text-xl font-bold text-primary-700">ইজি ডক্টর রংপুর</span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-6">
