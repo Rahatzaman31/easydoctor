@@ -123,7 +123,8 @@ function AdminSidebar() {
       `}>
         <div className="p-4 lg:p-6 border-b">
           <Link to="/" className="flex items-center space-x-2" onClick={handleLinkClick}>
-            <img src="/logo-top.png" alt="ইজি ডক্টর রংপুর" className="h-10 lg:h-14 object-contain" />
+            <img src="/logo-icon.png" alt="ইজি ডক্টর রংপুর" className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover" />
+            <span className="text-base lg:text-lg font-bold text-primary-700">ইজি ডক্টর রংপুর</span>
           </Link>
           <p className="text-xs lg:text-sm text-gray-500 mt-1">এডমিন প্যানেল</p>
         </div>
