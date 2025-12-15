@@ -5,7 +5,7 @@ import AdminSidebar from '../../components/AdminSidebar'
 import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
-  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ' },
+  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ' },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ' },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ' },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ' },
@@ -58,7 +58,7 @@ function AdminDoctors() {
     workplace_line1: '',
     workplace_line2: '',
     category: 'medicine',
-    category_name: 'সাধারণ রোগ বিশেষজ্ঞ',
+    category_name: 'মেডিসিন বিশেষজ্ঞ',
     district: 'রংপুর',
     chamber_address: '',
     phone: '',
@@ -187,7 +187,7 @@ function AdminDoctors() {
       workplace_line1: '',
       workplace_line2: '',
       category: 'medicine',
-      category_name: 'সাধারণ রোগ বিশেষজ্ঞ',
+      category_name: 'মেডিসিন বিশেষজ্ঞ',
       district: 'রংপুর',
       chamber_address: '',
       phone: '',

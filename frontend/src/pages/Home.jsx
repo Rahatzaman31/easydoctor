@@ -32,7 +32,7 @@ const defaultBanner = {
 }
 
 const categories = [
-  { id: 'medicine', title: 'মেডিসিন', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
+  { id: 'medicine', title: 'মেডিসিন', name: 'মেডিসিন বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
   { id: 'cardiology', title: 'হৃদরোগ', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.png', isImage: true },
   { id: 'neurology', title: 'নিউরোলজি', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.png', isImage: true },
   { id: 'gynecology', title: 'স্ত্রীরোগ', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.png', isImage: true },
