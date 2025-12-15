@@ -4,7 +4,7 @@ import { supabase, isConfigured } from '../../lib/supabase'
 import AdminSidebar from '../../components/AdminSidebar'
 
 const defaultCategories = [
-  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
+  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.png', isImage: true },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.png', isImage: true },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.png', isImage: true },

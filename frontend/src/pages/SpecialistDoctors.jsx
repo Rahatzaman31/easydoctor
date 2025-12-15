@@ -55,7 +55,7 @@ const toBengaliNumber = (num) => {
 
 const categories = [
   { id: 'all', name: 'সকল বিভাগ', nameEn: 'সকল', icon: '/icons/services/doctor.png' },
-  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ', nameEn: 'মেডিসিন', icon: '/icons/medicine.png' },
+  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ', nameEn: 'মেডিসিন', icon: '/icons/medicine.png' },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ', nameEn: 'কার্ডিওলজি', icon: '/icons/cardiology.png' },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', nameEn: 'নিউরোলজি', icon: '/icons/neurology.png' },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', nameEn: 'গাইনি', icon: '/icons/gynecology.png' },

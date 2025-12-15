@@ -130,9 +130,9 @@ export default async function handler(req, res) {
     const siteName = 'ইজি ডক্টর রংপুর'
     
     const title = `${doctor.name} - ${doctor.category_name}`
-    const description = `${doctor.degrees} | ${doctor.category_name} | ${siteName}`
-    const pageUrl = `${siteUrl}/doctor/${doctor.slug || doctor.id}`
+    const description = `${doctor.category_name} | ${siteName}`
     const image = doctor.image_url || `${siteUrl}/og-image.png`
+    const pageUrl = `${siteUrl}/doctor/${doctor.slug || doctor.id}`
 
     const html = generateMetaHtml({
       title,
