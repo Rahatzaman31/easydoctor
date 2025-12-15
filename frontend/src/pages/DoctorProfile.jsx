@@ -335,24 +335,12 @@ function DoctorProfile() {
     )
   }
 
-  const getOgImageUrl = () => {
-    const siteUrl = typeof window !== 'undefined' ? window.location.origin : ''
-    const params = new URLSearchParams({
-      name: doctor.name || '',
-      category: doctor.category_name || '',
-      degrees: doctor.degrees || '',
-      image: doctor.image_url || '',
-      rating: String(doctor.rating || '5.0')
-    })
-    return `${siteUrl}/api/og-image?${params.toString()}`
-  }
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 select-none">
       <SEOHead 
         title={`${doctor.name} - ${doctor.category_name} | ইজি ডক্টর রংপুর`}
         description={`${doctor.name}, ${doctor.degrees}। ${doctor.category_name}। চেম্বার: ${doctor.chamber_address}। অনলাইন সিরিয়াল নিন।`}
-        image={getOgImageUrl()}
+        image={doctor.image_url || '/og-image.png'}
         url={`/doctor/${doctor.slug || doctor.id}`}
         type="profile"
         structuredData={getDoctorStructuredData(doctor)}

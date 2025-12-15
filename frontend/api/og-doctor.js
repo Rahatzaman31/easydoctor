@@ -132,15 +132,7 @@ export default async function handler(req, res) {
     const title = `${doctor.name} - ${doctor.category_name}`
     const description = `${doctor.degrees} | ${doctor.category_name} | ${siteName}`
     const pageUrl = `${siteUrl}/doctor/${doctor.slug || doctor.id}`
-    
-    const ogImageParams = new URLSearchParams({
-      name: doctor.name || '',
-      category: doctor.category_name || '',
-      degrees: doctor.degrees || '',
-      image: doctor.image_url || '',
-      rating: String(doctor.rating || '5.0')
-    })
-    const image = `${siteUrl}/api/og-image?${ogImageParams.toString()}`
+    const image = doctor.image_url || `${siteUrl}/og-image.png`
 
     const html = generateMetaHtml({
       title,
