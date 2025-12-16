@@ -17,11 +17,11 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('react-helmet')) {
               return 'react-vendor'
             }
             if (id.includes('@supabase')) {
-              return 'supabase-vendor'
+              return 'supabase'
             }
             if (id.includes('react-quill') || id.includes('quill')) {
               return 'editor-vendor'
@@ -31,7 +31,9 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    target: 'esnext',
+    sourcemap: false
   },
   server: {
     host: '0.0.0.0',

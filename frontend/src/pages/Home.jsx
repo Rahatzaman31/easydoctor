@@ -228,9 +228,13 @@ function Home() {
   return (
     <div>
       <section className="relative min-h-[320px] md:min-h-[380px] flex items-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${banner.background_image_url})` }}
+        <img 
+          src={banner.background_image_url}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          fetchpriority="high"
+          decoding="async"
+          aria-hidden="true"
         />
         
         <div 

@@ -49,7 +49,9 @@ function ClientLayout({ children }) {
   return (
     <>
       <Navbar />
-      {children}
+      <main id="main-content" role="main">
+        {children}
+      </main>
       <Suspense fallback={null}>
         <InterstitialAd />
       </Suspense>
