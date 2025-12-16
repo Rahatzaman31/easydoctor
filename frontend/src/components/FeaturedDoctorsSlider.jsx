@@ -86,7 +86,7 @@ function FeaturedDoctorsSlider() {
 
   if (loading) {
     return (
-      <section className="py-12 bg-gradient-to-r from-amber-50 to-orange-50">
+      <section className="py-12 bg-gradient-to-r from-slate-50 to-slate-100">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-800">
             বর্তমানে শীর্ষে অবস্থানরত
@@ -104,7 +104,7 @@ function FeaturedDoctorsSlider() {
   }
 
   return (
-    <section className="py-12 bg-gradient-to-r from-amber-50 to-orange-50">
+    <section className="py-12 bg-gradient-to-r from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">
           বর্তমানে শীর্ষে অবস্থানরত
@@ -141,10 +141,10 @@ function FeaturedDoctorsSlider() {
                   key={doctor.id} 
                   className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2"
                 >
-                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-amber-200 hover:border-amber-400">
-                    <div className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 p-4">
-                      <div className="absolute top-2 right-2 bg-white/90 px-2 py-1 rounded-full">
-                        <span className="text-xs font-bold text-amber-600">শীর্ষ</span>
+                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-slate-200 hover:border-teal-500">
+                    <div className="relative bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 p-4">
+                      <div className="absolute top-2 right-2 bg-teal-500 px-2 py-1 rounded-full">
+                        <span className="text-xs font-bold text-white">শীর্ষ</span>
                       </div>
                       <div className="flex flex-col items-center">
                         {doctor.image_url ? (
@@ -158,23 +158,23 @@ function FeaturedDoctorsSlider() {
                           />
                         ) : (
                           <div className="w-24 h-24 bg-white rounded-full shadow-lg flex items-center justify-center">
-                            <svg className="w-12 h-12 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-12 h-12 text-slate-500" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                             </svg>
                           </div>
                         )}
                         <h3 className="mt-3 font-bold text-white text-center text-sm">{doctor.name}</h3>
-                        <p className="text-amber-100 text-xs text-center line-clamp-2">{doctor.degrees}</p>
+                        <p className="text-slate-300 text-xs text-center line-clamp-2">{doctor.degrees}</p>
                       </div>
                     </div>
                     <div className="p-4">
                       <div className="flex flex-col gap-2">
-                        <span className="block w-full text-center border-2 border-amber-500 text-amber-600 py-2 rounded-lg text-sm font-semibold bg-transparent">
+                        <span className="block w-full text-center border-2 border-teal-500 text-teal-600 py-2 rounded-lg text-sm font-semibold bg-transparent">
                           {doctor.category_name}
                         </span>
                         <Link 
                           to={`/doctor/${doctor.slug || doctor.id}`}
-                          className="block w-full text-center bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 rounded-lg text-sm font-semibold hover:from-amber-600 hover:to-orange-600 transition-all"
+                          className="block w-full text-center bg-gradient-to-r from-teal-600 to-teal-700 text-white py-2 rounded-lg text-sm font-semibold hover:from-teal-700 hover:to-teal-800 transition-all"
                         >
                           বিস্তারিত দেখুন
                         </Link>
@@ -197,7 +197,7 @@ function FeaturedDoctorsSlider() {
               }}
               className={`w-2 h-2 rounded-full transition-all ${
                 Math.floor(currentIndex / getVisibleCards()) === idx 
-                  ? 'bg-amber-500 w-6' 
+                  ? 'bg-teal-600 w-6' 
                   : 'bg-gray-300 hover:bg-gray-400'
               }`}
               aria-label={`স্লাইড ${idx + 1} এ যান`}

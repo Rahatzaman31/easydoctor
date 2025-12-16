@@ -42,7 +42,7 @@ function HospitalsDiagnostics() {
   }
 
   const HospitalCard = ({ item, type }) => (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-purple-300">
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-emerald-400">
       <div className="relative h-48 overflow-hidden">
         {item.image_url ? (
           <img 
@@ -53,10 +53,10 @@ function HospitalsDiagnostics() {
         ) : (
           <div className={`w-full h-full flex items-center justify-center ${
             type === 'diagnostic' 
-              ? 'bg-gradient-to-br from-blue-100 to-blue-200' 
-              : 'bg-gradient-to-br from-purple-100 to-purple-200'
+              ? 'bg-gradient-to-br from-slate-700 to-slate-800' 
+              : 'bg-gradient-to-br from-emerald-700 to-emerald-800'
           }`}>
-            <svg className={`w-16 h-16 ${type === 'diagnostic' ? 'text-blue-400' : 'text-purple-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-16 h-16 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {type === 'diagnostic' ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               ) : (
@@ -68,8 +68,8 @@ function HospitalsDiagnostics() {
         <div className="absolute top-3 left-3">
           <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
             type === 'diagnostic' 
-              ? 'bg-blue-500 text-white' 
-              : 'bg-purple-500 text-white'
+              ? 'bg-slate-700 text-white' 
+              : 'bg-emerald-600 text-white'
           }`}>
             {type === 'diagnostic' ? 'ডায়াগনস্টিক' : 'হাসপাতাল'}
           </span>
@@ -78,7 +78,7 @@ function HospitalsDiagnostics() {
       
       <div className="p-5">
         <h3 className={`font-bold text-lg text-gray-900 mb-4 transition-colors ${
-          type === 'diagnostic' ? 'group-hover:text-blue-700' : 'group-hover:text-purple-700'
+          type === 'diagnostic' ? 'group-hover:text-slate-700' : 'group-hover:text-emerald-700'
         }`}>
           {item.name}
         </h3>
@@ -87,8 +87,8 @@ function HospitalsDiagnostics() {
           to={`/hospital/${item.id}`}
           className={`w-full text-center py-2.5 px-4 text-white rounded-xl font-semibold transition-all text-sm shadow-md hover:shadow-lg block ${
             type === 'diagnostic'
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-              : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
+              ? 'bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900'
+              : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800'
           }`}
         >
           বিস্তারিত দেখুন
@@ -99,15 +99,15 @@ function HospitalsDiagnostics() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="relative bg-gradient-to-r from-purple-600 to-purple-800 overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      <div className="relative bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-transparent"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-500/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-14">
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-3 py-1.5 rounded-full mb-4">
-              <svg className="w-4 h-4 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 backdrop-blur-sm px-3 py-1.5 rounded-full mb-4">
+              <svg className="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
               <span className="text-white text-sm font-medium">বিশ্বস্ত স্বাস্থ্যসেবা প্রতিষ্ঠান</span>
@@ -116,26 +116,26 @@ function HospitalsDiagnostics() {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
               হাসপাতাল ও ডায়াগনস্টিক সেন্টার
             </h1>
-            <p className="text-base sm:text-lg text-purple-100 mb-6">
+            <p className="text-base sm:text-lg text-slate-300 mb-6">
               রংপুর বিভাগের স্বনামধন্য স্বাস্থ্যসেবা প্রতিষ্ঠানসমূহ
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 text-white/90 text-sm">
               <div className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>যাচাইকৃত প্রতিষ্ঠান</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span>রংপুর বিভাগ</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                 <span>মানসম্মত সেবা</span>
@@ -148,8 +148,8 @@ function HospitalsDiagnostics() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center py-16">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-full mb-4">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600"></div>
             </div>
             <p className="text-gray-600 font-medium">তথ্য খোঁজা হচ্ছে...</p>
           </div>
@@ -168,7 +168,7 @@ function HospitalsDiagnostics() {
             <section>
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
@@ -182,8 +182,8 @@ function HospitalsDiagnostics() {
 
               {hospitals.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-2xl shadow-md border border-gray-100">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
@@ -202,7 +202,7 @@ function HospitalsDiagnostics() {
             <section>
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                  <div className="w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center shadow-lg shadow-slate-500/20">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                     </svg>
@@ -216,8 +216,8 @@ function HospitalsDiagnostics() {
 
               {diagnostics.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-2xl shadow-md border border-gray-100">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                     </svg>
                   </div>

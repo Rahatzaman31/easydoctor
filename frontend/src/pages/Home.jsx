@@ -89,49 +89,49 @@ const FeatureIcon = ({ type }) => {
 
 const themeStyles = {
   congratulation: {
-    gradient: 'from-rose-500 via-pink-500 to-fuchsia-500',
-    bgPattern: 'bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-600',
+    gradient: 'from-emerald-600 via-teal-600 to-cyan-600',
+    bgPattern: 'bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-700',
     icon: '🎉',
     badge: 'অভিনন্দন',
-    badgeColor: 'bg-pink-100 text-pink-800',
+    badgeColor: 'bg-white/20 text-white backdrop-blur-sm',
     decorativeIcons: ['🎊', '✨', '🎉', '🌟', '💐', '🎈'],
-    buttonTextColor: 'text-pink-700'
+    buttonTextColor: 'text-teal-700'
   },
   mourning: {
-    gradient: 'from-gray-600 via-gray-700 to-gray-800',
-    bgPattern: 'bg-gradient-to-r from-gray-600 via-gray-700 to-gray-800',
+    gradient: 'from-slate-700 via-slate-800 to-slate-900',
+    bgPattern: 'bg-gradient-to-br from-slate-800 via-slate-850 to-slate-900',
     icon: '🕯️',
     badge: 'শোক সংবাদ',
-    badgeColor: 'bg-gray-200 text-gray-800',
+    badgeColor: 'bg-white/10 text-white backdrop-blur-sm',
     decorativeIcons: [],
-    buttonTextColor: 'text-gray-700'
+    buttonTextColor: 'text-slate-700'
   },
   new_chamber: {
-    gradient: 'from-blue-500 via-indigo-500 to-purple-500',
-    bgPattern: 'bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600',
+    gradient: 'from-slate-700 via-indigo-800 to-slate-900',
+    bgPattern: 'bg-gradient-to-br from-slate-800 via-indigo-900 to-slate-900',
     icon: '🏥',
     badge: 'নতুন চেম্বার',
-    badgeColor: 'bg-blue-100 text-blue-800',
+    badgeColor: 'bg-white/20 text-white backdrop-blur-sm',
     decorativeIcons: ['🏥', '🏨', '⚕️', '🩺', '💊', '🏛️'],
     buttonTextColor: 'text-indigo-700'
   },
   promotion: {
-    gradient: 'from-violet-500 via-purple-500 to-fuchsia-500',
-    bgPattern: 'bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-600',
+    gradient: 'from-slate-800 via-teal-900 to-slate-900',
+    bgPattern: 'bg-gradient-to-br from-slate-800 via-teal-900 to-slate-900',
     icon: '📢',
     badge: 'বিশেষ আপডেট',
-    badgeColor: 'bg-purple-100 text-purple-800',
+    badgeColor: 'bg-teal-500/30 text-white backdrop-blur-sm',
     decorativeIcons: ['⭐', '🌟', '✨', '💫', '🔥', '💎'],
-    buttonTextColor: 'text-purple-700'
+    buttonTextColor: 'text-teal-700'
   },
   custom_banner: {
-    gradient: 'from-purple-500 via-indigo-500 to-blue-500',
-    bgPattern: 'bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-600',
+    gradient: 'from-slate-800 via-slate-900 to-slate-950',
+    bgPattern: 'bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950',
     icon: '🖼️',
     badge: 'বিশেষ প্রচার',
-    badgeColor: 'bg-purple-100 text-purple-800',
+    badgeColor: 'bg-white/20 text-white backdrop-blur-sm',
     decorativeIcons: [],
-    buttonTextColor: 'text-purple-700',
+    buttonTextColor: 'text-slate-700',
     isCustom: true
   }
 }
@@ -392,13 +392,14 @@ function Home() {
                 )}
               </div>
             ) : (
-              <div className={`relative overflow-hidden ${themeStyles[promotionalBanner.theme_type]?.bgPattern || themeStyles.promotion.bgPattern} rounded-3xl shadow-md`}>
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMSIvPjxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIxIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjEiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjA1Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2EpIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-60"></div>
+              <div className={`relative overflow-hidden ${themeStyles[promotionalBanner.theme_type]?.bgPattern || themeStyles.promotion.bgPattern} rounded-3xl shadow-2xl border border-white/10`}>
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-80"></div>
                 
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZGVmcz48cGF0dGVybiBpZD0iZGlhZyIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAxMEwxMCAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4wNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNkaWFnKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==')] opacity-50"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5"></div>
                 
-                <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+                <div className="absolute top-0 right-0 w-80 h-80 bg-teal-500/20 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px]"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/15 rounded-full translate-y-1/2 -translate-x-1/2 blur-[120px]"></div>
+                <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-[80px]"></div>
                 
                 {themeStyles[promotionalBanner.theme_type]?.decorativeIcons?.length > 0 && (
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">

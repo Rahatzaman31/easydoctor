@@ -55,7 +55,7 @@ function HospitalDetail() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
       </div>
     )
   }
@@ -70,7 +70,7 @@ function HospitalDetail() {
         </div>
         <h1 className="text-2xl font-bold text-gray-800 mb-2">তথ্য পাওয়া যায়নি</h1>
         <p className="text-gray-500 mb-4">এই হাসপাতাল বা ডায়াগনস্টিক সেন্টারের তথ্য খুঁজে পাওয়া যায়নি</p>
-        <Link to="/hospitals-diagnostics" className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+        <Link to="/hospitals-diagnostics" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -82,10 +82,10 @@ function HospitalDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="relative bg-gradient-to-r from-purple-600 to-purple-800 overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      <div className="relative bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-transparent"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-500/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 py-8">
           <Link to="/hospitals-diagnostics" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
@@ -104,8 +104,8 @@ function HospitalDetail() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-                  <svg className="w-20 h-20 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-full h-full bg-gradient-to-br from-emerald-700 to-emerald-800 flex items-center justify-center">
+                  <svg className="w-20 h-20 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                 </div>
@@ -116,8 +116,8 @@ function HospitalDetail() {
               <div className="mb-3">
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                   hospital.type === 'diagnostic' 
-                    ? 'bg-blue-500 text-white' 
-                    : 'bg-white/20 text-white'
+                    ? 'bg-slate-600 text-white' 
+                    : 'bg-emerald-500 text-white'
                 }`}>
                   {hospital.type === 'diagnostic' ? 'ডায়াগনস্টিক সেন্টার' : 'হাসপাতাল'}
                 </span>
@@ -126,7 +126,7 @@ function HospitalDetail() {
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">{hospital.name}</h1>
               
               {hospital.address && (
-                <div className="flex items-start gap-2 text-purple-100 mb-2">
+                <div className="flex items-start gap-2 text-slate-300 mb-2">
                   <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -136,7 +136,7 @@ function HospitalDetail() {
               )}
               
               {hospital.district && (
-                <div className="flex items-center gap-2 text-purple-100">
+                <div className="flex items-center gap-2 text-slate-300">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
                   </svg>
@@ -154,7 +154,7 @@ function HospitalDetail() {
             {hospital.description && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   পরিচিতি
@@ -166,7 +166,7 @@ function HospitalDetail() {
             {hospital.services && hospital.services.length > 0 && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                   সেবাসমূহ
@@ -175,9 +175,9 @@ function HospitalDetail() {
                   {hospital.services.map((service, index) => (
                     <div 
                       key={index} 
-                      className="flex items-center gap-3 bg-purple-50 text-purple-700 px-4 py-3 rounded-xl"
+                      className="flex items-center gap-3 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-xl"
                     >
-                      <svg className="w-5 h-5 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       <span className="font-medium">{service}</span>
@@ -190,7 +190,7 @@ function HospitalDetail() {
             {hospital.facilities && hospital.facilities.length > 0 && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                   সুবিধাসমূহ
@@ -214,7 +214,7 @@ function HospitalDetail() {
             {linkedDoctors.length > 0 && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                   {hospital.name} এ নিয়মিত রোগী দেখছেন
@@ -224,27 +224,27 @@ function HospitalDetail() {
                     <Link 
                       key={doctor.id}
                       to={`/doctor/${doctor.slug || doctor.id}`}
-                      className="flex items-center gap-4 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors group"
+                      className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors group"
                     >
                       {doctor.image_url ? (
                         <img 
                           src={doctor.image_url} 
                           alt={doctor.name}
-                          className="w-16 h-16 rounded-full object-cover border-2 border-purple-200 group-hover:border-purple-400"
+                          className="w-16 h-16 rounded-full object-cover border-2 border-slate-200 group-hover:border-emerald-400"
                         />
                       ) : (
-                        <div className="w-16 h-16 rounded-full bg-purple-200 flex items-center justify-center border-2 border-purple-300">
-                          <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center border-2 border-slate-300">
+                          <svg className="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-800 group-hover:text-purple-700 truncate">{doctor.name}</h3>
-                        <p className="text-sm text-purple-600 truncate">{doctor.degrees}</p>
+                        <h3 className="font-semibold text-gray-800 group-hover:text-emerald-700 truncate">{doctor.name}</h3>
+                        <p className="text-sm text-emerald-600 truncate">{doctor.degrees}</p>
                         <p className="text-xs text-gray-500 truncate">{doctor.category_name}</p>
                       </div>
-                      <svg className="w-5 h-5 text-purple-400 group-hover:text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
@@ -258,7 +258,7 @@ function HospitalDetail() {
             {(hospital.address || hospital.district) && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -274,11 +274,11 @@ function HospitalDetail() {
                     </div>
                   )}
                   {hospital.district && (
-                    <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
-                      <svg className="w-5 h-5 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-xl">
+                      <svg className="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
                       </svg>
-                      <p className="text-purple-700 font-medium">{hospital.district}</p>
+                      <p className="text-emerald-700 font-medium">{hospital.district}</p>
                     </div>
                   )}
                 </div>
@@ -287,7 +287,7 @@ function HospitalDetail() {
 
             <div className="bg-white rounded-2xl shadow-md p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 যোগাযোগ
@@ -333,16 +333,16 @@ function HospitalDetail() {
                     href={hospital.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors group"
+                    className="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors group"
                   >
-                    <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-slate-600 rounded-full flex items-center justify-center">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                       </svg>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">ওয়েবসাইট</p>
-                      <p className="text-gray-800 font-semibold group-hover:text-purple-700 break-all">{hospital.website}</p>
+                      <p className="text-gray-800 font-semibold group-hover:text-slate-700 break-all">{hospital.website}</p>
                     </div>
                   </a>
                 )}
@@ -356,7 +356,7 @@ function HospitalDetail() {
             {hospital.opening_hours && (
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   খোলার সময়
