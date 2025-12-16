@@ -323,7 +323,7 @@ function Home() {
                 to={`/rangpur-specialist-doctors-list-online-serial?category=${cat.id}`}
                 className="card text-center hover:border-primary-500 border-2 border-transparent"
               >
-                <img src={cat.icon} alt={cat.title} className="w-10 h-10 mx-auto mb-3" />
+                <img src={cat.icon} alt={cat.title} className="w-10 h-10 mx-auto mb-3" width="40" height="40" loading="lazy" />
                 <h3 className="font-semibold text-lg text-gray-800">{cat.title}</h3>
                 <p className="text-gray-500 text-sm">{cat.name}</p>
               </Link>

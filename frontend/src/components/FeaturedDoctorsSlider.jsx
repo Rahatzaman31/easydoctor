@@ -150,6 +150,9 @@ function FeaturedDoctorsSlider() {
                             src={doctor.image_url} 
                             alt={doctor.name}
                             className="w-24 h-24 object-cover rounded-full border-3 border-white shadow-lg"
+                            width="96"
+                            height="96"
+                            loading="lazy"
                           />
                         ) : (
                           <div className="w-24 h-24 bg-white rounded-full shadow-lg flex items-center justify-center">

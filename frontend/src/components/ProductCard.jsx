@@ -14,6 +14,9 @@ function ProductCard({ product, size = 'default' }) {
           src={product.image_url || 'https://via.placeholder.com/300x300?text=Product'} 
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          width="200"
+          height="150"
+          loading="lazy"
         />
         {product.is_featured && (
           <div className={`absolute ${isLarge ? 'top-2 right-2 text-xs px-2 py-1' : 'top-1 right-1 text-[10px] px-1.5 py-0.5'} bg-amber-500 text-white font-bold rounded flex items-center gap-0.5`}>
