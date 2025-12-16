@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase, isConfigured, getWebPUrl } from '../lib/supabase'
+import { supabase, isConfigured } from '../lib/supabase'
 import Footer from '../components/Footer'
 
 function BlogList() {
@@ -152,7 +152,7 @@ function BlogList() {
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-gray-100">
                   {post.featured_image_url ? (
                     <img
-                      src={getWebPUrl(post.featured_image_url)}
+                      src={post.featured_image_url}
                       alt={post.title}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                     />

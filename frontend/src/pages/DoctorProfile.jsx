@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
-import { supabase, isConfigured, getWebPUrl } from '../lib/supabase'
+import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
 import SEOHead, { getDoctorStructuredData } from '../components/SEOHead'
 
@@ -389,7 +389,7 @@ function DoctorProfile() {
           <div className="flex flex-col md:flex-row items-center gap-6 text-left">
             {doctor.image_url ? (
               <img 
-                src={getWebPUrl(doctor.image_url)} 
+                src={doctor.image_url} 
                 alt={doctor.name}
                 className="w-36 h-36 object-cover rounded-2xl border-4 border-white shadow-lg"
               />

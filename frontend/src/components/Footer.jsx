@@ -40,7 +40,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex items-center mb-4">
-                <img src="/logo-footer.png" alt="ইজি ডক্টর রংপুর" className="h-16 object-contain" width="200" height="64" loading="lazy" />
+                <img src="/logo-footer.png" alt="Easy Doctor Rangpur" className="h-16 object-contain" />
               </div>
               <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-sm">
                 রংপুর বিভাগের ডাক্তার অ্যাপয়েন্টমেন্ট সেবা। সহজেই অনলাইনে অ্যাপয়েন্টমেন্ট নিন এবং আপনার স্বাস্থ্যসেবা নিশ্চিত করুন।

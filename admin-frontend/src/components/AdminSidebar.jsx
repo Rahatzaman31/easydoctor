@@ -79,7 +79,6 @@ function AdminSidebar() {
   ]
 
   const bottomMenuItems = [
-    { path: '/admin/image-upload', icon: '🖼️', label: 'ছবি আপলোড' },
     { path: '/admin/serial-type-settings', icon: '🔄', label: 'সিরিয়ালের ধরন' },
     { path: '/admin/bkash-settings', icon: '💳', label: 'বিকাশ সেটিংস' },
   ]
