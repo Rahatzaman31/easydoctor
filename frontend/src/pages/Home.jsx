@@ -17,7 +17,7 @@ const defaultBanner = {
   secondary_button_text: 'যোগাযোগ করুন',
   secondary_button_link: '/contact',
   show_secondary_button: true,
-  background_image_url: '/images/banner-bg.png',
+  background_image_url: '/images/banner-bg.webp',
   overlay_color: '#1e40af',
   overlay_opacity: 0.75,
   feature_1_text: 'যাচাইকৃত ডাক্তার',
@@ -32,30 +32,30 @@ const defaultBanner = {
 }
 
 const categories = [
-  { id: 'medicine', title: 'মেডিসিন', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
-  { id: 'cardiology', title: 'হৃদরোগ', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.png', isImage: true },
-  { id: 'neurology', title: 'নিউরোলজি', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.png', isImage: true },
-  { id: 'gynecology', title: 'স্ত্রীরোগ', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.png', isImage: true },
-  { id: 'pediatrics', title: 'শিশু', name: 'শিশু রোগ বিশেষজ্ঞ', icon: '/icons/pediatrics.png', isImage: true },
-  { id: 'orthopedics', title: 'অর্থোপেডিক্স', name: 'হাড় ও জয়েন্ট রোগ বিশেষজ্ঞ', icon: '/icons/orthopedics.png', isImage: true },
-  { id: 'ent', title: 'নাক-কান-গলা', name: 'নাক-কান-গলা বিশেষজ্ঞ', icon: '/icons/ent.png', isImage: true },
-  { id: 'dermatology', title: 'চর্মরোগ', name: 'চর্মরোগ বিশেষজ্ঞ', icon: '/icons/dermatology.png', isImage: true },
-  { id: 'psychiatry', title: 'মানসিক', name: 'মানসিক রোগ বিশেষজ্ঞ', icon: '/icons/psychiatry.png', isImage: true },
-  { id: 'ophthalmology', title: 'চক্ষু', name: 'চক্ষু রোগ বিশেষজ্ঞ', icon: '/icons/ophthalmology.png', isImage: true },
-  { id: 'dental', title: 'দন্ত', name: 'দন্ত বিশেষজ্ঞ', icon: '/icons/dental.png', isImage: true },
-  { id: 'surgery', title: 'সার্জারি', name: 'সার্জারি বিশেষজ্ঞ', icon: '/icons/surgery.png', isImage: true },
-  { id: 'oncology', title: 'ক্যান্সার', name: 'ক্যান্সার রোগ বিশেষজ্ঞ', icon: '/icons/oncology.png', isImage: true },
-  { id: 'pulmonology', title: 'ফুসফুস', name: 'শ্বাসতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/pulmonology.png', isImage: true },
-  { id: 'endocrinology', title: 'হরমোন', name: 'হরমোন রোগ বিশেষজ্ঞ', icon: '/icons/endocrinology.png', isImage: true },
-  { id: 'anesthesia', title: 'চেতনানাশক', name: 'চেতনানাশক বিশেষজ্ঞ', icon: '/icons/anesthesia.png', isImage: true },
-  { id: 'nephrology', title: 'কিডনি', name: 'কিডনি রোগ বিশেষজ্ঞ', icon: '/icons/kidney.png', isImage: true },
-  { id: 'urology', title: 'মূত্রতন্ত্র', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/urology.png', isImage: true },
-  { id: 'gastroenterology', title: 'পরিপাকতন্ত্র', name: 'পরিপাকতন্ত্র বিশেষজ্ঞ', icon: '/icons/gastroenterology.png', isImage: true },
-  { id: 'rheumatology', title: 'বাত ব্যাথা', name: 'বাত রোগ বিশেষজ্ঞ', icon: '/icons/rheumatology.png', isImage: true },
-  { id: 'pathology', title: 'প্যাথলজি', name: 'রোগ নির্ণয় বিশেষজ্ঞ', icon: '/icons/pathology.png', isImage: true },
-  { id: 'plastic-surgery', title: 'প্লাস্টিক সার্জারি', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.png', isImage: true },
-  { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.png', isImage: true },
-  { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.png', isImage: true },
+  { id: 'medicine', title: 'মেডিসিন', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.webp', isImage: true },
+  { id: 'cardiology', title: 'হৃদরোগ', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.webp', isImage: true },
+  { id: 'neurology', title: 'নিউরোলজি', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.webp', isImage: true },
+  { id: 'gynecology', title: 'স্ত্রীরোগ', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.webp', isImage: true },
+  { id: 'pediatrics', title: 'শিশু', name: 'শিশু রোগ বিশেষজ্ঞ', icon: '/icons/pediatrics.webp', isImage: true },
+  { id: 'orthopedics', title: 'অর্থোপেডিক্স', name: 'হাড় ও জয়েন্ট রোগ বিশেষজ্ঞ', icon: '/icons/orthopedics.webp', isImage: true },
+  { id: 'ent', title: 'নাক-কান-গলা', name: 'নাক-কান-গলা বিশেষজ্ঞ', icon: '/icons/ent.webp', isImage: true },
+  { id: 'dermatology', title: 'চর্মরোগ', name: 'চর্মরোগ বিশেষজ্ঞ', icon: '/icons/dermatology.webp', isImage: true },
+  { id: 'psychiatry', title: 'মানসিক', name: 'মানসিক রোগ বিশেষজ্ঞ', icon: '/icons/psychiatry.webp', isImage: true },
+  { id: 'ophthalmology', title: 'চক্ষু', name: 'চক্ষু রোগ বিশেষজ্ঞ', icon: '/icons/ophthalmology.webp', isImage: true },
+  { id: 'dental', title: 'দন্ত', name: 'দন্ত বিশেষজ্ঞ', icon: '/icons/dental.webp', isImage: true },
+  { id: 'surgery', title: 'সার্জারি', name: 'সার্জারি বিশেষজ্ঞ', icon: '/icons/surgery.webp', isImage: true },
+  { id: 'oncology', title: 'ক্যান্সার', name: 'ক্যান্সার রোগ বিশেষজ্ঞ', icon: '/icons/oncology.webp', isImage: true },
+  { id: 'pulmonology', title: 'ফুসফুস', name: 'শ্বাসতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/pulmonology.webp', isImage: true },
+  { id: 'endocrinology', title: 'হরমোন', name: 'হরমোন রোগ বিশেষজ্ঞ', icon: '/icons/endocrinology.webp', isImage: true },
+  { id: 'anesthesia', title: 'চেতনানাশক', name: 'চেতনানাশক বিশেষজ্ঞ', icon: '/icons/anesthesia.webp', isImage: true },
+  { id: 'nephrology', title: 'কিডনি', name: 'কিডনি রোগ বিশেষজ্ঞ', icon: '/icons/kidney.webp', isImage: true },
+  { id: 'urology', title: 'মূত্রতন্ত্র', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/urology.webp', isImage: true },
+  { id: 'gastroenterology', title: 'পরিপাকতন্ত্র', name: 'পরিপাকতন্ত্র বিশেষজ্ঞ', icon: '/icons/gastroenterology.webp', isImage: true },
+  { id: 'rheumatology', title: 'বাত ব্যাথা', name: 'বাত রোগ বিশেষজ্ঞ', icon: '/icons/rheumatology.webp', isImage: true },
+  { id: 'pathology', title: 'প্যাথলজি', name: 'রোগ নির্ণয় বিশেষজ্ঞ', icon: '/icons/pathology.webp', isImage: true },
+  { id: 'plastic-surgery', title: 'প্লাস্টিক সার্জারি', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.webp', isImage: true },
+  { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.webp', isImage: true },
+  { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.webp', isImage: true },
 ]
 
 const FeatureIcon = ({ type }) => {
@@ -540,7 +540,7 @@ function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-blue-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/doctor.png" alt="Doctor" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/doctor.webp" alt="Doctor" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">বিশেষজ্ঞ ডাক্তার</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -553,7 +553,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-purple-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/hospital.png" alt="Hospital" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/hospital.webp" alt="Hospital" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">হাসপাতাল ও ডায়াগনস্টিক</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -566,7 +566,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-rose-50 to-pink-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-rose-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/ambulance.png" alt="Ambulance" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/ambulance.webp" alt="Ambulance" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">অ্যাম্বুলেন্স সেবা</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -579,7 +579,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-teal-50 to-cyan-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-teal-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/blog.png" alt="Blog" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/blog.webp" alt="Blog" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">স্বাস্থ্য ব্লগ</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
