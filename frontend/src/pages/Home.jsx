@@ -323,7 +323,7 @@ function Home() {
                 to={`/rangpur-specialist-doctors-list-online-serial?category=${cat.id}`}
                 className="card text-center hover:border-primary-500 border-2 border-transparent"
               >
-                <img src={cat.icon} alt={cat.title} className="w-10 h-10 mx-auto mb-3" />
+                <img src={cat.icon} alt={cat.title} className="w-10 h-10 mx-auto mb-3" width="40" height="40" loading="lazy" />
                 <h3 className="font-semibold text-lg text-gray-800">{cat.title}</h3>
                 <p className="text-gray-500 text-sm">{cat.name}</p>
               </Link>
@@ -340,22 +340,34 @@ function Home() {
                 {promotionalBanner.custom_banner_desktop_url && (
                   <img 
                     src={promotionalBanner.custom_banner_desktop_url}
-                    alt={promotionalBanner.title || 'Promotional Banner'}
+                    alt={promotionalBanner.title || 'প্রচারমূলক ব্যানার'}
                     className="hidden md:block w-full h-auto object-cover"
+                    width="1200"
+                    height="400"
+                    loading="lazy"
+                    style={{ aspectRatio: '3/1' }}
                   />
                 )}
                 {promotionalBanner.custom_banner_mobile_url && (
                   <img 
                     src={promotionalBanner.custom_banner_mobile_url}
-                    alt={promotionalBanner.title || 'Promotional Banner'}
+                    alt={promotionalBanner.title || 'প্রচারমূলক ব্যানার'}
                     className="block md:hidden w-full h-auto object-cover"
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                    style={{ aspectRatio: '1/1' }}
                   />
                 )}
                 {!promotionalBanner.custom_banner_mobile_url && promotionalBanner.custom_banner_desktop_url && (
                   <img 
                     src={promotionalBanner.custom_banner_desktop_url}
-                    alt={promotionalBanner.title || 'Promotional Banner'}
+                    alt={promotionalBanner.title || 'প্রচারমূলক ব্যানার'}
                     className="block md:hidden w-full h-auto object-cover"
+                    width="400"
+                    height="200"
+                    loading="lazy"
+                    style={{ aspectRatio: '2/1' }}
                   />
                 )}
                 
@@ -438,6 +450,9 @@ function Home() {
                               src={promotionalBanner.image_url} 
                               alt={promotionalBanner.title}
                               className="w-full h-full object-cover"
+                              width="144"
+                              height="144"
+                              loading="lazy"
                             />
                           </div>
                           <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg text-xl">
@@ -536,7 +551,7 @@ function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-blue-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/doctor.png" alt="Doctor" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/doctor.png" alt="বিশেষজ্ঞ ডাক্তার" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">বিশেষজ্ঞ ডাক্তার</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -549,7 +564,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-purple-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/hospital.png" alt="Hospital" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/hospital.png" alt="হাসপাতাল ও ডায়াগনস্টিক" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">হাসপাতাল ও ডায়াগনস্টিক</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -562,7 +577,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-rose-50 to-pink-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-rose-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/ambulance.png" alt="Ambulance" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/ambulance.png" alt="অ্যাম্বুলেন্স সেবা" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">অ্যাম্বুলেন্স সেবা</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">
@@ -575,7 +590,7 @@ function Home() {
 
             <div className="bg-gradient-to-br from-teal-50 to-cyan-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-teal-100 group">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <img src="/icons/services/blog.png" alt="Blog" className="w-12 h-12 object-contain" />
+                <img src="/icons/services/blog.png" alt="স্বাস্থ্য ব্লগ" className="w-12 h-12 object-contain" width="48" height="48" loading="lazy" />
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">স্বাস্থ্য ব্লগ</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">

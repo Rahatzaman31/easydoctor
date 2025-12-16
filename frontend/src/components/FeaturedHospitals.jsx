@@ -83,6 +83,9 @@ function FeaturedHospitals() {
                     src={getWebPUrl(hospital.image_url)} 
                     alt={hospital.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    width="280"
+                    height="176"
+                    loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-purple-400 via-purple-500 to-violet-600 flex items-center justify-center">

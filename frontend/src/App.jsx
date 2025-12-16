@@ -1,47 +1,62 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import { lazy, Suspense } from 'react'
 import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import SpecialistDoctors from './pages/SpecialistDoctors'
-import DoctorProfile from './pages/DoctorProfile'
-import BookAppointment from './pages/BookAppointment'
-import PaidBookAppointment from './pages/PaidBookAppointment'
-import PaymentCallback from './pages/PaymentCallback'
-import Download from './pages/Download'
-import HospitalsDiagnostics from './pages/HospitalsDiagnostics'
-import HospitalDetail from './pages/HospitalDetail'
-import BlogList from './pages/BlogList'
-import BlogDetail from './pages/BlogDetail'
-import AmbulanceService from './pages/AmbulanceService'
-import LegalPage from './pages/LegalPage'
-import AboutUs from './pages/AboutUs'
-import Contact from './pages/Contact'
-import PromotionalDetail from './pages/PromotionalDetail'
-import JoinAsDoctor from './pages/JoinAsDoctor'
-import JoinAsHospital from './pages/JoinAsHospital'
-import RegisterAmbulance from './pages/RegisterAmbulance'
-import Advertise from './pages/Advertise'
-import DataEditRequest from './pages/DataEditRequest'
-import MediProducts from './pages/MediProducts'
-import ProductDetail from './pages/ProductDetail'
-import ProductOrderCallback from './pages/ProductOrderCallback'
-import DoctorLogin from './pages/doctor-admin/DoctorLogin'
-import DoctorDashboard from './pages/doctor-admin/DoctorDashboard'
-import DoctorProfilePage from './pages/doctor-admin/DoctorProfile'
-import DoctorAppointments from './pages/doctor-admin/DoctorAppointments'
-import DoctorPaidAppointments from './pages/doctor-admin/DoctorPaidAppointments'
-import DoctorBlogPosts from './pages/doctor-admin/DoctorBlogPosts'
-import DoctorPackages from './pages/doctor-admin/DoctorPackages'
-import DoctorAdvertisements from './pages/doctor-admin/DoctorAdvertisements'
-import DoctorChat from './pages/doctor-admin/DoctorChat'
 import InterstitialAd from './components/InterstitialAd'
+
+const SpecialistDoctors = lazy(() => import('./pages/SpecialistDoctors'))
+const DoctorProfile = lazy(() => import('./pages/DoctorProfile'))
+const BookAppointment = lazy(() => import('./pages/BookAppointment'))
+const PaidBookAppointment = lazy(() => import('./pages/PaidBookAppointment'))
+const PaymentCallback = lazy(() => import('./pages/PaymentCallback'))
+const Download = lazy(() => import('./pages/Download'))
+const HospitalsDiagnostics = lazy(() => import('./pages/HospitalsDiagnostics'))
+const HospitalDetail = lazy(() => import('./pages/HospitalDetail'))
+const BlogList = lazy(() => import('./pages/BlogList'))
+const BlogDetail = lazy(() => import('./pages/BlogDetail'))
+const AmbulanceService = lazy(() => import('./pages/AmbulanceService'))
+const LegalPage = lazy(() => import('./pages/LegalPage'))
+const AboutUs = lazy(() => import('./pages/AboutUs'))
+const Contact = lazy(() => import('./pages/Contact'))
+const PromotionalDetail = lazy(() => import('./pages/PromotionalDetail'))
+const JoinAsDoctor = lazy(() => import('./pages/JoinAsDoctor'))
+const JoinAsHospital = lazy(() => import('./pages/JoinAsHospital'))
+const RegisterAmbulance = lazy(() => import('./pages/RegisterAmbulance'))
+const Advertise = lazy(() => import('./pages/Advertise'))
+const DataEditRequest = lazy(() => import('./pages/DataEditRequest'))
+const MediProducts = lazy(() => import('./pages/MediProducts'))
+const ProductDetail = lazy(() => import('./pages/ProductDetail'))
+const ProductOrderCallback = lazy(() => import('./pages/ProductOrderCallback'))
+const DoctorLogin = lazy(() => import('./pages/doctor-admin/DoctorLogin'))
+const DoctorDashboard = lazy(() => import('./pages/doctor-admin/DoctorDashboard'))
+const DoctorProfilePage = lazy(() => import('./pages/doctor-admin/DoctorProfile'))
+const DoctorAppointments = lazy(() => import('./pages/doctor-admin/DoctorAppointments'))
+const DoctorPaidAppointments = lazy(() => import('./pages/doctor-admin/DoctorPaidAppointments'))
+const DoctorBlogPosts = lazy(() => import('./pages/doctor-admin/DoctorBlogPosts'))
+const DoctorPackages = lazy(() => import('./pages/doctor-admin/DoctorPackages'))
+const DoctorAdvertisements = lazy(() => import('./pages/doctor-admin/DoctorAdvertisements'))
+const DoctorChat = lazy(() => import('./pages/doctor-admin/DoctorChat'))
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-gray-600 text-sm">লোড হচ্ছে...</p>
+      </div>
+    </div>
+  )
+}
 
 function ClientLayout({ children }) {
   return (
     <>
       <Navbar />
-      {children}
+      <Suspense fallback={<PageLoader />}>
+        {children}
+      </Suspense>
       <InterstitialAd />
     </>
   )
@@ -54,15 +69,15 @@ function App() {
         <ScrollToTop />
         <div className="min-h-screen">
           <Routes>
-          <Route path="/doctor.admin/login" element={<DoctorLogin />} />
-          <Route path="/doctor.admin" element={<DoctorDashboard />} />
-          <Route path="/doctor.admin/profile" element={<DoctorProfilePage />} />
-          <Route path="/doctor.admin/appointments" element={<DoctorAppointments />} />
-          <Route path="/doctor.admin/paid-appointments" element={<DoctorPaidAppointments />} />
-          <Route path="/doctor.admin/blog-posts" element={<DoctorBlogPosts />} />
-          <Route path="/doctor.admin/packages" element={<DoctorPackages />} />
-          <Route path="/doctor.admin/advertisements" element={<DoctorAdvertisements />} />
-          <Route path="/doctor.admin/chat" element={<DoctorChat />} />
+          <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />
+          <Route path="/doctor.admin" element={<Suspense fallback={<PageLoader />}><DoctorDashboard /></Suspense>} />
+          <Route path="/doctor.admin/profile" element={<Suspense fallback={<PageLoader />}><DoctorProfilePage /></Suspense>} />
+          <Route path="/doctor.admin/appointments" element={<Suspense fallback={<PageLoader />}><DoctorAppointments /></Suspense>} />
+          <Route path="/doctor.admin/paid-appointments" element={<Suspense fallback={<PageLoader />}><DoctorPaidAppointments /></Suspense>} />
+          <Route path="/doctor.admin/blog-posts" element={<Suspense fallback={<PageLoader />}><DoctorBlogPosts /></Suspense>} />
+          <Route path="/doctor.admin/packages" element={<Suspense fallback={<PageLoader />}><DoctorPackages /></Suspense>} />
+          <Route path="/doctor.admin/advertisements" element={<Suspense fallback={<PageLoader />}><DoctorAdvertisements /></Suspense>} />
+          <Route path="/doctor.admin/chat" element={<Suspense fallback={<PageLoader />}><DoctorChat /></Suspense>} />
           <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
           <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />
           <Route path="/specialist-doctors" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />
