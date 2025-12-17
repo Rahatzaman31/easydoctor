@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
 import AdminSidebar from '../../components/AdminSidebar'
 
-const blogCategories = [
+const defaultBlogCategories = [
   'স্বাস্থ্য টিপস',
   'রোগ প্রতিরোধ',
   'পুষ্টি ও খাদ্য',
@@ -16,7 +16,8 @@ const blogCategories = [
   'চর্মরোগ',
   'চোখের যত্ন',
   'দাঁতের যত্ন',
-  'ব্যায়াম ও ফিটনেস'
+  'ব্যায়াম ও ফিটনেস',
+  'সম্পাদকীয়'
 ]
 
 function AdminBlogs() {
@@ -59,6 +60,16 @@ function AdminBlogs() {
   const [newCategoryName, setNewCategoryName] = useState('')
   const [newCategorySlug, setNewCategorySlug] = useState('')
   const [savingCategory, setSavingCategory] = useState(false)
+  const [customBlogCategories, setCustomBlogCategories] = useState([])
+  const [showBlogCategoryForm, setShowBlogCategoryForm] = useState(false)
+  const [newBlogCategoryName, setNewBlogCategoryName] = useState('')
+  const [savingBlogCategory, setSavingBlogCategory] = useState(false)
+
+  const allBlogCategories = [...new Set([
+    ...defaultBlogCategories, 
+    ...customBlogCategories.map(c => c.name),
+    ...(formData.categories || [])
+  ])]
 
   useEffect(() => {
     if (!localStorage.getItem('adminLoggedIn')) {
@@ -66,7 +77,80 @@ function AdminBlogs() {
       return
     }
     fetchPosts()
+    fetchCustomBlogCategories()
   }, [])
+
+  async function fetchCustomBlogCategories() {
+    try {
+      if (!supabase || !isConfigured) return
+      const { data, error } = await supabase
+        .from('blog_categories')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true })
+      
+      if (error) {
+        if (error.code === '42P01' || error.message.includes('does not exist')) {
+          console.warn('blog_categories table not found')
+          setCustomBlogCategories([])
+        } else {
+          throw error
+        }
+      } else {
+        setCustomBlogCategories(data || [])
+      }
+    } catch (error) {
+      console.error('Error fetching blog categories:', error)
+      setCustomBlogCategories([])
+    }
+  }
+
+  async function createNewBlogCategory() {
+    if (!newBlogCategoryName.trim()) {
+      alert('বিভাগের নাম দিন')
+      return
+    }
+    
+    if (!supabase || !isConfigured) {
+      alert('ডাটাবেস কনফিগার করা হয়নি')
+      return
+    }
+    
+    if (allBlogCategories.includes(newBlogCategoryName.trim())) {
+      alert('এই নামে আগেই একটি বিভাগ আছে')
+      return
+    }
+    
+    setSavingBlogCategory(true)
+    try {
+      const maxOrder = customBlogCategories.length > 0 
+        ? Math.max(...customBlogCategories.map(c => c.display_order || 0)) + 1 
+        : 1
+      
+      const { data, error } = await supabase
+        .from('blog_categories')
+        .insert([{
+          name: newBlogCategoryName.trim(),
+          is_active: true,
+          display_order: maxOrder
+        }])
+        .select()
+        .single()
+      
+      if (error) throw error
+      
+      setCustomBlogCategories([...customBlogCategories, data])
+      setShowBlogCategoryForm(false)
+      setNewBlogCategoryName('')
+      setFormData({ ...formData, categories: [...formData.categories, data.name] })
+      alert('নতুন বিভাগ সফলভাবে যোগ হয়েছে!')
+    } catch (error) {
+      console.error('Error creating blog category:', error)
+      alert('বিভাগ তৈরিতে সমস্যা হয়েছে: ' + error.message)
+    } finally {
+      setSavingBlogCategory(false)
+    }
+  }
 
   useEffect(() => {
     if (showModal && editorRef.current) {
@@ -890,7 +974,7 @@ function AdminBlogs() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">বিভাগ</label>
                 <div className="flex flex-wrap gap-2">
-                  {blogCategories.map(category => (
+                  {allBlogCategories.map(category => (
                     <button
                       key={category}
                       type="button"
@@ -904,7 +988,51 @@ function AdminBlogs() {
                       {category}
                     </button>
                   ))}
+                  <button
+                    type="button"
+                    onClick={() => setShowBlogCategoryForm(true)}
+                    className="px-3 py-1.5 rounded-full text-sm font-medium transition-colors bg-teal-50 text-teal-600 hover:bg-teal-100 border border-dashed border-teal-300 flex items-center gap-1"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    বিভাগ যোগ করুন
+                  </button>
                 </div>
+                
+                {showBlogCategoryForm && (
+                  <div className="mt-3 p-4 bg-teal-50 rounded-xl border border-teal-200">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newBlogCategoryName}
+                        onChange={(e) => setNewBlogCategoryName(e.target.value)}
+                        placeholder="নতুন বিভাগের নাম"
+                        className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+                      />
+                      <button
+                        type="button"
+                        onClick={createNewBlogCategory}
+                        disabled={savingBlogCategory}
+                        className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 disabled:opacity-50"
+                      >
+                        {savingBlogCategory ? 'সেভ হচ্ছে...' : 'যোগ করুন'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowBlogCategoryForm(false)
+                          setNewBlogCategoryName('')
+                        }}
+                        className="px-3 py-2 text-gray-500 hover:text-gray-700"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div>

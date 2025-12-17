@@ -77,19 +77,17 @@ function FeaturedHospitals() {
               key={hospital.id} 
               className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-slate-200 hover:border-emerald-400 group"
             >
-              <div className="relative h-44 overflow-hidden">
+              <div className="relative w-full aspect-video overflow-hidden">
                 {hospital.image_url ? (
                   <img 
                     src={hospital.image_url} 
                     alt={hospital.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    width="280"
-                    height="176"
                     loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 flex items-center justify-center">
-                    <svg className="w-16 h-16 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-12 h-12 sm:w-16 sm:h-16 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>

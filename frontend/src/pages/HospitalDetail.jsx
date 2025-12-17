@@ -171,17 +171,17 @@ function HospitalDetail() {
                   </svg>
                   সেবাসমূহ
                 </h2>
-                <div className="space-y-2">
+                <div className="flex flex-wrap gap-2">
                   {hospital.services.map((service, index) => (
-                    <div 
+                    <span 
                       key={index} 
-                      className="flex items-center gap-3 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-xl"
+                      className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-full text-sm font-medium"
                     >
-                      <svg className="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="font-medium">{service}</span>
-                    </div>
+                      {service}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -195,17 +195,17 @@ function HospitalDetail() {
                   </svg>
                   সুবিধাসমূহ
                 </h2>
-                <div className="space-y-2">
+                <div className="flex flex-wrap gap-2">
                   {hospital.facilities.map((facility, index) => (
-                    <div 
+                    <span 
                       key={index} 
-                      className="flex items-center gap-3 bg-green-50 text-green-700 px-4 py-3 rounded-xl"
+                      className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1.5 rounded-full text-sm font-medium"
                     >
-                      <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="font-medium">{facility}</span>
-                    </div>
+                      {facility}
+                    </span>
                   ))}
                 </div>
               </div>
