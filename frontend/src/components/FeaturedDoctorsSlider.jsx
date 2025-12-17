@@ -173,7 +173,7 @@ function FeaturedDoctorsSlider() {
                                 </div>
                               )}
                               <h3 className="mt-3 font-bold text-white text-center text-sm line-clamp-1">{doctor.name}</h3>
-                              <p className="text-slate-300 text-xs text-center line-clamp-2">{doctor.degrees}</p>
+                              <p className="text-slate-300 text-xs text-center line-clamp-2 min-h-[2rem]">{doctor.degrees}</p>
                             </div>
                           </div>
                           <div className="p-3 md:p-4">

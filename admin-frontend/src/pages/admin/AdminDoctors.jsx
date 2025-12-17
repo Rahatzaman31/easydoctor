@@ -59,6 +59,7 @@ function AdminDoctors() {
     workplace_line2: '',
     category: 'medicine',
     category_name: 'মেডিসিন বিশেষজ্ঞ',
+    selected_categories: ['medicine'],
     district: 'রংপুর',
     chamber_address: '',
     phone: '',
@@ -150,12 +151,22 @@ function AdminDoctors() {
   function handleChange(e) {
     const { name, value, type, checked } = e.target
     
-    if (name === 'category') {
-      const cat = categories.find(c => c.id === value)
+    if (name === 'category_select') {
+      const catId = value
+      let newCategories = [...formData.selected_categories]
+      if (checked) {
+        if (!newCategories.includes(catId)) {
+          newCategories.push(catId)
+        }
+      } else {
+        newCategories = newCategories.filter(c => c !== catId)
+      }
+      const primaryCat = categories.find(c => c.id === newCategories[0])
       setFormData({
         ...formData,
-        category: value,
-        category_name: cat?.name || value
+        selected_categories: newCategories,
+        category: newCategories[0] || 'medicine',
+        category_name: primaryCat?.name || 'মেডিসিন বিশেষজ্ঞ'
       })
     } else if (name === 'schedule_day') {
       const dayId = value
@@ -188,6 +199,7 @@ function AdminDoctors() {
       workplace_line2: '',
       category: 'medicine',
       category_name: 'মেডিসিন বিশেষজ্ঞ',
+      selected_categories: ['medicine'],
       district: 'রংপুর',
       chamber_address: '',
       phone: '',
@@ -208,7 +220,7 @@ function AdminDoctors() {
     setShowModal(true)
   }
 
-  function openEditModal(doctor) {
+  async function openEditModal(doctor) {
     setEditingDoctor(doctor)
     let scheduleDays = []
     try {
@@ -216,6 +228,22 @@ function AdminDoctors() {
     } catch (e) {
       scheduleDays = []
     }
+    
+    let selectedCats = [doctor.category]
+    try {
+      if (supabase && isConfigured) {
+        const { data } = await supabase
+          .from('doctor_category_mappings')
+          .select('category_id')
+          .eq('doctor_id', doctor.id)
+        if (data && data.length > 0) {
+          selectedCats = data.map(d => d.category_id)
+        }
+      }
+    } catch (e) {
+      console.log('No extra categories found')
+    }
+    
     setFormData({
       name: doctor.name,
       degrees: doctor.degrees,
@@ -223,6 +251,7 @@ function AdminDoctors() {
       workplace_line2: doctor.workplace_line2 || '',
       category: doctor.category,
       category_name: doctor.category_name,
+      selected_categories: selectedCats,
       district: doctor.district,
       chamber_address: doctor.chamber_address,
       phone: doctor.phone || '',
@@ -310,8 +339,14 @@ function AdminDoctors() {
         return
       }
       
+      if (formData.selected_categories.length === 0) {
+        alert('কমপক্ষে একটি বিভাগ নির্বাচন করুন')
+        return
+      }
+      
+      const { selected_categories, ...restFormData } = formData
       const dataToSave = {
-        ...formData,
+        ...restFormData,
         schedule_days: JSON.stringify(formData.schedule_days),
         rating: formData.rating === '' ? null : parseFloat(formData.rating),
         reviews_count: formData.reviews_count === '' ? null : parseInt(formData.reviews_count),
@@ -319,6 +354,8 @@ function AdminDoctors() {
         paid_appointment_limit: formData.paid_appointment_limit === '' ? null : parseInt(formData.paid_appointment_limit),
         consultation_fee: formData.consultation_fee === '' ? null : parseInt(formData.consultation_fee)
       }
+      
+      let doctorId = editingDoctor?.id
       
       if (editingDoctor) {
         const { error } = await supabase
@@ -330,11 +367,34 @@ function AdminDoctors() {
       } else {
         dataToSave.access_code = await generateUniqueAccessCode()
         dataToSave.package_type = 'standard'
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('doctors')
           .insert([dataToSave])
+          .select('id')
+          .single()
         
         if (error) throw error
+        doctorId = data.id
+      }
+      
+      if (doctorId && selected_categories.length > 0) {
+        await supabase
+          .from('doctor_category_mappings')
+          .delete()
+          .eq('doctor_id', doctorId)
+        
+        const categoryInserts = selected_categories.map(catId => {
+          const cat = categories.find(c => c.id === catId)
+          return {
+            doctor_id: doctorId,
+            category_id: catId,
+            category_name: cat?.name || catId
+          }
+        })
+        
+        await supabase
+          .from('doctor_category_mappings')
+          .insert(categoryInserts)
       }
       
       setShowModal(false)
@@ -826,19 +886,38 @@ function AdminDoctors() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">বিভাগ *</label>
-                  <select name="category" required className="input-field" value={formData.category} onChange={handleChange}>
-                    {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-                  </select>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">বিভাগ নির্বাচন করুন * (একাধিক নির্বাচন করা যাবে)</label>
+                <div className="border border-gray-300 rounded-lg p-3 max-h-48 overflow-y-auto bg-gray-50">
+                  <div className="grid grid-cols-2 gap-2">
+                    {categories.map(cat => (
+                      <label key={cat.id} className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 hover:bg-primary-50 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="category_select"
+                          value={cat.id}
+                          checked={formData.selected_categories.includes(cat.id)}
+                          onChange={handleChange}
+                          className="w-4 h-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                        />
+                        <span className="text-sm text-gray-700">{cat.name}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">জেলা *</label>
-                  <select name="district" required className="input-field" value={formData.district} onChange={handleChange}>
-                    {districts.map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
-                </div>
+                {formData.selected_categories.length > 0 && (
+                  <p className="text-xs text-primary-600 mt-2">
+                    নির্বাচিত বিভাগ ({formData.selected_categories.length}): {formData.selected_categories.map(catId => categories.find(c => c.id === catId)?.name).filter(Boolean).join(', ')}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">প্রথম নির্বাচিত বিভাগটি প্রাথমিক বিভাগ হিসেবে দেখানো হবে</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">জেলা *</label>
+                <select name="district" required className="input-field" value={formData.district} onChange={handleChange}>
+                  {districts.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
               </div>
 
               <div>
