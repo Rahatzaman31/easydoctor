@@ -130,7 +130,7 @@ function EmbeddedDoctorCards({ doctorSlugs }) {
             
             <div className="p-6 text-left">
               <h3 className="font-bold text-xl text-gray-900 mb-1 group-hover:text-primary-700 transition-colors">{doctor.name}</h3>
-              <p className="text-primary-600 font-medium text-sm mb-3 line-clamp-2">{doctor.degrees}</p>
+              <p className="text-primary-600 font-medium text-sm mb-3 line-clamp-2 min-h-[2.5rem]">{doctor.degrees}</p>
               
               <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-1">

@@ -57,6 +57,7 @@ function AdminDoctors() {
     workplace_line2: '',
     category: 'medicine',
     category_name: 'সাধারণ রোগ বিশেষজ্ঞ',
+    selected_categories: ['medicine'],
     district: 'রংপুর',
     chamber_address: '',
     phone: '',
@@ -105,7 +106,20 @@ function AdminDoctors() {
         .order('created_at', { ascending: false })
       
       if (error) throw error
-      setDoctors(data || [])
+      
+      const doctorsWithCounts = await Promise.all((data || []).map(async (doctor) => {
+        try {
+          const { count } = await supabase
+            .from('doctor_categories')
+            .select('*', { count: 'exact', head: true })
+            .eq('doctor_id', doctor.id)
+          return { ...doctor, extra_categories_count: Math.max(0, (count || 1) - 1) }
+        } catch {
+          return { ...doctor, extra_categories_count: 0 }
+        }
+      }))
+      
+      setDoctors(doctorsWithCounts)
     } catch (error) {
       console.error('Error:', error)
     } finally {
@@ -148,12 +162,22 @@ function AdminDoctors() {
   function handleChange(e) {
     const { name, value, type, checked } = e.target
     
-    if (name === 'category') {
-      const cat = categories.find(c => c.id === value)
+    if (name === 'category_select') {
+      const catId = value
+      let newCategories = [...formData.selected_categories]
+      if (checked) {
+        if (!newCategories.includes(catId)) {
+          newCategories.push(catId)
+        }
+      } else {
+        newCategories = newCategories.filter(c => c !== catId)
+      }
+      const primaryCat = categories.find(c => c.id === newCategories[0])
       setFormData({
         ...formData,
-        category: value,
-        category_name: cat?.name || value
+        selected_categories: newCategories,
+        category: newCategories[0] || 'medicine',
+        category_name: primaryCat?.name || 'সাধারণ রোগ বিশেষজ্ঞ'
       })
     } else if (name === 'schedule_day') {
       const dayId = value
@@ -186,6 +210,7 @@ function AdminDoctors() {
       workplace_line2: '',
       category: 'medicine',
       category_name: 'সাধারণ রোগ বিশেষজ্ঞ',
+      selected_categories: ['medicine'],
       district: 'রংপুর',
       chamber_address: '',
       phone: '',
@@ -206,7 +231,7 @@ function AdminDoctors() {
     setShowModal(true)
   }
 
-  function openEditModal(doctor) {
+  async function openEditModal(doctor) {
     setEditingDoctor(doctor)
     let scheduleDays = []
     try {
@@ -214,6 +239,22 @@ function AdminDoctors() {
     } catch (e) {
       scheduleDays = []
     }
+    
+    let selectedCats = [doctor.category]
+    try {
+      if (supabase && isConfigured) {
+        const { data } = await supabase
+          .from('doctor_categories')
+          .select('category_id')
+          .eq('doctor_id', doctor.id)
+        if (data && data.length > 0) {
+          selectedCats = data.map(d => d.category_id)
+        }
+      }
+    } catch (e) {
+      console.log('No extra categories found')
+    }
+    
     setFormData({
       name: doctor.name,
       degrees: doctor.degrees,
@@ -221,6 +262,7 @@ function AdminDoctors() {
       workplace_line2: doctor.workplace_line2 || '',
       category: doctor.category,
       category_name: doctor.category_name,
+      selected_categories: selectedCats,
       district: doctor.district,
       chamber_address: doctor.chamber_address,
       phone: doctor.phone || '',
@@ -318,6 +360,8 @@ function AdminDoctors() {
         consultation_fee: formData.consultation_fee === '' ? null : parseInt(formData.consultation_fee)
       }
       
+      let doctorId = editingDoctor?.id
+      
       if (editingDoctor) {
         const { error } = await supabase
           .from('doctors')
@@ -328,11 +372,34 @@ function AdminDoctors() {
       } else {
         dataToSave.access_code = await generateUniqueAccessCode()
         dataToSave.package_type = 'standard'
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('doctors')
           .insert([dataToSave])
+          .select('id')
+          .single()
         
         if (error) throw error
+        doctorId = data.id
+      }
+      
+      if (doctorId && formData.selected_categories.length > 0) {
+        await supabase
+          .from('doctor_categories')
+          .delete()
+          .eq('doctor_id', doctorId)
+        
+        const categoryInserts = formData.selected_categories.map(catId => {
+          const cat = categories.find(c => c.id === catId)
+          return {
+            doctor_id: doctorId,
+            category_id: catId,
+            category_name: cat?.name || catId
+          }
+        })
+        
+        await supabase
+          .from('doctor_categories')
+          .insert(categoryInserts)
       }
       
       setShowModal(false)
@@ -579,7 +646,12 @@ function AdminDoctors() {
                     <td className="px-6 py-4">
                       <p className="font-medium text-gray-800">{doctor.name}</p>
                     </td>
-                    <td className="px-6 py-4">{doctor.category_name}</td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm">{doctor.category_name}</span>
+                      {doctor.extra_categories_count > 0 && (
+                        <span className="ml-1 text-xs bg-primary-100 text-primary-700 px-1.5 py-0.5 rounded-full">+{doctor.extra_categories_count}</span>
+                      )}
+                    </td>
                     <td className="px-6 py-4">
                       <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{doctor.access_code || 'N/A'}</span>
                     </td>
@@ -691,19 +763,36 @@ function AdminDoctors() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">বিভাগ *</label>
-                  <select name="category" required className="input-field" value={formData.category} onChange={handleChange}>
-                    {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-                  </select>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">বিভাগ নির্বাচন করুন * (একাধিক নির্বাচন করতে পারবেন)</label>
+                <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg border max-h-48 overflow-y-auto">
+                  {categories.map(cat => (
+                    <label key={cat.id} className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${formData.selected_categories.includes(cat.id) ? 'bg-primary-100 border-primary-500 text-primary-700' : 'bg-white border-gray-200 hover:bg-gray-100'}`}>
+                      <input 
+                        type="checkbox" 
+                        name="category_select" 
+                        value={cat.id}
+                        checked={formData.selected_categories.includes(cat.id)}
+                        onChange={handleChange}
+                        className="w-4 h-4 text-primary-600"
+                      />
+                      <span className="text-sm font-medium">{cat.name}</span>
+                    </label>
+                  ))}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">জেলা *</label>
-                  <select name="district" required className="input-field" value={formData.district} onChange={handleChange}>
-                    {districts.map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
-                </div>
+                {formData.selected_categories.length === 0 && (
+                  <p className="text-xs text-red-500 mt-1">অন্তত একটি বিভাগ নির্বাচন করুন</p>
+                )}
+                {formData.selected_categories.length > 0 && (
+                  <p className="text-xs text-gray-500 mt-1">নির্বাচিত: {formData.selected_categories.length}টি বিভাগ (প্রথমটি প্রাথমিক বিভাগ হিসেবে দেখাবে)</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">জেলা *</label>
+                <select name="district" required className="input-field" value={formData.district} onChange={handleChange}>
+                  {districts.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
               </div>
 
               <div>

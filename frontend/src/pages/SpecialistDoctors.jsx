@@ -91,6 +91,7 @@ function SpecialistDoctors() {
   const [selectedDoctorId, setSelectedDoctorId] = useState(null)
   const [hasSearched, setHasSearched] = useState(false)
   const [sliderIndex, setSliderIndex] = useState(0)
+  const [nameSearch, setNameSearch] = useState('')
   const [cardsPerPage, setCardsPerPage] = useState(5)
   const isMobile = useIsMobile()
   
@@ -174,18 +175,48 @@ function SpecialistDoctors() {
         return
       }
       
-      let query = supabase.from('doctors').select('*').eq('is_active', true)
-      
       if (categoryId === 'all') {
-        query = query.eq('rating', 5)
+        const { data, error } = await supabase
+          .from('doctors')
+          .select('*')
+          .eq('is_active', true)
+          .eq('rating', 5)
+          .order('rating', { ascending: false })
+        
+        if (error) throw error
+        setDoctors(data || [])
       } else {
-        query = query.eq('category', categoryId)
+        const { data: primaryDoctors } = await supabase
+          .from('doctors')
+          .select('*')
+          .eq('is_active', true)
+          .eq('category', categoryId)
+        
+        const { data: extraCategoryDoctorIds } = await supabase
+          .from('doctor_categories')
+          .select('doctor_id')
+          .eq('category_id', categoryId)
+        
+        let allDoctorIds = (primaryDoctors || []).map(d => d.id)
+        if (extraCategoryDoctorIds) {
+          const extraIds = extraCategoryDoctorIds.map(d => d.doctor_id)
+          allDoctorIds = [...new Set([...allDoctorIds, ...extraIds])]
+        }
+        
+        if (allDoctorIds.length > 0) {
+          const { data: allDoctors, error } = await supabase
+            .from('doctors')
+            .select('*')
+            .eq('is_active', true)
+            .in('id', allDoctorIds)
+            .order('rating', { ascending: false })
+          
+          if (error) throw error
+          setDoctors(allDoctors || [])
+        } else {
+          setDoctors([])
+        }
       }
-
-      const { data, error } = await query.order('rating', { ascending: false })
-      
-      if (error) throw error
-      setDoctors(data || [])
     } catch (error) {
       console.error('Error fetching doctors:', error)
       setDoctors([])
@@ -198,27 +229,33 @@ function SpecialistDoctors() {
     setLoading(true)
     setHasSearched(true)
     setSearchCategory(selectedCategory)
+    fetchDoctorsByCategory(selectedCategory)
+  }
+
+  async function searchByName(searchTerm) {
+    if (!searchTerm.trim()) {
+      fetchTopRatedDoctors()
+      return
+    }
+    setLoading(true)
+    setHasSearched(true)
     try {
       if (!supabase || !isConfigured) {
         setDoctors([])
         setLoading(false)
         return
       }
-      
-      let query = supabase.from('doctors').select('*').eq('is_active', true)
-      
-      if (selectedCategory === 'all') {
-        query = query.eq('rating', 5)
-      } else {
-        query = query.eq('category', selectedCategory)
-      }
-
-      const { data, error } = await query.order('rating', { ascending: false })
+      const { data, error } = await supabase
+        .from('doctors')
+        .select('*')
+        .eq('is_active', true)
+        .ilike('name', `%${searchTerm}%`)
+        .order('rating', { ascending: false })
       
       if (error) throw error
       setDoctors(data || [])
     } catch (error) {
-      console.error('Error fetching doctors:', error)
+      console.error('Error searching doctors:', error)
       setDoctors([])
     } finally {
       setLoading(false)
@@ -395,7 +432,7 @@ function SpecialistDoctors() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
               {hasSearched && searchCategory !== 'all'
@@ -408,21 +445,43 @@ function SpecialistDoctors() {
                 : '৫ স্টার রেটিং প্রাপ্ত বিশেষজ্ঞগণ'}
             </p>
           </div>
-          {hasSearched && (
-            <button 
-              onClick={() => {
-                setHasSearched(false)
-                setSelectedCategory('all')
-                fetchTopRatedDoctors()
-              }}
-              className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="ডাক্তার খুঁজুন..."
+                value={nameSearch}
+                onChange={(e) => setNameSearch(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && searchByName(nameSearch)}
+                className="w-full sm:w-64 px-4 py-2 pl-10 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+              />
+              <svg className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              রিসেট করুন
+            </div>
+            <button
+              onClick={() => searchByName(nameSearch)}
+              className="px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors text-sm font-medium"
+            >
+              খুঁজুন
             </button>
-          )}
+            {hasSearched && (
+              <button 
+                onClick={() => {
+                  setHasSearched(false)
+                  setSelectedCategory('all')
+                  setNameSearch('')
+                  fetchTopRatedDoctors()
+                }}
+                className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                রিসেট
+              </button>
+            )}
+          </div>
         </div>
 
         {loading ? (
