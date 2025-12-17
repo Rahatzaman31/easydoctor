@@ -73,6 +73,7 @@ function DoctorProfile() {
   })
   const [showSerialTypeModal, setShowSerialTypeModal] = useState(false)
   const [adBanner, setAdBanner] = useState(null)
+  const [currentSliderIndex, setCurrentSliderIndex] = useState(0)
 
   useEffect(() => {
     fetchDoctor()
@@ -91,6 +92,10 @@ function DoctorProfile() {
       fetchPromotedDoctors()
     }
   }, [doctor?.category, id])
+
+  useEffect(() => {
+    setCurrentSliderIndex(0)
+  }, [doctorId])
 
   async function fetchDoctor() {
     try {
@@ -796,6 +801,69 @@ function DoctorProfile() {
               )}
             </div>
           )}
+
+          {(() => {
+            const sliderPhotos = [
+              doctor.slider_photo_1_url,
+              doctor.slider_photo_2_url,
+              doctor.slider_photo_3_url
+            ].filter(url => url && url.trim() !== '')
+            
+            if (sliderPhotos.length === 0) return null
+            
+            return (
+              <div className="mt-6">
+                <div className="relative bg-gray-100 rounded-xl overflow-hidden shadow-md">
+                  <div className="relative aspect-video">
+                    <img 
+                      src={sliderPhotos[currentSliderIndex]} 
+                      alt={`${doctor.name} - ছবি ${currentSliderIndex + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  {sliderPhotos.length > 1 && (
+                    <>
+                      <button
+                        onClick={() => setCurrentSliderIndex(prev => prev === 0 ? sliderPhotos.length - 1 : prev - 1)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all"
+                        aria-label="আগের ছবি"
+                      >
+                        <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      
+                      <button
+                        onClick={() => setCurrentSliderIndex(prev => prev === sliderPhotos.length - 1 ? 0 : prev + 1)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all"
+                        aria-label="পরের ছবি"
+                      >
+                        <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                      
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                        {sliderPhotos.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentSliderIndex(idx)}
+                            className={`w-2.5 h-2.5 rounded-full transition-all ${
+                              idx === currentSliderIndex 
+                                ? 'bg-primary-600 w-6' 
+                                : 'bg-white/70 hover:bg-white'
+                            }`}
+                            aria-label={`ছবি ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )
+          })()}
 
           {expertise.length > 0 && (
             <div className="mt-8 pt-6 border-t">

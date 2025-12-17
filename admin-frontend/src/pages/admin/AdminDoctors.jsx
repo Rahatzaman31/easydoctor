@@ -75,6 +75,9 @@ function AdminDoctors() {
     reviews_count: '',
     notice: '',
     visiting_card_url: '',
+    slider_photo_1_url: '',
+    slider_photo_2_url: '',
+    slider_photo_3_url: '',
     is_active: true
   })
 
@@ -215,6 +218,9 @@ function AdminDoctors() {
       reviews_count: '',
       notice: '',
       visiting_card_url: '',
+      slider_photo_1_url: '',
+      slider_photo_2_url: '',
+      slider_photo_3_url: '',
       is_active: true
     })
     setShowModal(true)
@@ -267,6 +273,9 @@ function AdminDoctors() {
       reviews_count: doctor.reviews_count || '',
       notice: doctor.notice || '',
       visiting_card_url: doctor.visiting_card_url || '',
+      slider_photo_1_url: doctor.slider_photo_1_url || '',
+      slider_photo_2_url: doctor.slider_photo_2_url || '',
+      slider_photo_3_url: doctor.slider_photo_3_url || '',
       is_active: doctor.is_active
     })
     setShowModal(true)
@@ -998,6 +1007,29 @@ function AdminDoctors() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">ভিজিটিং কার্ড URL</label>
                   <input type="url" name="visiting_card_url" className="input-field" placeholder="https://example.com/visiting-card.jpg" value={formData.visiting_card_url} onChange={handleChange} />
                   <p className="text-xs text-gray-500 mt-1">ভিজিটিং কার্ডের ছবির লিংক (ঐচ্ছিক)</p>
+                </div>
+              </div>
+
+              <div className="border border-dashed border-primary-300 rounded-lg p-4 bg-primary-50">
+                <h3 className="text-sm font-semibold text-primary-700 mb-3">স্লাইডার ফটো (ডাক্তার প্রোফাইলে দেখাবে)</h3>
+                <div className="bg-white rounded-lg p-3 mb-3 border border-primary-200">
+                  <p className="text-xs text-gray-600">
+                    <strong>ছবির সাইজ নির্দেশিকা:</strong> সবচেয়ে ভালো ফলাফলের জন্য ছবি <span className="text-primary-600 font-medium">800x450 পিক্সেল</span> (16:9 রেশিও) বা <span className="text-primary-600 font-medium">600x400 পিক্সেল</span> (3:2 রেশিও) সাইজের হওয়া উচিত। সর্বোচ্চ ফাইল সাইজ <span className="text-primary-600 font-medium">500KB</span> রাখুন।
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">স্লাইডার ফটো ১ URL</label>
+                    <input type="url" name="slider_photo_1_url" className="input-field" placeholder="https://example.com/slider-photo-1.jpg" value={formData.slider_photo_1_url} onChange={handleChange} />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">স্লাইডার ফটো ২ URL</label>
+                    <input type="url" name="slider_photo_2_url" className="input-field" placeholder="https://example.com/slider-photo-2.jpg" value={formData.slider_photo_2_url} onChange={handleChange} />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">স্লাইডার ফটো ৩ URL</label>
+                    <input type="url" name="slider_photo_3_url" className="input-field" placeholder="https://example.com/slider-photo-3.jpg" value={formData.slider_photo_3_url} onChange={handleChange} />
+                  </div>
                 </div>
               </div>
 
