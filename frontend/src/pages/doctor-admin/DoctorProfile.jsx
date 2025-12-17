@@ -6,7 +6,7 @@ import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
-  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ' },
+  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ' },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ' },
   { id: 'neurology', name: 'স্নায়ুরোগ বিশেষজ্ঞ' },
   { id: 'orthopedics', name: 'অর্থোপেডিক বিশেষজ্ঞ' },

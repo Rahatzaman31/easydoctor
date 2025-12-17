@@ -4,7 +4,7 @@ import { supabase, isConfigured } from '../../lib/supabase'
 import AdminSidebar from '../../components/AdminSidebar'
 
 const defaultCategories = [
-  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
+  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.png', isImage: true },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.png', isImage: true },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.png', isImage: true },
@@ -24,7 +24,7 @@ const defaultCategories = [
   { id: 'urology', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/urology.png', isImage: true },
   { id: 'gastroenterology', name: 'পরিপাকতন্ত্র বিশেষজ্ঞ', icon: '/icons/gastroenterology.png', isImage: true },
   { id: 'rheumatology', name: 'বাত রোগ বিশেষজ্ঞ', icon: '/icons/rheumatology.png', isImage: true },
-  { id: 'pathology', name: 'রোগ নির্ণয় বিশেষজ্ঞ', icon: '/icons/pathology.png', isImage: true },
+  { id: 'diabetes', name: 'ডায়াবেটিস বিশেষজ্ঞ', icon: '/icons/diabetes.png', isImage: true },
   { id: 'plastic-surgery', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.png', isImage: true },
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.png', isImage: true },
   { id: 'nutrition', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.png', isImage: true },

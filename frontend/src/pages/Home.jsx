@@ -32,7 +32,7 @@ const defaultBanner = {
 }
 
 const categories = [
-  { id: 'medicine', title: 'মেডিসিন', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.webp', isImage: true },
+  { id: 'medicine', title: 'মেডিসিন', name: 'মেডিসিন বিশেষজ্ঞ', icon: '/icons/medicine.webp', isImage: true },
   { id: 'cardiology', title: 'হৃদরোগ', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.webp', isImage: true },
   { id: 'neurology', title: 'নিউরোলজি', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.webp', isImage: true },
   { id: 'gynecology', title: 'স্ত্রীরোগ', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.webp', isImage: true },
@@ -52,7 +52,7 @@ const categories = [
   { id: 'urology', title: 'মূত্রতন্ত্র', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/urology.webp', isImage: true },
   { id: 'gastroenterology', title: 'পরিপাকতন্ত্র', name: 'পরিপাকতন্ত্র বিশেষজ্ঞ', icon: '/icons/gastroenterology.webp', isImage: true },
   { id: 'rheumatology', title: 'বাত ব্যাথা', name: 'বাত রোগ বিশেষজ্ঞ', icon: '/icons/rheumatology.webp', isImage: true },
-  { id: 'pathology', title: 'প্যাথলজি', name: 'রোগ নির্ণয় বিশেষজ্ঞ', icon: '/icons/pathology.webp', isImage: true },
+  { id: 'diabetes', title: 'ডায়াবেটিস', name: 'ডায়াবেটিস বিশেষজ্ঞ', icon: '/icons/diabetes.webp', isImage: true },
   { id: 'plastic-surgery', title: 'প্লাস্টিক সার্জারি', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.webp', isImage: true },
   { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.webp', isImage: true },
   { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.webp', isImage: true },

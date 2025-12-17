@@ -55,7 +55,7 @@ const toBengaliNumber = (num) => {
 
 const categories = [
   { id: 'all', name: 'সকল বিভাগ', nameEn: 'সকল', icon: '/icons/services/doctor.webp' },
-  { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ', nameEn: 'মেডিসিন', icon: '/icons/medicine.webp' },
+  { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ', nameEn: 'মেডিসিন', icon: '/icons/medicine.webp' },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ', nameEn: 'কার্ডিওলজি', icon: '/icons/cardiology.webp' },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', nameEn: 'নিউরোলজি', icon: '/icons/neurology.webp' },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', nameEn: 'গাইনি', icon: '/icons/gynecology.webp' },
@@ -75,7 +75,7 @@ const categories = [
   { id: 'urology', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', nameEn: 'ইউরোলজি', icon: '/icons/urology.webp' },
   { id: 'gastroenterology', name: 'পরিপাকতন্ত্র বিশেষজ্ঞ', nameEn: 'গ্যাস্ট্রো', icon: '/icons/gastroenterology.webp' },
   { id: 'rheumatology', name: 'বাত রোগ বিশেষজ্ঞ', nameEn: 'রিউমাটোলজি', icon: '/icons/rheumatology.webp' },
-  { id: 'pathology', name: 'রোগ নির্ণয় বিশেষজ্ঞ', nameEn: 'প্যাথোলজি', icon: '/icons/pathology.webp' },
+  { id: 'diabetes', name: 'ডায়াবেটিস বিশেষজ্ঞ', nameEn: 'ডায়াবেটিস', icon: '/icons/diabetes.webp' },
   { id: 'plastic-surgery', name: 'প্লাস্টিক সার্জন', nameEn: 'প্লাস্টিক সার্জারি', icon: '/icons/plastic-surgery.webp' },
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট', nameEn: 'ফিজিওথেরাপি', icon: '/icons/physiotherapy.webp' },
   { id: 'nutrition', name: 'পুষ্টিবিদ', nameEn: 'নিউট্রিশন', icon: '/icons/nutrition.webp' },
