@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     cssCodeSplit: true,
+    cssMinify: 'lightningcss',
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -33,11 +34,16 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000,
     target: 'esnext',
-    sourcemap: false
+    sourcemap: false,
+    reportCompressedSize: false,
+    assetsInlineLimit: 4096
   },
   server: {
     host: '0.0.0.0',
     port: 5000,
-    allowedHosts: true
+    allowedHosts: true,
+    headers: {
+      'Cache-Control': 'public, max-age=0, must-revalidate'
+    }
   }
 })

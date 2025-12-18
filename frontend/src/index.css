@@ -38,6 +38,16 @@ img {
   content-visibility: auto;
 }
 
+/* Optimize animations for 60fps */
+.flex.transition-transform {
+  will-change: transform;
+}
+
+/* Reduce layout thrashing */
+.overflow-hidden {
+  contain: layout style paint;
+}
+
 body {
   background-color: #f8fafc;
 }

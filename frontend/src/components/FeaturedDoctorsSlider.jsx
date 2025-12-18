@@ -49,13 +49,14 @@ function FeaturedDoctorsSlider() {
 
   function startAutoSlide() {
     if (autoSlideRef.current) {
-      clearInterval(autoSlideRef.current)
+      clearTimeout(autoSlideRef.current)
     }
-    autoSlideRef.current = setInterval(() => {
+    autoSlideRef.current = setTimeout(() => {
       setCurrentIndex(prev => {
         const totalSlides = Math.ceil(featuredDoctors.length / visibleCards)
         return (prev + 1) % totalSlides
       })
+      startAutoSlide()
     }, 5000)
   }
 

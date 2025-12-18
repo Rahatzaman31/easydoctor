@@ -36,20 +36,21 @@ function InterstitialAd() {
       } else {
         setCountdown(closeDelay)
         
-        countdownIntervalRef.current = setInterval(() => {
-          if (!isMountedRef.current) {
-            clearInterval(countdownIntervalRef.current)
-            return
+        let remaining = closeDelay
+        const scheduleCountdown = () => {
+          if (!isMountedRef.current) return
+          
+          remaining--
+          if (remaining <= 0) {
+            setCanClose(true)
+            setCountdown(0)
+          } else {
+            setCountdown(remaining)
+            countdownIntervalRef.current = setTimeout(scheduleCountdown, 1000)
           }
-          setCountdown(prev => {
-            if (prev <= 1) {
-              clearInterval(countdownIntervalRef.current)
-              setCanClose(true)
-              return 0
-            }
-            return prev - 1
-          })
-        }, 1000)
+        }
+        
+        countdownIntervalRef.current = setTimeout(scheduleCountdown, 1000)
       }
     } else {
       setCanClose(false)
