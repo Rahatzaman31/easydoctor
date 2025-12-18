@@ -100,7 +100,7 @@ function FeaturedHospitals() {
               </div>
               <div className="p-4">
                 <div className="mb-3">
-                  <h3 className="text-center text-slate-800 font-semibold text-sm line-clamp-2">
+                  <h3 className="text-center text-slate-800 font-semibold text-sm truncate">
                     {hospital.name}
                   </h3>
                 </div>

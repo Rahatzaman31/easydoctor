@@ -123,10 +123,6 @@ function RegisterAmbulance() {
         available_24_hours: formData.available24Hours,
         available_days: formData.availableDays,
         additional_info: formData.additionalInfo,
-        owner_photo_url: ownerPhotoPreview,
-        ambulance_photo_url: ambulancePhotoPreview,
-        driving_license_url: drivingLicensePreview,
-        vehicle_registration_url: vehicleRegistrationPreview,
         terms_accepted: formData.termsAccepted,
         status: 'pending'
       }

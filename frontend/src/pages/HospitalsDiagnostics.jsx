@@ -77,7 +77,7 @@ function HospitalsDiagnostics() {
       </div>
       
       <div className="p-5">
-        <h3 className={`font-bold text-lg text-gray-900 mb-4 transition-colors ${
+        <h3 className={`font-bold text-sm text-gray-900 mb-4 transition-colors truncate text-center ${
           type === 'diagnostic' ? 'group-hover:text-slate-700' : 'group-hover:text-emerald-700'
         }`}>
           {item.name}

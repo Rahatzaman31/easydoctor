@@ -52,8 +52,11 @@ function BlogList() {
     const matchesSearch = post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = !selectedCategory || post.categories?.includes(selectedCategory)
-    return matchesSearch && matchesCategory
+    const isNotEditorial = !post.categories?.includes('সম্পাদকীয়')
+    return matchesSearch && matchesCategory && isNotEditorial
   })
+
+  const categoriesForFilter = categories.filter(cat => cat !== 'সম্পাদকীয়')
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -103,62 +106,6 @@ function BlogList() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {editorialPosts.length > 0 && !searchTerm && !selectedCategory && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-800">সম্পাদকীয়</h2>
-                <p className="text-gray-500 text-sm">সম্পাদকীয় বিভাগের সর্বশেষ পোস্টসমূহ</p>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {editorialPosts.slice(0, 6).map(post => (
-                <Link 
-                  key={post.id} 
-                  to={`/blog/${post.slug}`}
-                  className="group bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-amber-100"
-                >
-                  <div className="relative h-40 sm:h-44 overflow-hidden bg-amber-100">
-                    {post.featured_image_url ? (
-                      <img
-                        src={post.featured_image_url}
-                        alt={post.title}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100">
-                        <svg className="w-12 h-12 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </div>
-                    )}
-                    <div className="absolute top-2 left-2">
-                      <span className="px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded-full">
-                        সম্পাদকীয়
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4">
-                    <h3 className="text-base font-bold text-gray-800 group-hover:text-amber-600 transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-                    {post.excerpt && (
-                      <p className="text-gray-500 text-sm mt-2 line-clamp-2">{post.excerpt}</p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1">
             <div className="relative">
@@ -175,14 +122,14 @@ function BlogList() {
             </div>
           </div>
           
-          {categories.length > 0 && (
+          {categoriesForFilter.length > 0 && (
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent"
             >
               <option value="">সকল বিভাগ</option>
-              {categories.map(cat => (
+              {categoriesForFilter.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
@@ -245,6 +192,62 @@ function BlogList() {
               </Link>
             ))}
           </div>
+        )}
+
+        {editorialPosts.length > 0 && !searchTerm && !selectedCategory && (
+          <section className="mt-16 pt-12 border-t border-gray-200">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">সম্পাদকীয়</h2>
+                <p className="text-gray-500 text-sm">সম্পাদকীয় বিভাগের সর্বশেষ পোস্টসমূহ</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {editorialPosts.map(post => (
+                <Link 
+                  key={post.id} 
+                  to={`/blog/${post.slug}`}
+                  className="group bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-amber-100"
+                >
+                  <div className="relative h-40 sm:h-44 overflow-hidden bg-amber-100">
+                    {post.featured_image_url ? (
+                      <img
+                        src={post.featured_image_url}
+                        alt={post.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100">
+                        <svg className="w-12 h-12 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </div>
+                    )}
+                    <div className="absolute top-2 left-2">
+                      <span className="px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded-full">
+                        সম্পাদকীয়
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4">
+                    <h3 className="text-base font-bold text-gray-800 group-hover:text-amber-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    {post.excerpt && (
+                      <p className="text-gray-500 text-sm mt-2 line-clamp-2">{post.excerpt}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
       </div>
 

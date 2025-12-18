@@ -171,6 +171,14 @@ body {
   color: #0f766e;
 }
 
+.embedded-doctor-cards a {
+  text-decoration: none !important;
+}
+
+.embedded-doctor-cards a * {
+  text-decoration: none !important;
+}
+
 .prose strong {
   font-weight: 700;
 }
