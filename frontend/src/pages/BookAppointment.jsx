@@ -230,6 +230,8 @@ function BookAppointment() {
       const { error } = await supabase.from('appointments').insert([{
         doctor_id: doctorId,
         doctor_name: doctor.name,
+        doctor_category: doctor.category_name,
+        chamber_address: doctor.chamber_address,
         ...formData,
         booking_ref: ref,
         status: 'pending'

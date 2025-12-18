@@ -340,11 +340,7 @@ function Download() {
                       <div className={`${appointmentData.isPaid ? 'bg-gradient-to-r from-amber-500 to-yellow-500' : 'bg-gradient-to-r from-primary-600 to-primary-700'} text-white p-6`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <img src="/logo-icon.png" alt="ইজি ডক্টর রংপুর" className="w-12 h-12 rounded-xl object-cover" />
-                            <div>
-                              <h3 className="text-xl font-bold">ইজি ডক্টর রংপুর</h3>
-                              <p className="text-sm opacity-90">অ্যাপয়েন্টমেন্ট স্লিপ</p>
-                            </div>
+                            <img src="/logo-footer.png" alt="ইজি ডক্টর রংপুর" className="h-12 object-contain object-left" />
                           </div>
                           <div className="text-right">
                             {appointmentData.isPaid && (
@@ -431,6 +427,15 @@ function Download() {
                                 <div>
                                   <p className="text-xs text-gray-500">ডাক্তার</p>
                                   <p className="font-semibold text-gray-800">{appointmentData.doctor_name || 'তথ্য নেই'}</p>
+                                  {appointmentData.doctor_category && (
+                                    <p className="text-xs text-gray-600 mt-1">({appointmentData.doctor_category})</p>
+                                  )}
+                                  {appointmentData.chamber_address && (
+                                    <div className="mt-2">
+                                      <p className="text-xs text-gray-500">চেম্বার</p>
+                                      <p className="text-xs text-gray-700">{appointmentData.chamber_address}</p>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div className="flex items-start gap-3">
@@ -502,7 +507,6 @@ function Download() {
 
                         <div className="text-center text-xs text-gray-400 pt-4 border-t">
                           <p>অনুগ্রহ করে এই স্লিপটি ডাক্তারের চেম্বারে দেখান</p>
-                          <p className="mt-1">www.rangpurdoctor.com</p>
                         </div>
                       </div>
                     </div>
