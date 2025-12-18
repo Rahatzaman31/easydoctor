@@ -14,9 +14,8 @@ const defaultBanner = {
   secondary_button_text: 'যোগাযোগ করুন',
   secondary_button_link: '/contact',
   show_secondary_button: true,
-  background_image_url: '/images/banner-bg.png',
-  overlay_color: '#1e40af',
-  overlay_opacity: 0.75,
+  background_color: '#0f172a',
+  gradient_enabled: true,
   feature_1_text: 'যাচাইকৃত ডাক্তার',
   feature_1_icon: 'verified',
   show_feature_1: true,
@@ -84,50 +83,6 @@ function AdminBanners() {
     }
   }
 
-  async function handleImageUpload(e) {
-    const file = e.target.files[0]
-    if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      setMessage({ type: 'error', text: 'শুধুমাত্র ইমেজ ফাইল আপলোড করুন' })
-      return
-    }
-
-    if (!supabase || !isConfigured) {
-      setMessage({ type: 'error', text: 'Supabase কনফিগার করা নেই। দয়া করে উপরে ইমেজ URL দিন।' })
-      return
-    }
-
-    setUploading(true)
-    try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `banner-${Date.now()}.${fileExt}`
-      const filePath = `banners/${fileName}`
-
-      const { error: uploadError } = await supabase.storage
-        .from('images')
-        .upload(filePath, file)
-
-      if (uploadError) {
-        if (uploadError.message?.includes('bucket') || uploadError.statusCode === 404) {
-          throw new Error('Storage bucket "images" সেটআপ করা নেই। দয়া করে Supabase-এ bucket তৈরি করুন অথবা সরাসরি ইমেজ URL দিন।')
-        }
-        throw uploadError
-      }
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath)
-
-      setBanner(prev => ({ ...prev, background_image_url: publicUrl }))
-      setMessage({ type: 'success', text: 'ইমেজ আপলোড সফল হয়েছে!' })
-    } catch (error) {
-      console.error('Upload error:', error)
-      setMessage({ type: 'error', text: error.message || 'ইমেজ আপলোড ব্যর্থ। দয়া করে সরাসরি ইমেজ URL দিন।' })
-    } finally {
-      setUploading(false)
-    }
-  }
 
   async function handleSave() {
     setSaving(true)
@@ -221,96 +176,52 @@ function AdminBanners() {
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.5a2 2 0 00-1 .267" />
                 </svg>
-                ব্যাকগ্রাউন্ড ইমেজ
+                ব্যাকগ্রাউন্ড সেটিংস
               </h2>
               
-              <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden mb-4">
-                {banner.background_image_url ? (
-                  <img
-                    src={banner.background_image_url}
-                    alt="Banner background"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400">
-                    কোনো ইমেজ নেই
-                  </div>
-                )}
-                <div 
-                  className="absolute inset-0"
-                  style={{ backgroundColor: banner.overlay_color, opacity: banner.overlay_opacity }}
-                />
+              <div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden mb-4 border border-gray-200" style={{
+                background: banner.gradient_enabled 
+                  ? `linear-gradient(135deg, ${banner.background_color} 0%, #1e3a8a 50%, #0369a1 100%)`
+                  : banner.background_color
+              }}>
+                <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-medium">
+                  প্রিভিউ
+                </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">ইমেজ URL দিন</label>
-                  <input
-                    type="url"
-                    value={banner.background_image_url}
-                    onChange={(e) => setBanner(prev => ({ ...prev, background_image_url: e.target.value }))}
-                    placeholder="https://example.com/image.jpg"
-                    className="input-field"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">সরাসরি ইমেজ লিংক দিন অথবা নিচে ফাইল আপলোড করুন</p>
+                  <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={banner.gradient_enabled}
+                      onChange={(e) => setBanner(prev => ({ ...prev, gradient_enabled: e.target.checked }))}
+                      className="w-4 h-4 rounded text-primary-600"
+                    />
+                    গ্রেডিয়েন্ট এফেক্ট ব্যবহার করুন
+                  </label>
                 </div>
 
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200"></div>
-                  </div>
-                  <div className="relative flex justify-center">
-                    <span className="bg-white px-3 text-xs text-gray-500">অথবা</span>
-                  </div>
-                </div>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 mb-1 block">ফাইল আপলোড করুন</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    disabled={uploading}
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Supabase Storage বাকেট 'images' সেটআপ থাকতে হবে</p>
-                </label>
-                {uploading && <p className="text-sm text-primary-600 mt-2">আপলোড হচ্ছে...</p>}
-              </div>
-
-              <div className="mt-4 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">ওভারলে কালার</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">প্রধান ব্যাকগ্রাউন্ড কালার</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
-                      value={banner.overlay_color}
-                      onChange={(e) => setBanner(prev => ({ ...prev, overlay_color: e.target.value }))}
-                      className="w-12 h-10 rounded cursor-pointer"
+                      value={banner.background_color}
+                      onChange={(e) => setBanner(prev => ({ ...prev, background_color: e.target.value }))}
+                      className="w-12 h-10 rounded cursor-pointer border border-gray-300"
                     />
                     <input
                       type="text"
-                      value={banner.overlay_color}
-                      onChange={(e) => setBanner(prev => ({ ...prev, overlay_color: e.target.value }))}
+                      value={banner.background_color}
+                      onChange={(e) => setBanner(prev => ({ ...prev, background_color: e.target.value }))}
                       className="flex-1 input-field"
+                      placeholder="#0f172a"
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ওভারলে অপাসিটি: {Math.round(banner.overlay_opacity * 100)}%
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={banner.overlay_opacity * 100}
-                    onChange={(e) => setBanner(prev => ({ ...prev, overlay_opacity: e.target.value / 100 }))}
-                    className="w-full"
-                  />
+                  <p className="text-xs text-gray-500 mt-1">দ্রুত লোডিং এবং আধুনিক ডিজাইনের জন্য স্ট্যাটিক কালার ব্যবহার করা হয়</p>
                 </div>
               </div>
             </div>

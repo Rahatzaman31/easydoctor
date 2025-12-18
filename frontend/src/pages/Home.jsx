@@ -17,9 +17,8 @@ const defaultBanner = {
   secondary_button_text: 'যোগাযোগ করুন',
   secondary_button_link: '/contact',
   show_secondary_button: true,
-  background_image_url: '/images/banner-bg.webp',
-  overlay_color: '#1e40af',
-  overlay_opacity: 0.75,
+  background_color: '#0f172a',
+  gradient_enabled: true,
   feature_1_text: 'যাচাইকৃত ডাক্তার',
   feature_1_icon: 'verified',
   show_feature_1: true,
@@ -185,7 +184,8 @@ function Home() {
         setBanner({
           ...defaultBanner,
           ...data,
-          background_image_url: data.background_image_url || defaultBanner.background_image_url
+          background_color: data.background_color || defaultBanner.background_color,
+          gradient_enabled: data.gradient_enabled !== undefined ? data.gradient_enabled : defaultBanner.gradient_enabled
         })
       }
       setBannerReady(true)
@@ -220,31 +220,50 @@ function Home() {
     }
   }
 
-  const overlayStyle = {
-    backgroundColor: banner.overlay_color,
-    opacity: banner.overlay_opacity
+  const bannerStyle = {
+    background: banner.gradient_enabled 
+      ? `linear-gradient(135deg, ${banner.background_color} 0%, #1e3a8a 50%, #0369a1 100%)`
+      : banner.background_color
   }
 
   return (
     <div>
-      <section className="relative min-h-[320px] md:min-h-[380px] flex items-center overflow-hidden">
-        <img 
-          src={banner.background_image_url}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          fetchpriority="high"
-          decoding="async"
-          aria-hidden="true"
-        />
+      <section 
+        className="relative min-h-[320px] md:min-h-[380px] flex items-center overflow-hidden"
+        style={bannerStyle}
+      >
+        {/* Abstract flowing shapes with elegant gradients */}
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 400">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{stopColor: 'rgba(6, 182, 212, 0.3)', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: 'rgba(6, 182, 212, 0.08)', stopOpacity: 1}} />
+            </linearGradient>
+            <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: 'rgba(30, 58, 138, 0.25)', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: 'rgba(30, 58, 138, 0.08)', stopOpacity: 1}} />
+            </linearGradient>
+            <linearGradient id="grad3" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style={{stopColor: 'rgba(6, 182, 212, 0.15)', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: 'rgba(6, 182, 212, 0.02)', stopOpacity: 1}} />
+            </linearGradient>
+            <filter id="softBlur">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+            </filter>
+          </defs>
+          
+          {/* Flowing top wave */}
+          <path d="M 0,80 Q 200,30 400,60 Q 600,90 800,50 Q 1000,20 1200,80 L 1200,0 Q 900,50 600,20 Q 300,50 0,0 Z" fill="url(#grad1)" filter="url(#softBlur)" />
+          
+          {/* Dynamic middle wave */}
+          <path d="M 0,200 Q 250,150 500,190 Q 750,230 1000,170 Q 1100,150 1200,190 L 1200,280 Q 800,320 400,300 Q 150,290 0,310 Z" fill="url(#grad3)" filter="url(#softBlur)" />
+          
+          {/* Flowing bottom wave */}
+          <path d="M 0,300 Q 300,270 600,290 Q 900,310 1200,280 L 1200,400 L 0,400 Z" fill="url(#grad2)" filter="url(#softBlur)" />
+        </svg>
         
-        <div 
-          className="absolute inset-0"
-          style={overlayStyle}
-        />
-        
-        <div 
-          className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"
-        />
+        {/* Elegant gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5" />
         
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

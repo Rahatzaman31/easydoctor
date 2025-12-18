@@ -298,7 +298,23 @@ function AdminDoctors() {
   }
 
   function generateAccessCode() {
-    return Math.floor(100000 + Math.random() * 900000).toString()
+    const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+    const numbers = '0123456789'
+    
+    const chars = []
+    for (let i = 0; i < 4; i++) {
+      chars.push(numbers.charAt(Math.floor(Math.random() * numbers.length)))
+    }
+    for (let i = 0; i < 2; i++) {
+      chars.push(letters.charAt(Math.floor(Math.random() * letters.length)))
+    }
+    
+    for (let i = chars.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[chars[i], chars[j]] = [chars[j], chars[i]]
+    }
+    
+    return chars.join('')
   }
 
   async function generateUniqueAccessCode(maxRetries = 5) {
