@@ -6,7 +6,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     cssCodeSplit: true,
-    cssMinify: 'lightningcss',
     minify: 'terser',
     terserOptions: {
       compress: {
