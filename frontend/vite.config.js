@@ -20,9 +20,6 @@ export default defineConfig({
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('react-helmet')) {
               return 'react-vendor'
             }
-            if (id.includes('@supabase')) {
-              return 'supabase'
-            }
             if (id.includes('react-quill') || id.includes('quill')) {
               return 'editor-vendor'
             }

@@ -15,6 +15,7 @@ const HospitalsDiagnostics = lazy(() => import('./pages/HospitalsDiagnostics'))
 const HospitalDetail = lazy(() => import('./pages/HospitalDetail'))
 const BlogList = lazy(() => import('./pages/BlogList'))
 const BlogDetail = lazy(() => import('./pages/BlogDetail'))
+const DoctorChat = lazy(() => import('./pages/doctor-admin/DoctorChat'))
 const AmbulanceService = lazy(() => import('./pages/AmbulanceService'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const AboutUs = lazy(() => import('./pages/AboutUs'))
@@ -36,7 +37,6 @@ const DoctorPaidAppointments = lazy(() => import('./pages/doctor-admin/DoctorPai
 const DoctorBlogPosts = lazy(() => import('./pages/doctor-admin/DoctorBlogPosts'))
 const DoctorPackages = lazy(() => import('./pages/doctor-admin/DoctorPackages'))
 const DoctorAdvertisements = lazy(() => import('./pages/doctor-admin/DoctorAdvertisements'))
-const DoctorChat = lazy(() => import('./pages/doctor-admin/DoctorChat'))
 const InterstitialAd = lazy(() => import('./components/InterstitialAd'))
 
 const PageLoader = () => (

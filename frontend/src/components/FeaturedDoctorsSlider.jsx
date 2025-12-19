@@ -153,7 +153,7 @@ function FeaturedDoctorsSlider() {
                       >
                         <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-slate-200 hover:border-teal-500 h-full">
                           <div className="relative bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 p-4">
-                            <div className="absolute top-2 right-2 bg-teal-500 px-2 py-1 rounded-full">
+                            <div className="absolute top-2 right-2 bg-teal-600 px-2 py-1 rounded-full">
                               <span className="text-xs font-bold text-white">শীর্ষ</span>
                             </div>
                             <div className="flex flex-col items-center">
@@ -209,7 +209,7 @@ function FeaturedDoctorsSlider() {
           </button>
         </div>
         
-        <div className="flex justify-center mt-6 gap-2" role="tablist" aria-label="স্লাইডার পেজিনেশন">
+        <div className="flex justify-center mt-6 gap-3" role="tablist" aria-label="স্লাইডার পেজিনেশন">
           {Array.from({ length: totalSlides }).map((_, idx) => (
             <button
               key={idx}
@@ -217,10 +217,10 @@ function FeaturedDoctorsSlider() {
                 setCurrentIndex(idx)
                 startAutoSlide()
               }}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`rounded-full transition-all min-w-10 min-h-10 flex items-center justify-center ${
                 currentIndex === idx 
-                  ? 'bg-teal-600 w-6' 
-                  : 'bg-gray-300 hover:bg-gray-400'
+                  ? 'bg-teal-600 w-10 h-10' 
+                  : 'w-3 h-3 bg-gray-400 hover:bg-gray-500'
               }`}
               aria-label={`স্লাইড ${idx + 1} এ যান`}
               aria-selected={currentIndex === idx}
