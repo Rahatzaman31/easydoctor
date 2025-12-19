@@ -158,332 +158,331 @@ function DoctorProfile() {
 
   return (
     <div className="p-4 pt-16 lg:pt-6 lg:p-8">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">আমার প্রোফাইল</h1>
-            <p className="text-gray-500 mt-1">আপনার প্রোফাইল তথ্য দেখুন ও সম্পাদনা করুন</p>
-          </div>
-          {!editing ? (
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">আমার প্রোফাইল</h1>
+          <p className="text-gray-500 mt-1">আপনার প্রোফাইল তথ্য দেখুন ও সম্পাদনা করুন</p>
+        </div>
+        {!editing ? (
+          <button
+            onClick={() => setEditing(true)}
+            className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            প্রোফাইল সম্পাদনা
+          </button>
+        ) : (
+          <div className="flex gap-3">
             <button
-              onClick={() => setEditing(true)}
-              className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 flex items-center gap-2"
+              onClick={() => setEditing(false)}
+              className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-gray-600 hover:bg-gray-50"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-              প্রোফাইল সম্পাদনা
+              বাতিল
             </button>
-          ) : (
-            <div className="flex gap-3">
-              <button
-                onClick={() => setEditing(false)}
-                className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-gray-600 hover:bg-gray-50"
-              >
-                বাতিল
-              </button>
-              <button
-                onClick={handleSave}
-                disabled={saving}
-                className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 flex items-center gap-2 disabled:opacity-50"
-              >
-                {saving ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}
-              </button>
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 flex items-center gap-2 disabled:opacity-50"
+            >
+              {saving ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div className="p-6 lg:p-8 border-b border-gray-100">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+            <div className="relative">
+              {doctor?.image_url ? (
+                <img
+                  src={doctor.image_url}
+                  alt={doctor.name}
+                  className="w-32 h-32 rounded-2xl object-cover"
+                />
+              ) : (
+                <div className="w-32 h-32 rounded-2xl bg-teal-100 flex items-center justify-center">
+                  <span className="text-5xl">👨‍⚕️</span>
+                </div>
+              )}
             </div>
-          )}
+            <div className="text-center lg:text-left">
+              <h2 className="text-2xl font-bold text-gray-800">{doctor?.name}</h2>
+              <p className="text-teal-600 font-medium">{doctor?.category_name}</p>
+              <p className="text-gray-500 mt-1">{doctor?.degrees}</p>
+              <div className="flex items-center gap-4 mt-3 justify-center lg:justify-start">
+                <div className="flex items-center gap-1">
+                  <span className="text-yellow-500">⭐</span>
+                  <span className="font-semibold">{doctor?.rating || '0'}</span>
+                </div>
+                <div className="text-gray-500">
+                  {doctor?.reviews_count || 0} রিভিউ
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-          <div className="p-6 lg:p-8 border-b border-gray-100">
-            <div className="flex flex-col lg:flex-row items-center gap-6">
-              <div className="relative">
-                {doctor?.image_url ? (
-                  <img
-                    src={doctor.image_url}
-                    alt={doctor.name}
-                    className="w-32 h-32 rounded-2xl object-cover"
+        <div className="p-6 lg:p-8 space-y-8">
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">নাম</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.name}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">ডিগ্রী</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.degrees}
+                  onChange={(e) => setFormData({ ...formData, degrees: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.degrees}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">বিভাগ</label>
+              {editing ? (
+                <select
+                  value={formData.category}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.category_name}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">জেলা</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.district}
+                  onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.district}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">কর্মস্থল (লাইন ১)</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.workplace_line1}
+                  onChange={(e) => setFormData({ ...formData, workplace_line1: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.workplace_line1 || '-'}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">কর্মস্থল (লাইন ২)</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.workplace_line2}
+                  onChange={(e) => setFormData({ ...formData, workplace_line2: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.workplace_line2 || '-'}</p>
+              )}
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">চেম্বারের ঠিকানা</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.chamber_address}
+                  onChange={(e) => setFormData({ ...formData, chamber_address: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.chamber_address || '-'}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">পরামর্শ ফি</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.consultation_fee}
+                  onChange={(e) => setFormData({ ...formData, consultation_fee: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.consultation_fee || '-'}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">সময়সূচী</label>
+              {editing ? (
+                <input
+                  type="text"
+                  value={formData.schedule_time}
+                  onChange={(e) => setFormData({ ...formData, schedule_time: e.target.value })}
+                  placeholder="সন্ধ্যা ৫টা - রাত ৯টা"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.schedule_time || '-'}</p>
+              )}
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">সাপ্তাহিক ছুটি</label>
+              {editing ? (
+                <div className="flex flex-wrap gap-2">
+                  {weekDays.map(day => (
+                    <button
+                      key={day.id}
+                      type="button"
+                      onClick={() => toggleScheduleDay(day.id)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        formData.schedule_days.includes(day.id)
+                          ? 'bg-teal-600 text-white'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {day.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {doctor?.schedule_days ? JSON.parse(doctor.schedule_days).map(dayId => {
+                    const day = weekDays.find(d => d.id === dayId)
+                    return day ? (
+                      <span key={dayId} className="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg text-sm">
+                        {day.name}
+                      </span>
+                    ) : null
+                  }) : <span className="text-gray-500">-</span>}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">ছবির URL</label>
+              {editing ? (
+                <input
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl truncate">{doctor?.image_url || '-'}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">ভিজিটিং কার্ড URL</label>
+              {editing ? (
+                <input
+                  type="url"
+                  value={formData.visiting_card_url}
+                  onChange={(e) => setFormData({ ...formData, visiting_card_url: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl truncate">{doctor?.visiting_card_url || '-'}</p>
+              )}
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">নোটিশ</label>
+              {editing ? (
+                <textarea
+                  value={formData.notice}
+                  onChange={(e) => setFormData({ ...formData, notice: e.target.value })}
+                  rows={2}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
+                />
+              ) : (
+                <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.notice || '-'}</p>
+              )}
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">সম্পর্কে</label>
+              {editing ? (
+                <RichTextEditor
+                  key={`about-${doctor?.id || 'new'}`}
+                  value={formData.about}
+                  onChange={(value) => setFormData({ ...formData, about: value })}
+                  placeholder="আপনার সম্পর্কে লিখুন..."
+                />
+              ) : (
+                doctor?.about ? (
+                  <div 
+                    className="prose prose-sm max-w-none text-gray-800 bg-gray-50 px-4 py-3 rounded-xl"
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-2xl bg-teal-100 flex items-center justify-center">
-                    <span className="text-5xl">👨‍⚕️</span>
-                  </div>
-                )}
-              </div>
-              <div className="text-center lg:text-left">
-                <h2 className="text-2xl font-bold text-gray-800">{doctor?.name}</h2>
-                <p className="text-teal-600 font-medium">{doctor?.category_name}</p>
-                <p className="text-gray-500 mt-1">{doctor?.degrees}</p>
-                <div className="flex items-center gap-4 mt-3 justify-center lg:justify-start">
-                  <div className="flex items-center gap-1">
-                    <span className="text-yellow-500">⭐</span>
-                    <span className="font-semibold">{doctor?.rating || '0'}</span>
-                  </div>
-                  <div className="text-gray-500">
-                    {doctor?.reviews_count || 0} রিভিউ
-                  </div>
-                </div>
-              </div>
+                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">-</p>
+                )
+              )}
             </div>
           </div>
 
-          <div className="p-6 lg:p-8 space-y-8">
+          <div className="border-t border-gray-200 pt-8">
+            <h3 className="text-lg font-bold text-gray-800 mb-4">অপরিবর্তনীয় তথ্য</h3>
+            <p className="text-sm text-gray-500 mb-4">নিচের তথ্যগুলো শুধুমাত্র এডমিন পরিবর্তন করতে পারবে</p>
             <div className="grid lg:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">নাম</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.name}</p>
-                )}
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ফোন নম্বর</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.phone || '-'}</p>
               </div>
-
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">ডিগ্রী</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.degrees}
-                    onChange={(e) => setFormData({ ...formData, degrees: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.degrees}</p>
-                )}
+                <label className="block text-sm font-semibold text-gray-700 mb-2">অ্যাক্সেস কোড</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl font-mono">{doctor?.access_code || '-'}</p>
               </div>
-
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">বিভাগ</label>
-                {editing ? (
-                  <select
-                    value={formData.category}
-                    onChange={(e) => handleCategoryChange(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  >
-                    {categories.map(cat => (
-                      <option key={cat.id} value={cat.id}>{cat.name}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.category_name}</p>
-                )}
+                <label className="block text-sm font-semibold text-gray-700 mb-2">সাধারণ সিরিয়াল লিমিট</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.daily_appointment_limit || '0'}</p>
               </div>
-
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">জেলা</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.district}
-                    onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.district}</p>
-                )}
+                <label className="block text-sm font-semibold text-gray-700 mb-2">পেইড সিরিয়াল লিমিট</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.paid_appointment_limit || '0'}</p>
               </div>
-
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">কর্মস্থল (লাইন ১)</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.workplace_line1}
-                    onChange={(e) => setFormData({ ...formData, workplace_line1: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.workplace_line1 || '-'}</p>
-                )}
+                <label className="block text-sm font-semibold text-gray-700 mb-2">রেটিং</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl flex items-center gap-2">
+                  <span className="text-yellow-500">⭐</span> {doctor?.rating || '0'}
+                </p>
               </div>
-
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">কর্মস্থল (লাইন ২)</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.workplace_line2}
-                    onChange={(e) => setFormData({ ...formData, workplace_line2: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.workplace_line2 || '-'}</p>
-                )}
-              </div>
-
-              <div className="lg:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">চেম্বারের ঠিকানা</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.chamber_address}
-                    onChange={(e) => setFormData({ ...formData, chamber_address: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.chamber_address || '-'}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">পরামর্শ ফি</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.consultation_fee}
-                    onChange={(e) => setFormData({ ...formData, consultation_fee: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.consultation_fee || '-'}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">সময়সূচী</label>
-                {editing ? (
-                  <input
-                    type="text"
-                    value={formData.schedule_time}
-                    onChange={(e) => setFormData({ ...formData, schedule_time: e.target.value })}
-                    placeholder="সন্ধ্যা ৫টা - রাত ৯টা"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.schedule_time || '-'}</p>
-                )}
-              </div>
-
-              <div className="lg:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">সাপ্তাহিক ছুটি</label>
-                {editing ? (
-                  <div className="flex flex-wrap gap-2">
-                    {weekDays.map(day => (
-                      <button
-                        key={day.id}
-                        type="button"
-                        onClick={() => toggleScheduleDay(day.id)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          formData.schedule_days.includes(day.id)
-                            ? 'bg-teal-600 text-white'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
-                      >
-                        {day.name}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap gap-2">
-                    {doctor?.schedule_days ? JSON.parse(doctor.schedule_days).map(dayId => {
-                      const day = weekDays.find(d => d.id === dayId)
-                      return day ? (
-                        <span key={dayId} className="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg text-sm">
-                          {day.name}
-                        </span>
-                      ) : null
-                    }) : <span className="text-gray-500">-</span>}
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">ছবির URL</label>
-                {editing ? (
-                  <input
-                    type="url"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl truncate">{doctor?.image_url || '-'}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">ভিজিটিং কার্ড URL</label>
-                {editing ? (
-                  <input
-                    type="url"
-                    value={formData.visiting_card_url}
-                    onChange={(e) => setFormData({ ...formData, visiting_card_url: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl truncate">{doctor?.visiting_card_url || '-'}</p>
-                )}
-              </div>
-
-              <div className="lg:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">নোটিশ</label>
-                {editing ? (
-                  <textarea
-                    value={formData.notice}
-                    onChange={(e) => setFormData({ ...formData, notice: e.target.value })}
-                    rows={2}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500"
-                  />
-                ) : (
-                  <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">{doctor?.notice || '-'}</p>
-                )}
-              </div>
-
-              <div className="lg:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">সম্পর্কে</label>
-                {editing ? (
-                  <RichTextEditor
-                    key={`about-${doctor?.id || 'new'}`}
-                    value={formData.about}
-                    onChange={(value) => setFormData({ ...formData, about: value })}
-                    placeholder="আপনার সম্পর্কে লিখুন..."
-                  />
-                ) : (
-                  doctor?.about ? (
-                    <div 
-                      className="prose prose-sm max-w-none text-gray-800 bg-gray-50 px-4 py-3 rounded-xl"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.about) }}
-                    />
-                  ) : (
-                    <p className="text-gray-800 bg-gray-50 px-4 py-3 rounded-xl">-</p>
-                  )
-                )}
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200 pt-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">অপরিবর্তনীয় তথ্য</h3>
-              <p className="text-sm text-gray-500 mb-4">নিচের তথ্যগুলো শুধুমাত্র এডমিন পরিবর্তন করতে পারবে</p>
-              <div className="grid lg:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">ফোন নম্বর</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.phone || '-'}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">অ্যাক্সেস কোড</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl font-mono">{doctor?.access_code || '-'}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">সাধারণ সিরিয়াল লিমিট</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.daily_appointment_limit || '0'}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">পেইড সিরিয়াল লিমিট</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.paid_appointment_limit || '0'}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">রেটিং</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl flex items-center gap-2">
-                    <span className="text-yellow-500">⭐</span> {doctor?.rating || '0'}
-                  </p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">রিভিউ সংখ্যা</label>
-                  <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.reviews_count || '0'}</p>
-                </div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">রিভিউ সংখ্যা</label>
+                <p className="text-gray-800 bg-gray-100 px-4 py-3 rounded-xl">{doctor?.reviews_count || '0'}</p>
               </div>
             </div>
           </div>
