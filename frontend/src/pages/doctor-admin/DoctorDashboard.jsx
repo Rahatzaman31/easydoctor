@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
+import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 function DoctorDashboard() {
   const navigate = useNavigate()
@@ -99,7 +100,10 @@ function DoctorDashboard() {
   ]
 
   return (
-    <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
+    <div className="flex min-h-screen bg-gray-50">
+      <DoctorAdminSidebar />
+
+      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
         <div className="mb-8">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">স্বাগতম, {doctorName}</h1>
           <p className="text-gray-500 mt-1">আপনার ড্যাশবোর্ডে স্বাগতম</p>
