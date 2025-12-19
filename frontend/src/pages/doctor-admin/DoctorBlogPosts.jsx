@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
+import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 const blogCategories = [
   'স্বাস্থ্য টিপস',

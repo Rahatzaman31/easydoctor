@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../../lib/supabase'
+import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
