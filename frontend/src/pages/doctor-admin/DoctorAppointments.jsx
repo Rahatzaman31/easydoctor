@@ -45,7 +45,11 @@ function DoctorAppointments() {
 
   function calculateStats(data) {
     const today = new Date()
-    const todayStr = today.toISOString().split('T')[0]
+    // Use local date string instead of ISO to avoid timezone issues
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const day = String(today.getDate()).padStart(2, '0')
+    const todayStr = `${year}-${month}-${day}`
     
     const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate())
     const nextWeek = new Date(todayStart)
@@ -81,7 +85,11 @@ function DoctorAppointments() {
     }
 
     const today = new Date()
-    const todayStr = today.toISOString().split('T')[0]
+    // Use local date string instead of ISO to avoid timezone issues
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const day = String(today.getDate()).padStart(2, '0')
+    const todayStr = `${year}-${month}-${day}`
 
     const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate())
 

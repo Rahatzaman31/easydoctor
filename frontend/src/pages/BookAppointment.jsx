@@ -44,9 +44,14 @@ const getNext8Days = () => {
     date.setDate(today.getDate() + i)
     const dayId = getDayId(date)
     const dayName = weekDaysList.find(d => d.id === dayId)?.name || ''
+    // Use local date string instead of ISO to avoid timezone issues
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const dateStr = `${year}-${month}-${day}`
     days.push({
       date: date,
-      dateStr: date.toISOString().split('T')[0],
+      dateStr: dateStr,
       dayId: dayId,
       dayName: dayName,
       dayNum: date.getDate(),

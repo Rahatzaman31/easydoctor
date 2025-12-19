@@ -30,7 +30,11 @@ function DoctorDashboard() {
         return
       }
 
-      const today = new Date().toISOString().split('T')[0]
+      const today = new Date()
+      const year = today.getFullYear()
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const day = String(today.getDate()).padStart(2, '0')
+      const todayStr = `${year}-${month}-${day}`
 
       const [
         completedApptsRes,
@@ -53,7 +57,7 @@ function DoctorDashboard() {
           .select('id', { count: 'exact' })
           .eq('doctor_id', doctorId)
           .eq('status', 'confirmed')
-          .eq('appointment_date', today),
+          .eq('appointment_date', todayStr),
         supabase
           .from('appointments')
           .select('*')
