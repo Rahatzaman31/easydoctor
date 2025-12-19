@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { cacheManager } from '../lib/cacheManager'
 
 const API_URL = import.meta.env.VITE_API_URL || '';
+
+// Cache for interstitial ad settings to prevent refetching on route changes
+let adSettingsCache = null;
+let adSettingsFetchInProgress = false;
+let adSettingsFetchPromise = null;
 
 function InterstitialAd() {
   const [show, setShow] = useState(false)
@@ -12,6 +18,7 @@ function InterstitialAd() {
   const showTimerRef = useRef(null)
   const countdownIntervalRef = useRef(null)
   const isMountedRef = useRef(true)
+  const hasInitializedRef = useRef(false)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -58,28 +65,94 @@ function InterstitialAd() {
   }, [])
 
   useEffect(() => {
+    // Only initialize once per session
+    if (hasInitializedRef.current) {
+      return
+    }
+    hasInitializedRef.current = true
     isMountedRef.current = true
     
     async function fetchSettings() {
-      try {
-        const response = await fetch(`${API_URL}/api/interstitial-ads`)
-        const result = await response.json()
-
-        if (result.success && result.data && result.data.is_enabled && isMountedRef.current) {
-          setSettings(result.data)
+      // Return cached settings if available
+      if (adSettingsCache !== null) {
+        if (adSettingsCache && isMountedRef.current) {
+          setSettings(adSettingsCache)
           
           const hasSeenAd = sessionStorage.getItem('interstitial_ad_shown')
-          if (result.data.show_once_per_session && hasSeenAd) {
+          if (adSettingsCache.show_once_per_session && hasSeenAd) {
             return
           }
 
-          const delayMs = (result.data.delay_seconds ?? 60) * 1000
+          const delayMs = (adSettingsCache.delay_seconds ?? 60) * 1000
           showTimerRef.current = setTimeout(() => {
-            showAd(result.data)
+            showAd(adSettingsCache)
+          }, delayMs)
+        }
+        return
+      }
+
+      // If fetch is already in progress, wait for it
+      if (adSettingsFetchInProgress) {
+        try {
+          const cachedData = await adSettingsFetchPromise
+          if (cachedData && isMountedRef.current) {
+            setSettings(cachedData)
+            
+            const hasSeenAd = sessionStorage.getItem('interstitial_ad_shown')
+            if (cachedData.show_once_per_session && hasSeenAd) {
+              return
+            }
+
+            const delayMs = (cachedData.delay_seconds ?? 60) * 1000
+            showTimerRef.current = setTimeout(() => {
+              showAd(cachedData)
+            }, delayMs)
+          }
+        } catch (err) {
+          console.log('No interstitial ad configured')
+        }
+        return
+      }
+
+      adSettingsFetchInProgress = true
+      adSettingsFetchPromise = (async () => {
+        try {
+          const response = await fetch(`${API_URL}/api/interstitial-ads`)
+          const result = await response.json()
+
+          if (result.success && result.data && result.data.is_enabled) {
+            adSettingsCache = result.data
+            return result.data
+          } else {
+            adSettingsCache = null
+            return null
+          }
+        } catch (err) {
+          console.log('No interstitial ad configured')
+          adSettingsCache = null
+          return null
+        }
+      })()
+
+      try {
+        const cachedData = await adSettingsFetchPromise
+        if (cachedData && isMountedRef.current) {
+          setSettings(cachedData)
+          
+          const hasSeenAd = sessionStorage.getItem('interstitial_ad_shown')
+          if (cachedData.show_once_per_session && hasSeenAd) {
+            return
+          }
+
+          const delayMs = (cachedData.delay_seconds ?? 60) * 1000
+          showTimerRef.current = setTimeout(() => {
+            showAd(cachedData)
           }, delayMs)
         }
       } catch (err) {
         console.log('No interstitial ad configured')
+      } finally {
+        adSettingsFetchInProgress = false
       }
     }
     
@@ -94,7 +167,7 @@ function InterstitialAd() {
         clearInterval(countdownIntervalRef.current)
       }
     }
-  }, [showAd])
+  }, [])
 
   function handleClose() {
     if (canClose) {
