@@ -41,6 +41,7 @@ const DoctorBlogPosts = lazy(() => import('./pages/doctor-admin/DoctorBlogPosts'
 const DoctorPackages = lazy(() => import('./pages/doctor-admin/DoctorPackages'))
 const DoctorAdvertisements = lazy(() => import('./pages/doctor-admin/DoctorAdvertisements'))
 const InterstitialAd = lazy(() => import('./components/InterstitialAd'))
+const DoctorAdminLayout = lazy(() => import('./components/DoctorAdminLayout'))
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center">
@@ -96,14 +97,14 @@ function App() {
         <div className="min-h-screen">
           <Routes>
           <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />
-          <Route path="/doctor.admin" element={<Suspense fallback={<PageLoader />}><DoctorDashboard /></Suspense>} />
-          <Route path="/doctor.admin/profile" element={<Suspense fallback={<PageLoader />}><DoctorProfilePage /></Suspense>} />
-          <Route path="/doctor.admin/appointments" element={<Suspense fallback={<PageLoader />}><DoctorAppointments /></Suspense>} />
-          <Route path="/doctor.admin/paid-appointments" element={<Suspense fallback={<PageLoader />}><DoctorPaidAppointments /></Suspense>} />
-          <Route path="/doctor.admin/blog-posts" element={<Suspense fallback={<PageLoader />}><DoctorBlogPosts /></Suspense>} />
-          <Route path="/doctor.admin/packages" element={<Suspense fallback={<PageLoader />}><DoctorPackages /></Suspense>} />
-          <Route path="/doctor.admin/advertisements" element={<Suspense fallback={<PageLoader />}><DoctorAdvertisements /></Suspense>} />
-          <Route path="/doctor.admin/chat" element={<Suspense fallback={<PageLoader />}><DoctorChat /></Suspense>} />
+          <Route path="/doctor.admin" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorDashboard /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/profile" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorProfilePage /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/appointments" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorAppointments /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/paid-appointments" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorPaidAppointments /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/blog-posts" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorBlogPosts /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/packages" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorPackages /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/advertisements" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorAdvertisements /></DoctorAdminLayout></Suspense>} />
+          <Route path="/doctor.admin/chat" element={<Suspense fallback={<PageLoader />}><DoctorAdminLayout><DoctorChat /></DoctorAdminLayout></Suspense>} />
           <Route path="/" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Home /></ClientLayout>} />
           <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
           <Route path="/specialist-doctors" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
