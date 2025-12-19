@@ -150,20 +150,14 @@ function DoctorProfile() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
-        <DoctorAdminSidebar />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
-        </div>
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DoctorAdminSidebar />
-
-      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
+    <div className="p-4 pt-16 lg:pt-6 lg:p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">আমার প্রোফাইল</h1>
