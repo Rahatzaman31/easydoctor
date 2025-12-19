@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import { cacheManager } from './lib/cacheManager'
+import DoctorAdminLayout from './components/DoctorAdminLayout'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -41,7 +42,6 @@ const DoctorBlogPosts = lazy(() => import('./pages/doctor-admin/DoctorBlogPosts'
 const DoctorPackages = lazy(() => import('./pages/doctor-admin/DoctorPackages'))
 const DoctorAdvertisements = lazy(() => import('./pages/doctor-admin/DoctorAdvertisements'))
 const InterstitialAd = lazy(() => import('./components/InterstitialAd'))
-const DoctorAdminLayout = lazy(() => import('./components/DoctorAdminLayout'))
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center">
