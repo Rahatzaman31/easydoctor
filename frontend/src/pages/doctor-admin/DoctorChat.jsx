@@ -214,6 +214,7 @@ function DoctorChat() {
             </form>
           </>
         )}
+      </div>
     </div>
   )
 }

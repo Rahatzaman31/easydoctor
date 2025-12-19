@@ -72,15 +72,10 @@ function App() {
     // Fetch site settings once and cache them
     const fetchSettings = async () => {
       try {
-        if (!API_URL) {
-          setMediProductsVisible(false)
-          return
-        }
         const data = await cacheManager.getOrFetch(
           'site-settings',
           async () => {
             const response = await fetch(`${API_URL}/api/site-settings`)
-            if (!response.ok) return {}
             const result = await response.json()
             return result.success && result.data ? result.data : {}
           },

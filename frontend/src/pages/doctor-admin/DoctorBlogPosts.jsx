@@ -352,8 +352,9 @@ function DoctorBlogPosts() {
             })}
           </div>
         )}
+      </div>
 
-        {showModal && (
+      {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center z-10">
