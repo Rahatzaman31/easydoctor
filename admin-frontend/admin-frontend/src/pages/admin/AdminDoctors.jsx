@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import AdminSidebar from '../../components/AdminSidebar'
+
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 

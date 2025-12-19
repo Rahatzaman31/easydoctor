@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import AdminSidebar from '../../components/AdminSidebar'
 
 function AdminDashboard() {
   const navigate = useNavigate()
@@ -65,10 +64,7 @@ function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <AdminSidebar />
-      
-      <div className="flex-1 p-4 pt-16 lg:pt-4 lg:p-8">
+    <div className="flex-1 p-4 pt-16 lg:pt-4 lg:p-8">
         <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-6 lg:mb-8">ড্যাশবোর্ড</h1>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8">
@@ -241,7 +237,6 @@ function AdminDashboard() {
           )}
         </div>
       </div>
-    </div>
   )
 }
 

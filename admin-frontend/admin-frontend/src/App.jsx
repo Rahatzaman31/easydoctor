@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import { Suspense } from 'react'
+import AdminSidebar from './components/AdminSidebar'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminDoctors from './pages/admin/AdminDoctors'
@@ -28,12 +30,21 @@ import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings
 import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
 import AdminSerialTypeSettings from './pages/admin/AdminSerialTypeSettings'
 
-function App() {
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+  </div>
+)
+
+function AppContent() {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/admin/login'
+
   return (
-    <HelmetProvider>
-      <Router>
-        <div className="min-h-screen">
-          <Routes>
+    <div className="min-h-screen">
+      {!isLoginPage && <AdminSidebar />}
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
           <Route path="/" element={<Navigate to="/admin/login" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
@@ -62,8 +73,17 @@ function App() {
           <Route path="/admin/advertisement-settings" element={<AdminAdvertisementSettings />} />
           <Route path="/admin/profile-ad-banners" element={<AdminProfileAdBanners />} />
           <Route path="/admin/serial-type-settings" element={<AdminSerialTypeSettings />} />
-          </Routes>
-        </div>
+        </Routes>
+      </Suspense>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <HelmetProvider>
+      <Router>
+        <AppContent />
       </Router>
     </HelmetProvider>
   )

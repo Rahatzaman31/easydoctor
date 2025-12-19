@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import AdminSidebar from '../../components/AdminSidebar'
+
 
 const defaultCategories = [
   { id: 'medicine', name: 'সাধারণ রোগ বিশেষজ্ঞ', icon: '/icons/medicine.png', isImage: true },

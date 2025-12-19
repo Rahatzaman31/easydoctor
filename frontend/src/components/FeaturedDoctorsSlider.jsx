@@ -208,26 +208,6 @@ function FeaturedDoctorsSlider() {
             </svg>
           </button>
         </div>
-        
-        <div className="flex justify-center mt-6 gap-3" role="tablist" aria-label="স্লাইডার পেজিনেশন">
-          {Array.from({ length: totalSlides }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                setCurrentIndex(idx)
-                startAutoSlide()
-              }}
-              className={`rounded-full transition-all min-w-10 min-h-10 flex items-center justify-center ${
-                currentIndex === idx 
-                  ? 'bg-teal-600 w-10 h-10' 
-                  : 'w-3 h-3 bg-gray-400 hover:bg-gray-500'
-              }`}
-              aria-label={`স্লাইড ${idx + 1} এ যান`}
-              aria-selected={currentIndex === idx}
-              role="tab"
-            />
-          ))}
-        </div>
       </div>
     </section>
   )
