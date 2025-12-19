@@ -31,18 +31,26 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
     target: 'esnext',
     sourcemap: false,
     reportCompressedSize: false,
-    assetsInlineLimit: 4096
+    assetsInlineLimit: 4096,
+    // Mobile optimization
+    commonjsOptions: {
+      sourceMap: false
+    }
   },
   server: {
     host: '0.0.0.0',
     port: 5000,
     allowedHosts: true,
     headers: {
-      'Cache-Control': 'public, max-age=0, must-revalidate'
+      'Cache-Control': 'public, max-age=3600, must-revalidate'
     }
+  },
+  // Optimize for production
+  optimizeDeps: {
+    exclude: ['react-quill']
   }
 })
