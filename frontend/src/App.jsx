@@ -52,9 +52,11 @@ function ClientLayout({ children, mediProductsVisible }) {
   return (
     <>
       <Navbar mediProductsVisible={mediProductsVisible} />
-      <main id="main-content" role="main">
-        {children}
-      </main>
+      <Suspense fallback={<PageLoader />}>
+        <main id="main-content" role="main">
+          {children}
+        </main>
+      </Suspense>
       <Suspense fallback={null}>
         <InterstitialAd />
       </Suspense>
@@ -92,9 +94,8 @@ function App() {
       <Router>
         <ScrollToTop />
         <div className="min-h-screen">
-          <Suspense fallback={<PageLoader />}>
           <Routes>
-          <Route path="/doctor.admin/login" element={<DoctorLogin />} />
+          <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />
           <Route path="/doctor.admin" element={<DoctorDashboard />} />
           <Route path="/doctor.admin/profile" element={<DoctorProfilePage />} />
           <Route path="/doctor.admin/appointments" element={<DoctorAppointments />} />
@@ -135,7 +136,6 @@ function App() {
           <Route path="/product/:id" element={<ClientLayout mediProductsVisible={mediProductsVisible}><ProductDetail /></ClientLayout>} />
           <Route path="/product-order/callback" element={<ClientLayout mediProductsVisible={mediProductsVisible}><ProductOrderCallback /></ClientLayout>} />
           </Routes>
-          </Suspense>
         </div>
       </Router>
     </HelmetProvider>
