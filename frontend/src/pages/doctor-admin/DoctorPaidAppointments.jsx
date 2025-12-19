@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 function DoctorPaidAppointments() {
   const navigate = useNavigate()
