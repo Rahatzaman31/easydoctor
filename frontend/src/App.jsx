@@ -96,14 +96,14 @@ function App() {
         <div className="min-h-screen">
           <Routes>
           <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />
-          <Route path="/doctor.admin" element={<DoctorDashboard />} />
-          <Route path="/doctor.admin/profile" element={<DoctorProfilePage />} />
-          <Route path="/doctor.admin/appointments" element={<DoctorAppointments />} />
-          <Route path="/doctor.admin/paid-appointments" element={<DoctorPaidAppointments />} />
-          <Route path="/doctor.admin/blog-posts" element={<DoctorBlogPosts />} />
-          <Route path="/doctor.admin/packages" element={<DoctorPackages />} />
-          <Route path="/doctor.admin/advertisements" element={<DoctorAdvertisements />} />
-          <Route path="/doctor.admin/chat" element={<DoctorChat />} />
+          <Route path="/doctor.admin" element={<Suspense fallback={<PageLoader />}><DoctorDashboard /></Suspense>} />
+          <Route path="/doctor.admin/profile" element={<Suspense fallback={<PageLoader />}><DoctorProfilePage /></Suspense>} />
+          <Route path="/doctor.admin/appointments" element={<Suspense fallback={<PageLoader />}><DoctorAppointments /></Suspense>} />
+          <Route path="/doctor.admin/paid-appointments" element={<Suspense fallback={<PageLoader />}><DoctorPaidAppointments /></Suspense>} />
+          <Route path="/doctor.admin/blog-posts" element={<Suspense fallback={<PageLoader />}><DoctorBlogPosts /></Suspense>} />
+          <Route path="/doctor.admin/packages" element={<Suspense fallback={<PageLoader />}><DoctorPackages /></Suspense>} />
+          <Route path="/doctor.admin/advertisements" element={<Suspense fallback={<PageLoader />}><DoctorAdvertisements /></Suspense>} />
+          <Route path="/doctor.admin/chat" element={<Suspense fallback={<PageLoader />}><DoctorChat /></Suspense>} />
           <Route path="/" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Home /></ClientLayout>} />
           <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
           <Route path="/specialist-doctors" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
