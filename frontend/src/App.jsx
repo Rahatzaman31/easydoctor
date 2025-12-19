@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
+import DoctorAdminLayout from './components/DoctorAdminLayout'
 import { cacheManager } from './lib/cacheManager'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
@@ -96,14 +97,14 @@ function App() {
         <div className="min-h-screen">
           <Routes>
           <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />
-          <Route path="/doctor.admin" element={<Suspense fallback={<PageLoader />}><DoctorDashboard /></Suspense>} />
-          <Route path="/doctor.admin/profile" element={<Suspense fallback={<PageLoader />}><DoctorProfilePage /></Suspense>} />
-          <Route path="/doctor.admin/appointments" element={<Suspense fallback={<PageLoader />}><DoctorAppointments /></Suspense>} />
-          <Route path="/doctor.admin/paid-appointments" element={<Suspense fallback={<PageLoader />}><DoctorPaidAppointments /></Suspense>} />
-          <Route path="/doctor.admin/blog-posts" element={<Suspense fallback={<PageLoader />}><DoctorBlogPosts /></Suspense>} />
-          <Route path="/doctor.admin/packages" element={<Suspense fallback={<PageLoader />}><DoctorPackages /></Suspense>} />
-          <Route path="/doctor.admin/advertisements" element={<Suspense fallback={<PageLoader />}><DoctorAdvertisements /></Suspense>} />
-          <Route path="/doctor.admin/chat" element={<Suspense fallback={<PageLoader />}><DoctorChat /></Suspense>} />
+          <Route path="/doctor.admin" element={<DoctorAdminLayout><DoctorDashboard /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/profile" element={<DoctorAdminLayout><DoctorProfilePage /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/appointments" element={<DoctorAdminLayout><DoctorAppointments /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/paid-appointments" element={<DoctorAdminLayout><DoctorPaidAppointments /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/blog-posts" element={<DoctorAdminLayout><DoctorBlogPosts /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/packages" element={<DoctorAdminLayout><DoctorPackages /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/advertisements" element={<DoctorAdminLayout><DoctorAdvertisements /></DoctorAdminLayout>} />
+          <Route path="/doctor.admin/chat" element={<DoctorAdminLayout><DoctorChat /></DoctorAdminLayout>} />
           <Route path="/" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Home /></ClientLayout>} />
           <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
           <Route path="/specialist-doctors" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
