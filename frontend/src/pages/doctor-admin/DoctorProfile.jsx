@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { supabase, isConfigured } from '../../lib/supabase'
-import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 import RichTextEditor from '../../components/RichTextEditor'
 
 const categories = [
@@ -151,20 +150,14 @@ function DoctorProfile() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
-        <DoctorAdminSidebar />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
-        </div>
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DoctorAdminSidebar />
-
-      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
+    <div>
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">আমার প্রোফাইল</h1>

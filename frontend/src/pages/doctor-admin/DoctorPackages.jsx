@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -194,20 +193,14 @@ function DoctorPackages() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
-        <DoctorAdminSidebar />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
-        </div>
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DoctorAdminSidebar />
-
-      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
+    <div>
         <div className="mb-8">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">প্যাকেজ</h1>
           <p className="text-gray-500 mt-1">আপনার প্যাকেজ পরিবর্তন করুন</p>

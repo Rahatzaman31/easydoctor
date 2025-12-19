@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 function DoctorAppointments() {
   const navigate = useNavigate()
@@ -128,10 +127,7 @@ function DoctorAppointments() {
   const filteredAppointments = getFilteredAppointments()
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DoctorAdminSidebar />
-
-      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
+    <div>
         <div className="mb-6">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">সাধারন সিরিয়াল</h1>
           <p className="text-gray-500 mt-1">আপনার অ্যাপয়েন্টমেন্ট সমূহ</p>
@@ -296,7 +292,6 @@ function DoctorAppointments() {
             </div>
           </>
         )}
-      </div>
     </div>
   )
 }

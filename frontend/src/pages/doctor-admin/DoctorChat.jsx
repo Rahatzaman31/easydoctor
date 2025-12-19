@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
-import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 function DoctorChat() {
   const navigate = useNavigate()
@@ -145,10 +144,7 @@ function DoctorChat() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DoctorAdminSidebar />
-
-      <div className="flex-1 flex flex-col">
+    <div className="flex flex-col h-full">
         <div className="p-4 lg:p-6 border-b border-gray-200 bg-white">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">এডমিনের সাথে চ্যাট</h1>
           <p className="text-gray-500 mt-1">এডমিনের সাথে যোগাযোগ করুন</p>
