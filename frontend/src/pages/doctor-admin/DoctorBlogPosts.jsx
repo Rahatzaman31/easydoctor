@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../../lib/supabase'
+import DoctorAdminSidebar from '../../components/DoctorAdminSidebar'
 
 const blogCategories = [
   'স্বাস্থ্য টিপস',
@@ -244,7 +245,10 @@ function DoctorBlogPosts() {
   }
 
   return (
-    <div>
+    <div className="flex min-h-screen bg-gray-50">
+      <DoctorAdminSidebar />
+
+      <div className="flex-1 p-4 pt-16 lg:pt-6 lg:p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">আমার ব্লগ পোষ্ট</h1>
