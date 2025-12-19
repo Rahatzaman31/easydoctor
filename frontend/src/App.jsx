@@ -1,9 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
+import { cacheManager } from './lib/cacheManager'
+
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 const SpecialistDoctors = lazy(() => import('./pages/SpecialistDoctors'))
 const DoctorProfile = lazy(() => import('./pages/DoctorProfile'))
@@ -45,10 +48,10 @@ const PageLoader = () => (
   </div>
 )
 
-function ClientLayout({ children }) {
+function ClientLayout({ children, mediProductsVisible }) {
   return (
     <>
-      <Navbar />
+      <Navbar mediProductsVisible={mediProductsVisible} />
       <main id="main-content" role="main">
         {children}
       </main>
@@ -60,6 +63,30 @@ function ClientLayout({ children }) {
 }
 
 function App() {
+  const [mediProductsVisible, setMediProductsVisible] = useState(false)
+
+  useEffect(() => {
+    // Fetch site settings once and cache them
+    const fetchSettings = async () => {
+      try {
+        const data = await cacheManager.getOrFetch(
+          'site-settings',
+          async () => {
+            const response = await fetch(`${API_URL}/api/site-settings`)
+            const result = await response.json()
+            return result.success && result.data ? result.data : {}
+          },
+          30 * 60 * 1000 // Cache for 30 minutes
+        )
+        setMediProductsVisible(data.medi_products_visible || false)
+      } catch (error) {
+        console.error('Error fetching site settings:', error)
+        setMediProductsVisible(false)
+      }
+    }
+    fetchSettings()
+  }, [])
+
   return (
     <HelmetProvider>
       <Router>
@@ -76,37 +103,37 @@ function App() {
           <Route path="/doctor.admin/packages" element={<DoctorPackages />} />
           <Route path="/doctor.admin/advertisements" element={<DoctorAdvertisements />} />
           <Route path="/doctor.admin/chat" element={<DoctorChat />} />
-          <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
-          <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />
-          <Route path="/specialist-doctors" element={<ClientLayout><SpecialistDoctors /></ClientLayout>} />
-          <Route path="/hospitals-diagnostics" element={<ClientLayout><HospitalsDiagnostics /></ClientLayout>} />
-          <Route path="/hospital/:id" element={<ClientLayout><HospitalDetail /></ClientLayout>} />
-          <Route path="/ambulance" element={<ClientLayout><AmbulanceService /></ClientLayout>} />
-          <Route path="/blog" element={<ClientLayout><BlogList /></ClientLayout>} />
-          <Route path="/blog/:slug" element={<ClientLayout><BlogDetail /></ClientLayout>} />
-          <Route path="/download" element={<ClientLayout><Download /></ClientLayout>} />
-          <Route path="/contact" element={<ClientLayout><Contact /></ClientLayout>} />
-          <Route path="/join-as-doctor" element={<ClientLayout><JoinAsDoctor /></ClientLayout>} />
-          <Route path="/join-as-hospital" element={<ClientLayout><JoinAsHospital /></ClientLayout>} />
-          <Route path="/register-ambulance" element={<ClientLayout><RegisterAmbulance /></ClientLayout>} />
-          <Route path="/advertise" element={<ClientLayout><Advertise /></ClientLayout>} />
-          <Route path="/data-edit-request" element={<ClientLayout><DataEditRequest /></ClientLayout>} />
-          <Route path="/about-us" element={<ClientLayout><AboutUs /></ClientLayout>} />
-          <Route path="/promotional/:id" element={<ClientLayout><PromotionalDetail /></ClientLayout>} />
-          <Route path="/editorial-policy" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/advertisement-policy" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/correction-policy" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/terms-of-use" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/doctors-terms" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/privacy-policy" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/terms-conditions" element={<ClientLayout><LegalPage /></ClientLayout>} />
-          <Route path="/doctor/:id" element={<ClientLayout><DoctorProfile /></ClientLayout>} />
-          <Route path="/book/:doctorId" element={<ClientLayout><BookAppointment /></ClientLayout>} />
-          <Route path="/paid-book/callback" element={<ClientLayout><PaymentCallback /></ClientLayout>} />
-          <Route path="/paid-book/:doctorId" element={<ClientLayout><PaidBookAppointment /></ClientLayout>} />
-          <Route path="/medi-products" element={<ClientLayout><MediProducts /></ClientLayout>} />
-          <Route path="/product/:id" element={<ClientLayout><ProductDetail /></ClientLayout>} />
-          <Route path="/product-order/callback" element={<ClientLayout><ProductOrderCallback /></ClientLayout>} />
+          <Route path="/" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Home /></ClientLayout>} />
+          <Route path="/rangpur-specialist-doctors-list-online-serial" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
+          <Route path="/specialist-doctors" element={<ClientLayout mediProductsVisible={mediProductsVisible}><SpecialistDoctors /></ClientLayout>} />
+          <Route path="/hospitals-diagnostics" element={<ClientLayout mediProductsVisible={mediProductsVisible}><HospitalsDiagnostics /></ClientLayout>} />
+          <Route path="/hospital/:id" element={<ClientLayout mediProductsVisible={mediProductsVisible}><HospitalDetail /></ClientLayout>} />
+          <Route path="/ambulance" element={<ClientLayout mediProductsVisible={mediProductsVisible}><AmbulanceService /></ClientLayout>} />
+          <Route path="/blog" element={<ClientLayout mediProductsVisible={mediProductsVisible}><BlogList /></ClientLayout>} />
+          <Route path="/blog/:slug" element={<ClientLayout mediProductsVisible={mediProductsVisible}><BlogDetail /></ClientLayout>} />
+          <Route path="/download" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Download /></ClientLayout>} />
+          <Route path="/contact" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Contact /></ClientLayout>} />
+          <Route path="/join-as-doctor" element={<ClientLayout mediProductsVisible={mediProductsVisible}><JoinAsDoctor /></ClientLayout>} />
+          <Route path="/join-as-hospital" element={<ClientLayout mediProductsVisible={mediProductsVisible}><JoinAsHospital /></ClientLayout>} />
+          <Route path="/register-ambulance" element={<ClientLayout mediProductsVisible={mediProductsVisible}><RegisterAmbulance /></ClientLayout>} />
+          <Route path="/advertise" element={<ClientLayout mediProductsVisible={mediProductsVisible}><Advertise /></ClientLayout>} />
+          <Route path="/data-edit-request" element={<ClientLayout mediProductsVisible={mediProductsVisible}><DataEditRequest /></ClientLayout>} />
+          <Route path="/about-us" element={<ClientLayout mediProductsVisible={mediProductsVisible}><AboutUs /></ClientLayout>} />
+          <Route path="/promotional/:id" element={<ClientLayout mediProductsVisible={mediProductsVisible}><PromotionalDetail /></ClientLayout>} />
+          <Route path="/editorial-policy" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/advertisement-policy" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/correction-policy" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/terms-of-use" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/doctors-terms" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/privacy-policy" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/terms-conditions" element={<ClientLayout mediProductsVisible={mediProductsVisible}><LegalPage /></ClientLayout>} />
+          <Route path="/doctor/:id" element={<ClientLayout mediProductsVisible={mediProductsVisible}><DoctorProfile /></ClientLayout>} />
+          <Route path="/book/:doctorId" element={<ClientLayout mediProductsVisible={mediProductsVisible}><BookAppointment /></ClientLayout>} />
+          <Route path="/paid-book/callback" element={<ClientLayout mediProductsVisible={mediProductsVisible}><PaymentCallback /></ClientLayout>} />
+          <Route path="/paid-book/:doctorId" element={<ClientLayout mediProductsVisible={mediProductsVisible}><PaidBookAppointment /></ClientLayout>} />
+          <Route path="/medi-products" element={<ClientLayout mediProductsVisible={mediProductsVisible}><MediProducts /></ClientLayout>} />
+          <Route path="/product/:id" element={<ClientLayout mediProductsVisible={mediProductsVisible}><ProductDetail /></ClientLayout>} />
+          <Route path="/product-order/callback" element={<ClientLayout mediProductsVisible={mediProductsVisible}><ProductOrderCallback /></ClientLayout>} />
           </Routes>
           </Suspense>
         </div>

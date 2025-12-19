@@ -1,27 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const API_URL = import.meta.env.VITE_API_URL || ''
-
-function Navbar() {
+function Navbar({ mediProductsVisible = false }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [mediProductsVisible, setMediProductsVisible] = useState(false)
   const location = useLocation()
-
-  useEffect(() => {
-    async function fetchSiteSettings() {
-      try {
-        const response = await fetch(`${API_URL}/api/site-settings`)
-        const result = await response.json()
-        if (result.success && result.data) {
-          setMediProductsVisible(result.data.medi_products_visible || false)
-        }
-      } catch (error) {
-        console.error('Error fetching site settings:', error)
-      }
-    }
-    fetchSiteSettings()
-  }, [])
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">

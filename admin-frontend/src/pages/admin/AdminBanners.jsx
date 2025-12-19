@@ -14,8 +14,8 @@ const defaultBanner = {
   secondary_button_text: 'যোগাযোগ করুন',
   secondary_button_link: '/contact',
   show_secondary_button: true,
-  background_color: '#0f172a',
-  gradient_enabled: true,
+  overlay_color: '#1e40af',
+  overlay_opacity: 0.75,
   feature_1_text: 'যাচাইকৃত ডাক্তার',
   feature_1_icon: 'verified',
   show_feature_1: true,
@@ -181,10 +181,9 @@ function AdminBanners() {
                 ব্যাকগ্রাউন্ড সেটিংস
               </h2>
               
-              <div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden mb-4 border border-gray-200" style={{
-                background: banner.gradient_enabled 
-                  ? `linear-gradient(135deg, ${banner.background_color} 0%, #1e3a8a 50%, #0369a1 100%)`
-                  : banner.background_color
+              <div className="relative aspect-video rounded-lg overflow-hidden mb-4 border border-gray-200" style={{
+                backgroundColor: banner.overlay_color,
+                opacity: banner.overlay_opacity
               }}>
                 <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-medium">
                   প্রিভিউ
@@ -193,35 +192,36 @@ function AdminBanners() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={banner.gradient_enabled}
-                      onChange={(e) => setBanner(prev => ({ ...prev, gradient_enabled: e.target.checked }))}
-                      className="w-4 h-4 rounded text-primary-600"
-                    />
-                    গ্রেডিয়েন্ট এফেক্ট ব্যবহার করুন
-                  </label>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">প্রধান ব্যাকগ্রাউন্ড কালার</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">ওভারলে কালার</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
-                      value={banner.background_color}
-                      onChange={(e) => setBanner(prev => ({ ...prev, background_color: e.target.value }))}
+                      value={banner.overlay_color}
+                      onChange={(e) => setBanner(prev => ({ ...prev, overlay_color: e.target.value }))}
                       className="w-12 h-10 rounded cursor-pointer border border-gray-300"
                     />
                     <input
                       type="text"
-                      value={banner.background_color}
-                      onChange={(e) => setBanner(prev => ({ ...prev, background_color: e.target.value }))}
+                      value={banner.overlay_color}
+                      onChange={(e) => setBanner(prev => ({ ...prev, overlay_color: e.target.value }))}
                       className="flex-1 input-field"
-                      placeholder="#0f172a"
+                      placeholder="#1e40af"
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">দ্রুত লোডিং এবং আধুনিক ডিজাইনের জন্য স্ট্যাটিক কালার ব্যবহার করা হয়</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">ওভারলে স্বচ্ছতা</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={banner.overlay_opacity}
+                    onChange={(e) => setBanner(prev => ({ ...prev, overlay_opacity: parseFloat(e.target.value) }))}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">মান: {banner.overlay_opacity}</p>
                 </div>
               </div>
             </div>
