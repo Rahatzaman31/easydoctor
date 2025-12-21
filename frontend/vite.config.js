@@ -11,8 +11,6 @@ export default defineConfig({
       routes: prerenderRoutes,
       renderAfterDocumentEvent: 'app-rendered',
       minify: true,
-      maxConcurrentRoutes: 4,
-      timeout: 30000,
       postProcess: (context) => {
         // Ensure charset and viewport exist
         if (!context.html.includes('charset')) {
