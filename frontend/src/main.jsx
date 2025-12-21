@@ -14,6 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 // Signal to prerenderer that the app has finished rendering
+// Add delay to ensure async operations complete before prerender captures
 if (typeof document !== 'undefined') {
-  document.dispatchEvent(new Event('app-rendered'))
+  setTimeout(() => {
+    document.dispatchEvent(new Event('app-rendered'))
+  }, 1000)
 }

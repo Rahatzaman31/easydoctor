@@ -10,13 +10,20 @@ const Footer = () => {
     youtube_url: '',
     instagram_url: ''
   })
+  const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false)
 
   useEffect(() => {
+    // Only fetch on client-side, not during SSR/prerendering
+    if (typeof window === 'undefined') return
+    
     fetchSocialLinks()
   }, [])
 
   async function fetchSocialLinks() {
-    if (!supabase || !isConfigured) return
+    if (!supabase || !isConfigured) {
+      setHasAttemptedFetch(true)
+      return
+    }
 
     try {
       const { data, error } = await supabase
@@ -30,6 +37,8 @@ const Footer = () => {
       }
     } catch (err) {
       console.log('Using default social links')
+    } finally {
+      setHasAttemptedFetch(true)
     }
   }
 
