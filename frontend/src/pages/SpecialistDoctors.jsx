@@ -3,37 +3,9 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
 
-const useSeoMeta = () => {
-  useEffect(() => {
-    document.title = 'রংপুর জেলার বিশেষজ্ঞ ডাক্তারদের তালিকা ও অনলাইন সিরিয়াল | ইজি ডক্টর রংপুর'
-    
-    const metaDescription = document.querySelector('meta[name="description"]')
-    const descriptionContent = 'রংপুর জেলার সেরা বিশেষজ্ঞ ডাক্তারদের তালিকা। মেডিসিন, কার্ডিওলজি, নিউরোলজি, গাইনি, শিশু বিশেষজ্ঞ সহ সকল বিভাগের ডাক্তার খুঁজুন। অনলাইনে সিরিয়াল নিন।'
-    if (metaDescription) {
-      metaDescription.setAttribute('content', descriptionContent)
-    } else {
-      const meta = document.createElement('meta')
-      meta.name = 'description'
-      meta.content = descriptionContent
-      document.head.appendChild(meta)
-    }
-    
-    const metaKeywords = document.querySelector('meta[name="keywords"]')
-    const keywordsContent = 'রংপুর ডাক্তার, বিশেষজ্ঞ ডাক্তার রংপুর, অনলাইন সিরিয়াল রংপুর, ডাক্তার এপয়েন্টমেন্ট রংপুর, হৃদরোগ বিশেষজ্ঞ রংপুর, মেডিসিন বিশেষজ্ঞ রংপুর, গাইনি ডাক্তার রংপুর, শিশু বিশেষজ্ঞ রংপুর'
-    if (metaKeywords) {
-      metaKeywords.setAttribute('content', keywordsContent)
-    } else {
-      const meta = document.createElement('meta')
-      meta.name = 'keywords'
-      meta.content = keywordsContent
-      document.head.appendChild(meta)
-    }
-
-    return () => {
-      document.title = 'ইজি ডক্টর রংপুর - ডাক্তার অ্যাপয়েন্টমেন্ট বুকিং'
-    }
-  }, [])
-}
+const PAGE_TITLE = 'রংপুর জেলার বিশেষজ্ঞ ডাক্তারদের তালিকা ও অনলাইন সিরিয়াল | ইজি ডক্টর রংপুর'
+const PAGE_DESC = 'রংপুর জেলার সেরা বিশেষজ্ঞ ডাক্তারদের তালিকা। মেডিসিন, কার্ডিওলজি, নিউরোলজি, গাইনি, শিশু বিশেষজ্ঞ সহ সকল বিভাগের ডাক্তার খুঁজুন। অনলাইনে সিরিয়াল নিন।'
+const PAGE_KEYWORDS = 'রংপুর ডাক্তার, বিশেষজ্ঞ ডাক্তার রংপুর, অনলাইন সিরিয়াল রংপুর, ডাক্তার এপয়েন্টমেন্ট রংপুর, হৃদরোগ বিশেষজ্ঞ রংপুর, মেডিসিন বিশেষজ্ঞ রংপুর, গাইনি ডাক্তার রংপুর, শিশু বিশেষজ্ঞ রংপুর'
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false)
@@ -94,8 +66,6 @@ function SpecialistDoctors() {
   const [nameSearch, setNameSearch] = useState('')
   const [cardsPerPage, setCardsPerPage] = useState(5)
   const isMobile = useIsMobile()
-  
-  useSeoMeta()
 
   useEffect(() => {
     const updateCardsPerPage = () => {

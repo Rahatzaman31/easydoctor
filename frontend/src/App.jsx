@@ -1,11 +1,13 @@
 import { lazy, Suspense, useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import DoctorAdminLayout from './components/DoctorAdminLayout'
 import { cacheManager } from './lib/cacheManager'
+import SEOHead from './components/SEOHead'
+import { routeMeta } from './seo/routeMeta'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -65,6 +67,22 @@ function ClientLayout({ children, mediProductsVisible }) {
   )
 }
 
+function RouteSEO() {
+  const location = useLocation()
+  const meta = routeMeta[location.pathname]
+  if (!meta) return null
+  return (
+    <SEOHead 
+      title={meta.title}
+      description={meta.description}
+      keywords={meta.keywords}
+      url={meta.url}
+      canonical={meta.canonical}
+      noIndex={meta.noIndex}
+    />
+  )
+}
+
 function App() {
   const [mediProductsVisible, setMediProductsVisible] = useState(false)
 
@@ -94,6 +112,7 @@ function App() {
     <HelmetProvider>
       <Router>
         <ScrollToTop />
+        <RouteSEO />
         <div className="min-h-screen">
           <Routes>
           <Route path="/doctor.admin/login" element={<Suspense fallback={<PageLoader />}><DoctorLogin /></Suspense>} />

@@ -12,3 +12,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 )
+
+// Signal to prerenderer that the app has finished rendering
+if (typeof document !== 'undefined') {
+  document.dispatchEvent(new Event('app-rendered'))
+}

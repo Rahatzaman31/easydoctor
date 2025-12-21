@@ -6,15 +6,17 @@ function SEOHead({
   keywords = 'ডাক্তার রংপুর, অ্যাপয়েন্টমেন্ট বুকিং, রংপুর হাসপাতাল, ডায়াগনস্টিক সেন্টার, অ্যাম্বুলেন্স সেবা, বিশেষজ্ঞ ডাক্তার',
   image = '/og-image.png',
   url = '',
+  canonical = '',
   type = 'website',
   noIndex = false,
   structuredData = null,
   author = 'ইজি ডক্টর রংপুর',
   language = 'bn-BD'
 }) {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : ''
-  const fullUrl = url ? `${siteUrl}${url}` : siteUrl
-  const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`
+  const BASE_URL = (import.meta?.env?.VITE_SITE_URL) || 'https://easydoctorrangpur01.vercel.app'
+  const path = canonical || url || (typeof window !== 'undefined' ? window.location.pathname : '/')
+  const fullUrl = path.startsWith('http') ? path : `${BASE_URL}${path}`
+  const fullImage = image.startsWith('http') ? image : `${BASE_URL}${image}`
 
   return (
     <Helmet>

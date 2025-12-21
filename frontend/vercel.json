@@ -37,6 +37,13 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/rangpur-specialist-doctors-list-online-serial",
+      "destination": "/specialist-doctors",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/doctor/:slug",
@@ -49,6 +56,12 @@
       ],
       "destination": "/api/og-doctor?slug=:slug"
     },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { 
+      "source": "/(.*)", 
+      "destination": "/index.html",
+      "missing": [
+        { "type": "file" }
+      ]
+    }
   ]
 }

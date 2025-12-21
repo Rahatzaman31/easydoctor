@@ -1,8 +1,31 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import VitePluginPrerender from 'vite-plugin-prerender'
+import { prerenderRoutes } from './src/seo/routeMeta'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePluginPrerender({
+      staticDir: 'dist',
+      routes: prerenderRoutes,
+      renderAfterDocumentEvent: 'app-rendered',
+      minify: true,
+      postProcess: (context) => {
+        // Ensure charset and viewport exist
+        if (!context.html.includes('charset')) {
+          context.html = context.html.replace('<head>', '<head><meta charset="utf-8">')
+        }
+        if (!context.html.includes('viewport')) {
+          context.html = context.html.replace(
+            '<head>',
+            '<head><meta name="viewport" content="width=device-width, initial-scale=1">'
+          )
+        }
+        return context
+      }
+    })
+  ],
   build: {
     outDir: 'dist',
     cssCodeSplit: true,

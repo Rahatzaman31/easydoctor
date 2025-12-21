@@ -25,7 +25,7 @@ function Navbar({ mediProductsVisible = false }) {
               হোম
             </Link>
             <Link 
-              to="/rangpur-specialist-doctors-list-online-serial" 
+              to="/specialist-doctors" 
               className={`font-medium transition-all ${
                 location.pathname === '/rangpur-specialist-doctors-list-online-serial' || location.pathname === '/specialist-doctors'
                   ? 'text-primary-600 bg-primary-50 px-3 py-2 rounded-lg' 
@@ -135,7 +135,7 @@ function Navbar({ mediProductsVisible = false }) {
               হোম
             </Link>
             <Link 
-              to="/rangpur-specialist-doctors-list-online-serial" 
+              to="/specialist-doctors" 
               onClick={() => setIsOpen(false)}
               className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
                 location.pathname === '/rangpur-specialist-doctors-list-online-serial' || location.pathname === '/specialist-doctors'
