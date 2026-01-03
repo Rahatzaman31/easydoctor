@@ -487,11 +487,13 @@ function AdminBlogs() {
           
           // Helper to open modal
           const handleDoctorModalOpen = (e) => {
-            e.preventDefault()
-            e.stopPropagation()
+            if (e) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
             
             // Re-find the latest version of the placeholder to be sure
-            const currentPlaceholder = e.currentTarget.closest('.embedded-doctors') || e.currentTarget;
+            const currentPlaceholder = e?.currentTarget?.closest('.embedded-doctors') || e?.target?.closest('.embedded-doctors') || placeholder;
             const slugs = currentPlaceholder.getAttribute('data-doctor-slugs')
             const slugsList = slugs ? slugs.split(',') : []
             
@@ -503,16 +505,19 @@ function AdminBlogs() {
             fetchDoctorPreviews(slugsList)
           };
 
-          // Attach to the main div
+          // Attach to the main div with multiple event types
           placeholder.onmousedown = handleDoctorModalOpen;
           placeholder.onclick = handleDoctorModalOpen;
+          placeholder.ontouchstart = handleDoctorModalOpen;
 
           // Also try to find the prompt and attach directly if it exists
           const prompt = placeholder.querySelector('.edit-prompt');
           if (prompt) {
             prompt.style.pointerEvents = 'auto'; // Make it clickable
+            prompt.style.cursor = 'pointer';
             prompt.onmousedown = handleDoctorModalOpen;
             prompt.onclick = handleDoctorModalOpen;
+            prompt.ontouchstart = handleDoctorModalOpen;
           }
         }
       })
