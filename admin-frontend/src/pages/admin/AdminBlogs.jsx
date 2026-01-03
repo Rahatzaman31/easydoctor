@@ -478,8 +478,9 @@ function AdminBlogs() {
 
         if (!placeholder.hasAttribute('data-listener')) {
           placeholder.setAttribute('data-listener', 'true')
-          // Use mousedown instead of click to be more reliable in contentEditable
-          placeholder.onmousedown = (e) => {
+          
+          // Helper to open modal
+          const handleDoctorModalOpen = (e) => {
             e.preventDefault()
             e.stopPropagation()
             const slugs = placeholder.getAttribute('data-doctor-slugs')
@@ -491,6 +492,16 @@ function AdminBlogs() {
             openDoctorModal()
             setDoctorUrlsList(slugsList)
             fetchDoctorPreviews(slugsList)
+          };
+
+          // Attach to the main div
+          placeholder.onmousedown = handleDoctorModalOpen;
+
+          // Also try to find the prompt and attach directly if it exists
+          const prompt = placeholder.querySelector('.edit-prompt');
+          if (prompt) {
+            prompt.style.pointerEvents = 'auto'; // Make it clickable
+            prompt.onmousedown = handleDoctorModalOpen;
           }
         }
       })
