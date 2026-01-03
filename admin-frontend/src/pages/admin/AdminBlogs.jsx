@@ -468,57 +468,45 @@ function AdminBlogs() {
       const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
       placeholders.forEach(placeholder => {
         // Ensure visual style is applied even after content change
-        if (placeholder.style.background !== 'rgb(240, 253, 250)') {
-           placeholder.setAttribute('contenteditable', 'false')
-           placeholder.style.margin = '1rem 0'
-           placeholder.style.padding = '1rem'
-           placeholder.style.background = '#f0fdfa'
-           placeholder.style.border = '2px solid #0d9488'
-           placeholder.style.borderRadius = '0.75rem'
-           placeholder.style.cursor = 'pointer'
-           placeholder.style.userSelect = 'none'
-           placeholder.style.display = 'block'
-           placeholder.style.position = 'relative'
-           placeholder.style.zIndex = '10'
-        }
+        placeholder.setAttribute('contenteditable', 'false')
+        placeholder.style.margin = '1rem 0'
+        placeholder.style.padding = '1rem'
+        placeholder.style.background = '#f0fdfa'
+        placeholder.style.border = '2px solid #0d9488'
+        placeholder.style.borderRadius = '0.75rem'
+        placeholder.style.cursor = 'pointer'
+        placeholder.style.userSelect = 'none'
+        placeholder.style.display = 'block'
+        placeholder.style.position = 'relative'
+        placeholder.style.zIndex = '10'
 
-        if (!placeholder.hasAttribute('data-listener')) {
-          placeholder.setAttribute('data-listener', 'true')
-          
-          // Helper to open modal
-          const handleDoctorModalOpen = (e) => {
-            if (e) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-            
-            // Re-find the latest version of the placeholder to be sure
-            const currentPlaceholder = e?.currentTarget?.closest('.embedded-doctors') || e?.target?.closest('.embedded-doctors') || placeholder;
-            const slugs = currentPlaceholder.getAttribute('data-doctor-slugs')
-            const slugsList = slugs ? slugs.split(',') : []
-            
-            // Store reference to the placeholder being edited
-            window._editingPlaceholder = currentPlaceholder
-            
-            openDoctorModal()
-            setDoctorUrlsList(slugsList)
-            fetchDoctorPreviews(slugsList)
-          };
-
-          // Attach to the main div with multiple event types
-          placeholder.onmousedown = handleDoctorModalOpen;
-          placeholder.onclick = handleDoctorModalOpen;
-          placeholder.ontouchstart = handleDoctorModalOpen;
-
-          // Also try to find the prompt and attach directly if it exists
-          const prompt = placeholder.querySelector('.edit-prompt');
-          if (prompt) {
-            prompt.style.pointerEvents = 'auto'; // Make it clickable
-            prompt.style.cursor = 'pointer';
-            prompt.onmousedown = handleDoctorModalOpen;
-            prompt.onclick = handleDoctorModalOpen;
-            prompt.ontouchstart = handleDoctorModalOpen;
+        // Helper to open modal
+        const handleDoctorModalOpen = (e) => {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
           }
+          
+          const slugs = placeholder.getAttribute('data-doctor-slugs')
+          const slugsList = slugs ? slugs.split(',') : []
+          
+          window._editingPlaceholder = placeholder
+          
+          openDoctorModal()
+          setDoctorUrlsList(slugsList)
+          fetchDoctorPreviews(slugsList)
+        };
+
+        // Re-attach listeners every time to ensure they work
+        placeholder.onclick = handleDoctorModalOpen;
+        placeholder.onmousedown = handleDoctorModalOpen;
+
+        const prompt = placeholder.querySelector('.edit-prompt');
+        if (prompt) {
+          prompt.style.pointerEvents = 'auto';
+          prompt.style.cursor = 'pointer';
+          prompt.onclick = handleDoctorModalOpen;
+          prompt.onmousedown = handleDoctorModalOpen;
         }
       })
     }
