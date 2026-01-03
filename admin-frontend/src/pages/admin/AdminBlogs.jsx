@@ -160,27 +160,46 @@ function AdminBlogs() {
           
           // Style existing doctor embeds for preview
           const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
-          placeholders.forEach(placeholder => {
-            if (!placeholder.innerHTML || placeholder.innerHTML.trim() === '') {
-              const slugs = placeholder.getAttribute('data-doctor-slugs') || ''
-              placeholder.setAttribute('contenteditable', 'false')
-              placeholder.style.margin = '1rem 0'
-              placeholder.style.padding = '1rem'
-              placeholder.style.background = '#f0fdfa'
-              placeholder.style.border = '1px solid #99f6e4'
-              placeholder.style.borderRadius = '0.75rem'
-              placeholder.style.cursor = 'pointer'
-              placeholder.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600;">
-                  <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                  </svg>
-                  ডাক্তার কার্ড (Slugs: ${slugs})
-                </div>
-                <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem;">(এই অংশটি ওয়েবসাইটে ডাক্তার কার্ড হিসেবে প্রদর্শিত হবে)</div>
-              `
+          placeholders.forEach(async (placeholder) => {
+            const slugs = placeholder.getAttribute('data-doctor-slugs') || ''
+            placeholder.setAttribute('contenteditable', 'false')
+            placeholder.style.margin = '1rem 0'
+            placeholder.style.padding = '1rem'
+            placeholder.style.background = '#f0fdfa'
+            placeholder.style.border = '1px solid #99f6e4'
+            placeholder.style.borderRadius = '0.75rem'
+            placeholder.style.cursor = 'pointer'
+            placeholder.style.userSelect = 'none'
+            
+            // Try to get doctor names for better preview
+            let displayNames = 'লোড হচ্ছে...'
+            if (slugs) {
+              const slugArray = slugs.split(',')
+              const { data } = await supabase
+                .from('doctors')
+                .select('name')
+                .in('slug', slugArray.filter(s => !s.match(/^[0-9a-f]{8}-/i)))
+              const { data: dataId } = await supabase
+                .from('doctors')
+                .select('name')
+                .in('id', slugArray.filter(s => s.match(/^[0-9a-f]{8}-/i)))
+              
+              const names = [...(data || []), ...(dataId || [])].map(d => d.name)
+              displayNames = names.length > 0 ? names.join(', ') : slugs
             }
+
+            placeholder.innerHTML = `
+              <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600; pointer-events: none;">
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+                ডাক্তার কার্ড: ${displayNames}
+              </div>
+              <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
+            `
           })
+          
+          handleEditorChange() // Initial listeners setup
         }
       }, 0)
     }
@@ -436,14 +455,25 @@ function AdminBlogs() {
       const content = editorRef.current.innerHTML
       setFormData(prev => ({ ...prev, content }))
       
-      // Update preview for embedded doctors
+      // Setup click listeners for doctor cards
       const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
-      placeholders.forEach(async (placeholder) => {
-        const slugs = placeholder.getAttribute('data-doctor-slugs')
-        if (slugs && !placeholder.innerHTML) {
-          placeholder.innerHTML = `<div class="p-4 bg-teal-50 border border-teal-200 rounded-lg text-teal-700 text-sm italic">
-            [ডাক্তার কার্ড: ${slugs}]
-          </div>`
+      placeholders.forEach(placeholder => {
+        if (!placeholder.hasAttribute('data-listener')) {
+          placeholder.setAttribute('data-listener', 'true')
+          placeholder.onclick = (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            const slugs = placeholder.getAttribute('data-doctor-slugs')
+            const slugsList = slugs ? slugs.split(',') : []
+            
+            if (confirm('আপনি কি এই ডাক্তার কার্ডটি পরিবর্তন করতে চান?')) {
+              openDoctorModal()
+              setDoctorUrlsList(slugsList)
+              fetchDoctorPreviews(slugsList)
+              // Store reference to the placeholder being edited
+              window._editingPlaceholder = placeholder
+            }
+          }
         }
       })
     }
@@ -732,30 +762,46 @@ function AdminBlogs() {
 
   function insertDoctorCards() {
     if (doctorUrlsList.length === 0) {
-      alert('অন্তত একটি ডাক্তার যোগ করুন')
+      if (window._editingPlaceholder) {
+        if (confirm('আপনি কি এই ডাক্তার কার্ডটি মুছে ফেলতে চান?')) {
+          window._editingPlaceholder.remove()
+          handleEditorChange()
+          setShowDoctorModal(false)
+          window._editingPlaceholder = null
+        }
+      } else {
+        alert('অন্তত একটি ডাক্তার যোগ করুন')
+      }
       return
     }
     
     const slugsData = doctorUrlsList.join(',')
-    const doctorNames = doctorPreviews.map(d => d.name).join(', ')
-    const doctorEmbed = `<div class="embedded-doctors" data-doctor-slugs="${slugsData}" contenteditable="false" style="margin: 1rem 0; padding: 1rem; background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 0.75rem; cursor: pointer;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600;">
+    const doctorNames = doctorPreviews.map(d => d.name).join(', ') || 'ডাক্তার কার্ড'
+    const doctorEmbedContent = `
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600; pointer-events: none;">
         <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
         </svg>
         ডাক্তার কার্ড: ${doctorNames}
       </div>
-      <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem;">(এই অংশটি ওয়েবসাইটে ডাক্তার কার্ড হিসেবে প্রদর্শিত হবে)</div>
-    </div><p></p>`
-    
-    editorRef.current?.focus()
-    if (savedSelection) {
-      restoreSelection(savedSelection)
+      <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
+    `
+
+    if (window._editingPlaceholder) {
+      window._editingPlaceholder.setAttribute('data-doctor-slugs', slugsData)
+      window._editingPlaceholder.innerHTML = doctorEmbedContent
+      window._editingPlaceholder = null
+    } else {
+      const doctorEmbed = `<div class="embedded-doctors" data-doctor-slugs="${slugsData}" contenteditable="false" style="margin: 1rem 0; padding: 1rem; background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 0.75rem; cursor: pointer; user-select: none;">${doctorEmbedContent}</div><p></p>`
+      
+      editorRef.current?.focus()
+      if (savedSelection) {
+        restoreSelection(savedSelection)
+      }
+      document.execCommand('insertHTML', false, doctorEmbed)
     }
     
-    document.execCommand('insertHTML', false, doctorEmbed)
     handleEditorChange()
-    
     setShowDoctorModal(false)
     setDoctorUrls('')
     setDoctorUrlsList([])
@@ -1324,6 +1370,27 @@ function AdminBlogs() {
             </div>
 
             <div className="p-6 space-y-6">
+              {window._editingPlaceholder && (
+                <div className="flex justify-between items-center bg-teal-50 p-4 rounded-xl border border-teal-200">
+                  <span className="text-teal-800 font-medium">ডাক্তার কার্ড এডিট করছেন</span>
+                  <button 
+                    onClick={() => {
+                      if(confirm('আপনি কি এই কার্ডটি মুছে ফেলতে চান?')) {
+                        window._editingPlaceholder.remove();
+                        handleEditorChange();
+                        setShowDoctorModal(false);
+                        window._editingPlaceholder = null;
+                      }
+                    }}
+                    className="text-red-600 hover:text-red-700 text-sm font-bold flex items-center gap-1"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    কার্ড মুছে ফেলুন
+                  </button>
+                </div>
+              )}
               <div className="flex border-b">
                 <button
                   type="button"
@@ -1660,24 +1727,23 @@ function AdminBlogs() {
               )}
 
               <div className="flex gap-4 pt-4 border-t">
-                <button
-                  type="button"
-                  onClick={() => setShowDoctorModal(false)}
-                  className="flex-1 px-6 py-3 border border-gray-200 rounded-xl text-gray-700 font-semibold hover:bg-gray-50"
-                >
-                  বাতিল
-                </button>
-                <button
-                  type="button"
-                  onClick={insertDoctorCards}
-                  disabled={doctorUrlsList.length === 0}
-                  className="flex-1 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  কন্টেন্টে যোগ করুন
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window._editingPlaceholder = null
+                      setShowDoctorModal(false)
+                    }}
+                    className="flex-1 px-6 py-3 border border-gray-200 rounded-xl text-gray-700 font-semibold hover:bg-gray-50"
+                  >
+                    বাতিল
+                  </button>
+                  <button
+                    type="button"
+                    onClick={insertDoctorCards}
+                    className="flex-1 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 disabled:opacity-50"
+                  >
+                    {window._editingPlaceholder ? 'আপডেট করুন' : 'কন্টেন্টে যোগ করুন'}
+                  </button>
               </div>
             </div>
           </div>
