@@ -34,22 +34,28 @@ html {
   scroll-behavior: smooth;
 }
 
-img {
-  content-visibility: auto;
-}
-
-/* Optimize animations for 60fps */
-.flex.transition-transform {
-  will-change: transform;
-}
-
-/* Reduce layout thrashing */
-.overflow-hidden {
-  contain: layout style paint;
-}
-
 body {
   background-color: #f8fafc;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+img {
+  content-visibility: auto;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 @layer components {

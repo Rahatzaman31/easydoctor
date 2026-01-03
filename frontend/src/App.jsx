@@ -87,6 +87,12 @@ function App() {
   const [mediProductsVisible, setMediProductsVisible] = useState(false)
 
   useEffect(() => {
+    // Disable right-click site-wide
+    const handleContextMenu = (e) => {
+      e.preventDefault()
+    }
+    document.addEventListener('contextmenu', handleContextMenu)
+    
     // Fetch site settings once and cache them
     const fetchSettings = async () => {
       try {
@@ -106,6 +112,10 @@ function App() {
       }
     }
     fetchSettings()
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu)
+    }
   }, [])
 
   return (
