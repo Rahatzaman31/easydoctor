@@ -105,14 +105,16 @@ function EmbeddedDoctorCards({ doctorSlugs }) {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-sm text-gray-900 group-hover:text-emerald-700 transition-colors truncate leading-relaxed pt-1 pb-0.5" style={{ textDecoration: 'none' }}>{doctor.name}</h3>
-                {doctor.degrees && (
-                  <p className="text-[11px] text-emerald-600 font-medium line-clamp-1 leading-normal" style={{ textDecoration: 'none' }}>{doctor.degrees}</p>
-                ) || (
-                  <p className="text-[11px] text-slate-500 line-clamp-1 leading-normal">এমবিবিএস</p>
-                )}
-                {doctor.category_name && (
-                  <p className="text-[10px] text-slate-500 font-medium line-clamp-1 mt-0.5">{doctor.category_name}</p>
-                )}
+                <div className="min-h-[40px] flex flex-col justify-between">
+                  {doctor.degrees ? (
+                    <p className="text-[14px] text-emerald-600 font-medium line-clamp-2 leading-tight mb-1" style={{ textDecoration: 'none' }}>{doctor.degrees}</p>
+                  ) : (
+                    <p className="text-[14px] text-slate-500 line-clamp-2 leading-tight mb-1">এমবিবিএস</p>
+                  )}
+                  {doctor.category_name && (
+                    <p className="text-[14px] text-slate-500 font-medium line-clamp-1">{doctor.category_name}</p>
+                  )}
+                </div>
               </div>
             </div>
             
