@@ -166,10 +166,13 @@ function AdminBlogs() {
             placeholder.style.margin = '1rem 0'
             placeholder.style.padding = '1rem'
             placeholder.style.background = '#f0fdfa'
-            placeholder.style.border = '1px solid #99f6e4'
+            placeholder.style.border = '2px solid #0d9488'
             placeholder.style.borderRadius = '0.75rem'
             placeholder.style.cursor = 'pointer'
             placeholder.style.userSelect = 'none'
+            placeholder.style.display = 'block'
+            placeholder.style.position = 'relative'
+            placeholder.style.zIndex = '10'
             
             // Try to get doctor names for better preview
             let displayNames = 'লোড হচ্ছে...'
@@ -470,10 +473,13 @@ function AdminBlogs() {
            placeholder.style.margin = '1rem 0'
            placeholder.style.padding = '1rem'
            placeholder.style.background = '#f0fdfa'
-           placeholder.style.border = '1px solid #99f6e4'
+           placeholder.style.border = '2px solid #0d9488'
            placeholder.style.borderRadius = '0.75rem'
            placeholder.style.cursor = 'pointer'
            placeholder.style.userSelect = 'none'
+           placeholder.style.display = 'block'
+           placeholder.style.position = 'relative'
+           placeholder.style.zIndex = '10'
         }
 
         if (!placeholder.hasAttribute('data-listener')) {
@@ -483,11 +489,14 @@ function AdminBlogs() {
           const handleDoctorModalOpen = (e) => {
             e.preventDefault()
             e.stopPropagation()
-            const slugs = placeholder.getAttribute('data-doctor-slugs')
+            
+            // Re-find the latest version of the placeholder to be sure
+            const currentPlaceholder = e.currentTarget.closest('.embedded-doctors') || e.currentTarget;
+            const slugs = currentPlaceholder.getAttribute('data-doctor-slugs')
             const slugsList = slugs ? slugs.split(',') : []
             
             // Store reference to the placeholder being edited
-            window._editingPlaceholder = placeholder
+            window._editingPlaceholder = currentPlaceholder
             
             openDoctorModal()
             setDoctorUrlsList(slugsList)
@@ -496,12 +505,14 @@ function AdminBlogs() {
 
           // Attach to the main div
           placeholder.onmousedown = handleDoctorModalOpen;
+          placeholder.onclick = handleDoctorModalOpen;
 
           // Also try to find the prompt and attach directly if it exists
           const prompt = placeholder.querySelector('.edit-prompt');
           if (prompt) {
             prompt.style.pointerEvents = 'auto'; // Make it clickable
             prompt.onmousedown = handleDoctorModalOpen;
+            prompt.onclick = handleDoctorModalOpen;
           }
         }
       })
