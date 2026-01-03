@@ -14,8 +14,9 @@ function BlogContentRenderer({ content }) {
   const processedContent = useMemo(() => {
     if (!content) return ''
     
+    // Support both old and new formats (with or without inner preview HTML)
     return content.replace(
-      /<div[^>]*class="embedded-doctors"[^>]*data-doctor-slugs="([^"]*)"[^>]*><\/div>/gi,
+      /<div[^>]*class="embedded-doctors"[^>]*data-doctor-slugs="([^"]*)"[^>]*>([\s\S]*?)<\/div>/gi,
       (match, slugs) => {
         const id = `doctor-embed-${Math.random().toString(36).substr(2, 9)}`
         return `<div id="${id}" class="doctor-embed-placeholder" data-doctor-slugs="${slugs}"></div>`

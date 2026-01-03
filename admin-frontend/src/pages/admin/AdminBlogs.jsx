@@ -458,21 +458,33 @@ function AdminBlogs() {
       // Setup click listeners for doctor cards
       const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
       placeholders.forEach(placeholder => {
+        // Ensure visual style is applied even after content change
+        if (placeholder.style.background !== 'rgb(240, 253, 250)') {
+           placeholder.setAttribute('contenteditable', 'false')
+           placeholder.style.margin = '1rem 0'
+           placeholder.style.padding = '1rem'
+           placeholder.style.background = '#f0fdfa'
+           placeholder.style.border = '1px solid #99f6e4'
+           placeholder.style.borderRadius = '0.75rem'
+           placeholder.style.cursor = 'pointer'
+           placeholder.style.userSelect = 'none'
+        }
+
         if (!placeholder.hasAttribute('data-listener')) {
           placeholder.setAttribute('data-listener', 'true')
-          placeholder.onclick = (e) => {
+          // Use mousedown instead of click to be more reliable in contentEditable
+          placeholder.onmousedown = (e) => {
             e.preventDefault()
             e.stopPropagation()
             const slugs = placeholder.getAttribute('data-doctor-slugs')
             const slugsList = slugs ? slugs.split(',') : []
             
-            if (confirm('আপনি কি এই ডাক্তার কার্ডটি পরিবর্তন করতে চান?')) {
-              openDoctorModal()
-              setDoctorUrlsList(slugsList)
-              fetchDoctorPreviews(slugsList)
-              // Store reference to the placeholder being edited
-              window._editingPlaceholder = placeholder
-            }
+            // Store reference to the placeholder being edited
+            window._editingPlaceholder = placeholder
+            
+            openDoctorModal()
+            setDoctorUrlsList(slugsList)
+            fetchDoctorPreviews(slugsList)
           }
         }
       })
