@@ -157,6 +157,30 @@ function AdminBlogs() {
       setTimeout(() => {
         if (editorRef.current) {
           editorRef.current.innerHTML = formData.content || ''
+          
+          // Style existing doctor embeds for preview
+          const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
+          placeholders.forEach(placeholder => {
+            if (!placeholder.innerHTML || placeholder.innerHTML.trim() === '') {
+              const slugs = placeholder.getAttribute('data-doctor-slugs') || ''
+              placeholder.setAttribute('contenteditable', 'false')
+              placeholder.style.margin = '1rem 0'
+              placeholder.style.padding = '1rem'
+              placeholder.style.background = '#f0fdfa'
+              placeholder.style.border = '1px solid #99f6e4'
+              placeholder.style.borderRadius = '0.75rem'
+              placeholder.style.cursor = 'pointer'
+              placeholder.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600;">
+                  <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                  ডাক্তার কার্ড (Slugs: ${slugs})
+                </div>
+                <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem;">(এই অংশটি ওয়েবসাইটে ডাক্তার কার্ড হিসেবে প্রদর্শিত হবে)</div>
+              `
+            }
+          })
         }
       }, 0)
     }
@@ -411,6 +435,17 @@ function AdminBlogs() {
     if (editorRef.current) {
       const content = editorRef.current.innerHTML
       setFormData(prev => ({ ...prev, content }))
+      
+      // Update preview for embedded doctors
+      const placeholders = editorRef.current.querySelectorAll('.embedded-doctors')
+      placeholders.forEach(async (placeholder) => {
+        const slugs = placeholder.getAttribute('data-doctor-slugs')
+        if (slugs && !placeholder.innerHTML) {
+          placeholder.innerHTML = `<div class="p-4 bg-teal-50 border border-teal-200 rounded-lg text-teal-700 text-sm italic">
+            [ডাক্তার কার্ড: ${slugs}]
+          </div>`
+        }
+      })
     }
   }
 
@@ -702,7 +737,16 @@ function AdminBlogs() {
     }
     
     const slugsData = doctorUrlsList.join(',')
-    const doctorEmbed = `<div class="embedded-doctors" data-doctor-slugs="${slugsData}"></div>`
+    const doctorNames = doctorPreviews.map(d => d.name).join(', ')
+    const doctorEmbed = `<div class="embedded-doctors" data-doctor-slugs="${slugsData}" contenteditable="false" style="margin: 1rem 0; padding: 1rem; background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 0.75rem; cursor: pointer;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #0d9488; font-weight: 600;">
+        <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+        </svg>
+        ডাক্তার কার্ড: ${doctorNames}
+      </div>
+      <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem;">(এই অংশটি ওয়েবসাইটে ডাক্তার কার্ড হিসেবে প্রদর্শিত হবে)</div>
+    </div><p></p>`
     
     editorRef.current?.focus()
     if (savedSelection) {
