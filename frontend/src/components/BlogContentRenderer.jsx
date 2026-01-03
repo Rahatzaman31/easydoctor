@@ -15,7 +15,10 @@ function BlogContentRenderer({ content }) {
     if (!content) return ''
     
     // Support both old and new formats (with or without inner preview HTML)
-    return content.replace(
+    // Also remove the "Click to edit" prompt from the final render
+    const cleanedContent = content.replace(/<div class="edit-prompt"[^>]*>([\s\S]*?)<\/div>/gi, '')
+
+    return cleanedContent.replace(
       /<div[^>]*class="embedded-doctors"[^>]*data-doctor-slugs="([^"]*)"[^>]*>([\s\S]*?)<\/div>/gi,
       (match, slugs) => {
         const id = `doctor-embed-${Math.random().toString(36).substr(2, 9)}`

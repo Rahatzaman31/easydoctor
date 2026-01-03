@@ -87,7 +87,7 @@ function EmbeddedDoctorCards({ doctorSlugs }) {
             className="flex flex-col p-4 bg-white hover:bg-slate-50 rounded-2xl transition-all group border border-gray-200 hover:border-emerald-400 shadow-sm hover:shadow-md h-full"
             style={{ textDecoration: 'none' }}
           >
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-1">
               <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-emerald-100 group-hover:border-emerald-300 transition-colors">
                 {doctor.image_url ? (
                   <img 
@@ -104,23 +104,19 @@ function EmbeddedDoctorCards({ doctorSlugs }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-sm text-gray-900 group-hover:text-emerald-700 transition-colors truncate" style={{ textDecoration: 'none' }}>{doctor.name}</h3>
+                <h3 className="font-bold text-sm text-gray-900 group-hover:text-emerald-700 transition-colors truncate leading-relaxed pt-1 pb-0.5" style={{ textDecoration: 'none' }}>{doctor.name}</h3>
                 {doctor.degrees && (
-                  <p className="text-[11px] text-emerald-600 font-medium line-clamp-1" style={{ textDecoration: 'none' }}>{doctor.degrees}</p>
+                  <p className="text-[11px] text-emerald-600 font-medium line-clamp-1 leading-normal" style={{ textDecoration: 'none' }}>{doctor.degrees}</p>
                 ) || (
-                  <p className="text-[11px] text-slate-500 line-clamp-1">এমবিবিএস</p>
+                  <p className="text-[11px] text-slate-500 line-clamp-1 leading-normal">এমবিবিএস</p>
+                )}
+                {doctor.category_name && (
+                  <p className="text-[10px] text-slate-500 font-medium line-clamp-1 mt-0.5">{doctor.category_name}</p>
                 )}
               </div>
             </div>
             
-            <div className="mt-auto pt-3 border-t border-gray-50 flex items-center justify-between gap-2">
-              <div className="flex-1 min-w-0">
-                {doctor.category_name && (
-                  <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium truncate inline-block max-w-full">
-                    {doctor.category_name}
-                  </span>
-                )}
-              </div>
+            <div className="mt-auto pt-3 border-t border-gray-50 flex items-center justify-end">
               <div className="bg-emerald-600 text-white text-[11px] px-3 py-1.5 rounded-lg font-bold hover:bg-emerald-700 transition-colors whitespace-nowrap flex items-center gap-1 shadow-sm">
                 বিস্তারিত দেখুন
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

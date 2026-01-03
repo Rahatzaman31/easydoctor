@@ -195,7 +195,7 @@ function AdminBlogs() {
                 </svg>
                 ডাক্তার কার্ড: ${displayNames}
               </div>
-              <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
+              <div class="edit-prompt" style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
             `
           })
           
@@ -596,10 +596,23 @@ function AdminBlogs() {
     if (range) {
       setSavedSelection(range)
     }
+    
+    // If we are editing an existing placeholder, initialize the list with its doctors
+    let initialList = []
+    if (window._editingPlaceholder) {
+      const slugs = window._editingPlaceholder.getAttribute('data-doctor-slugs')
+      initialList = slugs ? slugs.split(',') : []
+    }
+
     setShowDoctorModal(true)
     setDoctorUrls('')
-    setDoctorUrlsList([])
-    setDoctorPreviews([])
+    setDoctorUrlsList(initialList)
+    if (initialList.length > 0) {
+      fetchDoctorPreviews(initialList)
+    } else {
+      setDoctorPreviews([])
+    }
+    
     setDoctorModalTab('url')
     setSelectedCategoryId('')
     setCategoryDoctors([])
@@ -802,7 +815,7 @@ function AdminBlogs() {
         </svg>
         ডাক্তার কার্ড: ${doctorNames}
       </div>
-      <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
+      <div class="edit-prompt" style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
     `
 
     if (window._editingPlaceholder && document.body.contains(window._editingPlaceholder)) {
