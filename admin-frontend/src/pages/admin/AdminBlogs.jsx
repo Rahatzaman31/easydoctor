@@ -235,6 +235,9 @@ function AdminBlogs() {
   }
 
   function openAddModal() {
+    // Clear editing placeholder before opening add modal
+    window._editingPlaceholder = null;
+    
     setEditingPost(null)
     setFormData({
       title: '',
@@ -255,6 +258,9 @@ function AdminBlogs() {
   }
 
   function openEditModal(post) {
+    // Clear editing placeholder before opening edit modal
+    window._editingPlaceholder = null;
+    
     setEditingPost(post)
     setFormData({
       title: post.title || '',
@@ -799,7 +805,7 @@ function AdminBlogs() {
       <div style="font-size: 0.75rem; color: #0f766e; margin-top: 0.25rem; pointer-events: none;">(এডিট করতে এখানে ক্লিক করুন)</div>
     `
 
-    if (window._editingPlaceholder) {
+    if (window._editingPlaceholder && document.body.contains(window._editingPlaceholder)) {
       window._editingPlaceholder.setAttribute('data-doctor-slugs', slugsData)
       window._editingPlaceholder.innerHTML = doctorEmbedContent
       window._editingPlaceholder = null
