@@ -258,6 +258,41 @@ function BlogDetail() {
 
           <BlogContentRenderer content={post.content} />
 
+          {/* FAQ Section */}
+          {post.faqs && post.faqs.length > 0 && (
+            <div className="mt-12 bg-white rounded-2xl p-6 md:p-8 border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 font-hind">সাধারণ জিজ্ঞাসা (FAQ)</h2>
+              </div>
+              
+              <div className="space-y-4">
+                {post.faqs.map((faq, index) => (
+                  <details 
+                    key={index} 
+                    className="group bg-gray-50 rounded-xl border border-gray-200 overflow-hidden transition-all duration-300 hover:border-teal-300"
+                  >
+                    <summary className="flex justify-between items-center p-4 md:p-5 cursor-pointer list-none">
+                      <span className="text-lg font-semibold text-gray-800 pr-4 font-hind">{faq.question}</span>
+                      <div className="text-teal-500 transition-transform duration-300 group-open:rotate-180">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </summary>
+                    <div className="px-4 md:px-5 pb-5 text-gray-600 border-t border-gray-100 pt-4 leading-relaxed font-hind">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-12 pt-8 border-t">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">শেয়ার করুন</h3>
             <div className="flex gap-3">

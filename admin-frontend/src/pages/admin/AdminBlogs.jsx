@@ -542,6 +542,24 @@ function AdminBlogs() {
     }
   }
 
+  function removeFaq(index) {
+    const newFaqs = formData.faqs.filter((_, i) => i !== index)
+    setFormData({ ...formData, faqs: newFaqs })
+  }
+
+  function updateFaq(index, field, value) {
+    const newFaqs = [...formData.faqs]
+    newFaqs[index] = { ...newFaqs[index], [field]: value }
+    setFormData({ ...formData, faqs: newFaqs })
+  }
+
+  function addFaq() {
+    setFormData({ 
+      ...formData, 
+      faqs: [...(formData.faqs || []), { question: '', answer: '' }] 
+    })
+  }
+
   function toggleCategory(category) {
     const newCategories = formData.categories.includes(category)
       ? formData.categories.filter(c => c !== category)
@@ -1312,6 +1330,51 @@ function AdminBlogs() {
                     onKeyUp={handleEditorSelect}
                     style={{ direction: 'ltr', textAlign: 'left' }}
                   />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-4">FAQ (প্রশ্ন ও উত্তর)</label>
+                <div className="space-y-4">
+                  {(formData.faqs || []).map((faq, index) => (
+                    <div key={index} className="p-4 bg-gray-50 rounded-xl border border-gray-200 relative group">
+                      <button
+                        type="button"
+                        onClick={() => removeFaq(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          value={faq.question}
+                          onChange={(e) => updateFaq(index, 'question', e.target.value)}
+                          placeholder="প্রশ্ন (উদা: অ্যাপয়েন্টমেন্ট কিভাবে নিব?)"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 text-sm font-medium"
+                        />
+                        <textarea
+                          value={faq.answer}
+                          onChange={(e) => updateFaq(index, 'answer', e.target.value)}
+                          placeholder="উত্তর লিখুন..."
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 text-sm"
+                          rows="2"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addFaq}
+                    className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-teal-500 hover:text-teal-600 transition-all flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    নতুন FAQ যোগ করুন
+                  </button>
                 </div>
               </div>
 
