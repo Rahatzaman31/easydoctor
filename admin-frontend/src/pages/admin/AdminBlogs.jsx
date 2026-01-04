@@ -34,6 +34,7 @@ function AdminBlogs() {
     content: '',
     faqs: [],
     featured_image_url: '',
+    featured_image_alt: '',
     meta_title: '',
     meta_description: '',
     keywords: '',
@@ -248,7 +249,9 @@ function AdminBlogs() {
       slug: '',
       excerpt: '',
       content: '',
+      faqs: [],
       featured_image_url: '',
+      featured_image_alt: '',
       meta_title: '',
       meta_description: '',
       keywords: '',
@@ -271,7 +274,9 @@ function AdminBlogs() {
       slug: post.slug || '',
       excerpt: post.excerpt || '',
       content: post.content || '',
+      faqs: post.faqs || [],
       featured_image_url: post.featured_image_url || '',
+      featured_image_alt: post.featured_image_alt || '',
       meta_title: post.meta_title || '',
       meta_description: post.meta_description || '',
       keywords: post.keywords?.join(', ') || '',
@@ -299,6 +304,7 @@ function AdminBlogs() {
         content: formData.content,
         faqs: formData.faqs || [],
         featured_image_url: formData.featured_image_url,
+        featured_image_alt: formData.featured_image_alt,
         meta_title: formData.meta_title || formData.title,
         meta_description: formData.meta_description || formData.excerpt,
         keywords: formData.keywords ? formData.keywords.split(',').map(k => k.trim()).filter(k => k) : [],
@@ -432,6 +438,7 @@ function AdminBlogs() {
         alignmentStyle = 'float: right; margin: 0 0 1rem 1rem;'
       }
 
+      // The alt text is part of the HTML content string which is saved in the 'content' column of the blog_posts table
       const imgHtml = `<img src="${url}" alt="${alt}" style="${alignmentStyle} max-width: 100%; height: auto;" />${align !== 'center' ? ' ' : '<p></p>'}`
       document.execCommand('insertHTML', false, imgHtml)
       handleEditorChange()
@@ -1116,13 +1123,22 @@ function AdminBlogs() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">ফিচার্ড ছবি URL</label>
-                <input
-                  type="url"
-                  value={formData.featured_image_url}
-                  onChange={(e) => setFormData({ ...formData, featured_image_url: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="https://example.com/image.jpg"
-                />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="url"
+                    value={formData.featured_image_url}
+                    onChange={(e) => setFormData({ ...formData, featured_image_url: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    placeholder="ছবির লিঙ্ক (https://...)"
+                  />
+                  <input
+                    type="text"
+                    value={formData.featured_image_alt}
+                    onChange={(e) => setFormData({ ...formData, featured_image_alt: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    placeholder="ছবির বর্ণনা (Alt Text)"
+                  />
+                </div>
                 {formData.featured_image_url && (
                   <div className="mt-2">
                     <img src={formData.featured_image_url} alt="Preview" className="h-32 object-cover rounded-lg" />

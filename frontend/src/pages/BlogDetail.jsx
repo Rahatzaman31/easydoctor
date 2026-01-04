@@ -234,7 +234,7 @@ function BlogDetail() {
             <div className="rounded-2xl overflow-hidden shadow-lg">
               <img
                 src={post.featured_image_url}
-                alt={post.title}
+                alt={post.featured_image_alt || post.title}
                 className="w-full h-auto max-h-[300px] md:max-h-[350px] object-cover object-center"
               />
             </div>
