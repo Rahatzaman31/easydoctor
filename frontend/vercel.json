@@ -51,10 +51,21 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot).*"
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot|Googlebot|bingbot|yandexbot|baiduspider|DuckDuckBot|Sogou|Slurp|ia_archiver).*"
         }
       ],
       "destination": "/api/og-doctor?slug=:slug"
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot|Googlebot|bingbot|yandexbot|baiduspider|DuckDuckBot|Sogou|Slurp|ia_archiver).*"
+        }
+      ],
+      "destination": "/api/og-blog?slug=:slug"
     },
     { 
       "source": "/(.*)", 

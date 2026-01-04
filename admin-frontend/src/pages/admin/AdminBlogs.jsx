@@ -32,6 +32,7 @@ function AdminBlogs() {
     slug: '',
     excerpt: '',
     content: '',
+    faqs: [],
     featured_image_url: '',
     meta_title: '',
     meta_description: '',
@@ -296,6 +297,7 @@ function AdminBlogs() {
         slug: formData.slug || generateSlug(formData.title),
         excerpt: formData.excerpt,
         content: formData.content,
+        faqs: formData.faqs || [],
         featured_image_url: formData.featured_image_url,
         meta_title: formData.meta_title || formData.title,
         meta_description: formData.meta_description || formData.excerpt,
@@ -415,9 +417,23 @@ function AdminBlogs() {
     const range = saveSelection()
     const url = prompt('ছবির URL দিন:')
     if (url) {
+      const alt = prompt('ছবির অল্টার টেক্সট (Alt Text) দিন:', 'ব্লগ ইমেজ')
+      const align = prompt('ছবিটি কোথায় রাখবেন? (left, center, right):', 'center')
+      
       editorRef.current?.focus()
       if (range) restoreSelection(range)
-      document.execCommand('insertImage', false, url)
+      
+      let alignmentStyle = ''
+      if (align === 'center') {
+        alignmentStyle = 'display: block; margin: 0 auto;'
+      } else if (align === 'left') {
+        alignmentStyle = 'float: left; margin: 0 1rem 1rem 0;'
+      } else if (align === 'right') {
+        alignmentStyle = 'float: right; margin: 0 0 1rem 1rem;'
+      }
+
+      const imgHtml = `<img src="${url}" alt="${alt}" style="${alignmentStyle} max-width: 100%; height: auto;" />${align !== 'center' ? ' ' : '<p></p>'}`
+      document.execCommand('insertHTML', false, imgHtml)
       handleEditorChange()
     }
   }

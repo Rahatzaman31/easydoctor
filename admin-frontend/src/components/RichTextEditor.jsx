@@ -62,7 +62,8 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
       [{ 'size': fontSizeArr }],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }],
       ['blockquote'],
-      ['clean']
+      ['clean'],
+      ['faq']
     ]
   }), [])
 
@@ -70,7 +71,8 @@ function RichTextEditor({ value, onChange, placeholder = '' }) {
     'bold', 'italic', 'underline',
     'size',
     'list',
-    'blockquote'
+    'blockquote',
+    'faq'
   ]
 
   if (!isReady) {

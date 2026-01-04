@@ -121,32 +121,49 @@ function BlogDetail() {
     let existingScript = document.querySelector('script[type="application/ld+json"]')
     if (existingScript) existingScript.remove()
 
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      'headline': postData.title,
-      'description': postData.meta_description || postData.excerpt,
-      'image': postData.featured_image_url,
-      'author': {
-        '@type': 'Person',
-        'name': postData.author
-      },
-      'datePublished': postData.published_at,
-      'dateModified': postData.updated_at,
-      'publisher': {
-        '@type': 'Organization',
-        'name': 'ইজি ডক্টর রংপুর',
-        'logo': {
-          '@type': 'ImageObject',
-          'url': window.location.origin + '/logo-icon.png'
-        }
-      },
-      'mainEntityOfPage': {
-        '@type': 'WebPage',
-        '@id': window.location.href
-      },
-      'keywords': postData.keywords?.join(', '),
-      'inLanguage': 'bn-BD'
+    const schema = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        'headline': postData.title,
+        'description': postData.meta_description || postData.excerpt,
+        'image': postData.featured_image_url,
+        'author': {
+          '@type': 'Organization',
+          'name': postData.author || 'ইজি ডক্টর রংপুর টিম'
+        },
+        'datePublished': postData.published_at,
+        'dateModified': postData.updated_at,
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'ইজি ডক্টর রংপুর',
+          'logo': {
+            '@type': 'ImageObject',
+            'url': window.location.origin + '/logo-icon.png'
+          }
+        },
+        'mainEntityOfPage': {
+          '@type': 'WebPage',
+          '@id': window.location.href
+        },
+        'keywords': postData.keywords?.join(', '),
+        'inLanguage': 'bn-BD'
+      }
+    ]
+
+    if (postData.faqs && postData.faqs.length > 0) {
+      schema.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': postData.faqs.map(faq => ({
+          '@type': 'Question',
+          'name': faq.question,
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': faq.answer
+          }
+        }))
+      })
     }
 
     const script = document.createElement('script')
