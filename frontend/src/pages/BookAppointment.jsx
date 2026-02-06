@@ -237,7 +237,14 @@ function BookAppointment() {
         doctor_name: doctor.name,
         doctor_category: doctor.category_name,
         chamber_address: doctor.chamber_address,
-        ...formData,
+        patient_name: formData.patient_name,
+        patient_phone: formData.patient_phone,
+        patient_age: parseInt(formData.patient_age),
+        patient_gender: formData.patient_gender,
+        district: formData.district,
+        upazila: formData.upazila,
+        appointment_date: formData.appointment_date,
+        problem_description: formData.problem_description,
         booking_ref: ref,
         status: 'pending'
       }])
