@@ -27,7 +27,12 @@ function AdminAppointments() {
       }
       let query = supabase
         .from('appointments')
-        .select('*')
+        .select(`
+          *,
+          doctors (
+            name
+          )
+        `)
         .order('created_at', { ascending: false })
       
       if (filter !== 'all') {
@@ -156,7 +161,7 @@ function AdminAppointments() {
                             <p className="text-xs text-gray-400">{apt.patient_age} বছর, {apt.patient_gender === 'male' ? 'পুরুষ' : apt.patient_gender === 'female' ? 'মহিলা' : 'অন্যান্য'}</p>
                           </div>
                         </td>
-                        <td className="px-6 py-4">{apt.doctor_name}</td>
+                        <td className="px-6 py-4">{apt.doctors?.name || 'N/A'}</td>
                         <td className="px-6 py-4">{apt.appointment_date}</td>
                         <td className="px-6 py-4">
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -243,7 +248,7 @@ function AdminAppointments() {
                       <p className="text-sm text-gray-500">{apt.patient_phone}</p>
                       <p className="text-xs text-gray-400">{apt.patient_age} বছর, {apt.patient_gender === 'male' ? 'পুরুষ' : apt.patient_gender === 'female' ? 'মহিলা' : 'অন্যান্য'}</p>
                     </div>
-                    <p className="text-sm"><span className="text-gray-500">ডাক্তার:</span> {apt.doctor_name}</p>
+                    <p className="text-sm"><span className="text-gray-500">ডাক্তার:</span> {apt.doctors?.name || 'N/A'}</p>
                     <p className="text-sm"><span className="text-gray-500">তারিখ:</span> {apt.appointment_date}</p>
                   </div>
 

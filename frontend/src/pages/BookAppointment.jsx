@@ -232,11 +232,9 @@ function BookAppointment() {
       }
       const ref = 'RD' + Date.now().toString().slice(-8)
       
-      const { error } = await supabase.from('appointments').insert([{
+      const appointmentData = {
         doctor_id: doctorId,
         doctor_name: doctor.name,
-        doctor_category: doctor.category_name,
-        chamber_address: doctor.chamber_address,
         patient_name: formData.patient_name,
         patient_phone: formData.patient_phone,
         patient_age: parseInt(formData.patient_age),
@@ -247,7 +245,9 @@ function BookAppointment() {
         problem_description: formData.problem_description,
         booking_ref: ref,
         status: 'pending'
-      }])
+      }
+
+      const { error } = await supabase.from('appointments').insert([appointmentData])
 
       if (error) throw error
       
