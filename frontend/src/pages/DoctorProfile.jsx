@@ -657,7 +657,7 @@ function DoctorProfile() {
                   <div className="flex-1 text-left">
                     <h4 className="font-semibold text-amber-800 mb-2">অনলাইন সিরিয়াল বন্ধ আছে</h4>
                     <p className="text-amber-700 text-sm mb-4">
-                      ডাক্তারের সিরিয়াল নিতে উপরে তথ্য সেকশনে প্রদত্ত ফোন নম্বরে কল করুন অথবা ভিজিটিং কার্ড ডাউনলোড করুন।
+                      ডাক্তারের অনলাইন সিরিয়াল আপাতত বন্ধ রয়েছে, সাময়িক বিড়ম্বনার জন্য আন্তরিক ভাবে দুঃখিত।
                     </p>
                     <div className="flex flex-wrap gap-3">
                       {doctor.phone && (
