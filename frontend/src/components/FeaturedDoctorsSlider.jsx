@@ -71,7 +71,7 @@ function FeaturedDoctorsSlider() {
         .select('*')
         .eq('is_active', true)
         .eq('is_featured', true)
-        .limit(10)
+
       
       if (error) throw error
       setFeaturedDoctors(data || [])
