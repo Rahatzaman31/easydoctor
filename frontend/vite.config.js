@@ -40,10 +40,16 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 5000,
+    port: 5173,
     allowedHosts: true,
     headers: {
       'Cache-Control': 'public, max-age=3600, must-revalidate'
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
+      }
     }
   },
   // Optimize for production

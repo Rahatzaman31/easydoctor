@@ -55,6 +55,12 @@ const categories = [
   { id: 'plastic-surgery', title: 'প্লাস্টিক সার্জারি', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.webp', isImage: true },
   { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.webp', isImage: true },
   { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.webp', isImage: true },
+  { id: 'infertility', title: 'বন্ধ্যাত্ব ও প্রজনন', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', icon: '/icons/infertility.png', isImage: true },
+  { id: 'physical-medicine', title: 'ফিজিক্যাল মেডিসিন', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন', icon: '/icons/physical-medicine.png', isImage: true },
+  { id: 'colorectal-surgery', title: 'কলোরেক্টাল সার্জারী', name: 'কলোরেক্টাল সার্জন', icon: '/icons/colorectal-surgery.png', isImage: true },
+  { id: 'chest-medicine', title: 'বক্ষব্যাধি', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', icon: '/icons/chest-medicine.png', isImage: true },
+  { id: 'neurosurgery', title: 'নিউরো সার্জারী', name: 'নিউরো সার্জন', icon: '/icons/neurosurgery.png', isImage: true },
+  { id: 'hematology', title: 'রক্ত রোগ', name: 'রক্ত রোগ বিশেষজ্ঞ', icon: '/icons/hematology.png', isImage: true },
 ]
 
 const FeatureIcon = ({ type }) => {

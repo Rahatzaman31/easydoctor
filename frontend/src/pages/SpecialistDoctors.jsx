@@ -51,6 +51,12 @@ const categories = [
   { id: 'plastic-surgery', name: 'প্লাস্টিক সার্জন', nameEn: 'প্লাস্টিক সার্জারি', icon: '/icons/plastic-surgery.webp' },
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট', nameEn: 'ফিজিওথেরাপি', icon: '/icons/physiotherapy.webp' },
   { id: 'nutrition', name: 'পুষ্টিবিদ', nameEn: 'নিউট্রিশন', icon: '/icons/nutrition.webp' },
+  { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', nameEn: 'বন্ধ্যাত্ব ও প্রজনন', icon: '/icons/infertility.png' },
+  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন', nameEn: 'ফিজিক্যাল মেডিসিন', icon: '/icons/physical-medicine.png' },
+  { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন', nameEn: 'কলোরেক্টাল সার্জারী', icon: '/icons/colorectal-surgery.png' },
+  { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', nameEn: 'বক্ষব্যাধি', icon: '/icons/chest-medicine.png' },
+  { id: 'neurosurgery', name: 'নিউরো সার্জন', nameEn: 'নিউরো সার্জারী', icon: '/icons/neurosurgery.png' },
+  { id: 'hematology', name: 'রক্ত রোগ বিশেষজ্ঞ', nameEn: 'রক্ত রোগ', icon: '/icons/hematology.png' },
 ]
 
 function SpecialistDoctors() {

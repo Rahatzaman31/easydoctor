@@ -29,6 +29,12 @@ const categories = [
   { id: 'plastic-surgery', name: 'প্লাস্টিক সার্জন' },
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট' },
   { id: 'nutrition', name: 'পুষ্টিবিদ' },
+  { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ' },
+  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন' },
+  { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন' },
+  { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ' },
+  { id: 'neurosurgery', name: 'নিউরো সার্জন' },
+  { id: 'hematology', name: 'রক্ত রোগ বিশেষজ্ঞ' },
 ]
 
 const districts = ['রংপুর', 'দিনাজপুর', 'কুড়িগ্রাম', 'লালমনিরহাট', 'নীলফামারী', 'গাইবান্ধা', 'ঠাকুরগাঁও', 'পঞ্চগড়']
