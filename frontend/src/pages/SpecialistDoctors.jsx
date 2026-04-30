@@ -74,6 +74,28 @@ function sortByDisplayOrder(list) {
   })
 }
 
+function sortByCategorySerial(list, serialMap) {
+  return [...list].sort((a, b) => {
+    const ao = serialMap[a.id]
+    const bo = serialMap[b.id]
+    const aHas = ao !== null && ao !== undefined && ao !== ''
+    const bHas = bo !== null && bo !== undefined && bo !== ''
+    if (aHas && bHas) return Number(ao) - Number(bo)
+    if (aHas) return -1
+    if (bHas) return 1
+    const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0)
+    if (ratingDiff !== 0) return ratingDiff
+    const ado = a.display_order
+    const bdo = b.display_order
+    const adoHas = ado !== null && ado !== undefined && ado !== ''
+    const bdoHas = bdo !== null && bdo !== undefined && bdo !== ''
+    if (adoHas && bdoHas) return Number(ado) - Number(bdo)
+    if (adoHas) return -1
+    if (bdoHas) return 1
+    return 0
+  })
+}
+
 function SpecialistDoctors() {
   const [searchParams] = useSearchParams()
   const [doctors, setDoctors] = useState([])
@@ -183,14 +205,27 @@ function SpecialistDoctors() {
           .eq('is_active', true)
           .eq('category', categoryId)
         
-        const { data: extraCategoryDoctorIds } = await supabase
+        let { data: mappingRows, error: mapErr } = await supabase
           .from('doctor_category_mappings')
-          .select('doctor_id')
+          .select('doctor_id, display_order')
           .eq('category_id', categoryId)
         
+        if (mapErr && /display_order/i.test((mapErr.message || '') + ' ' + (mapErr.details || ''))) {
+          const retry = await supabase
+            .from('doctor_category_mappings')
+            .select('doctor_id')
+            .eq('category_id', categoryId)
+          mappingRows = (retry.data || []).map(r => ({ doctor_id: r.doctor_id, display_order: null }))
+        }
+        
+        const serialMap = {}
+        ;(mappingRows || []).forEach(m => {
+          serialMap[m.doctor_id] = m.display_order
+        })
+        
         let allDoctorIds = (primaryDoctors || []).map(d => d.id)
-        if (extraCategoryDoctorIds) {
-          const extraIds = extraCategoryDoctorIds.map(d => d.doctor_id)
+        if (mappingRows) {
+          const extraIds = mappingRows.map(d => d.doctor_id)
           allDoctorIds = [...new Set([...allDoctorIds, ...extraIds])]
         }
         
@@ -200,10 +235,9 @@ function SpecialistDoctors() {
             .select('*')
             .eq('is_active', true)
             .in('id', allDoctorIds)
-            .order('rating', { ascending: false })
           
           if (error) throw error
-          setDoctors(sortByDisplayOrder(allDoctors || []))
+          setDoctors(sortByCategorySerial(allDoctors || [], serialMap))
         } else {
           setDoctors([])
         }

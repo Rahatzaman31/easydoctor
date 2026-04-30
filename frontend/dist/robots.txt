@@ -19,6 +19,6 @@ Allow: /
 Disallow: /admin/
 Disallow: /doctor.admin/
 
-Sitemap: https://easydoctorrangpur.com/sitemap.xml
+Sitemap: https://easydoctorrangpur01.vercel.app/sitemap.xml
 
 Crawl-delay: 5

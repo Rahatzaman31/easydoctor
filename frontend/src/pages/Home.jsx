@@ -228,77 +228,80 @@ function Home() {
 
   const bannerStyle = {
     background: banner.gradient_enabled 
-      ? `linear-gradient(135deg, ${banner.background_color} 0%, #1e3a8a 50%, #0369a1 100%)`
+      ? `linear-gradient(135deg, ${banner.background_color} 0%, #0b1e4a 45%, #0c4a6e 100%)`
       : banner.background_color
   }
 
   return (
     <div>
       <section 
-        className="relative min-h-[320px] md:min-h-[380px] flex items-center overflow-hidden"
+        className="relative overflow-hidden isolate"
         style={bannerStyle}
       >
-        {/* Abstract flowing shapes with elegant gradients */}
-        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 400">
-          <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{stopColor: 'rgba(6, 182, 212, 0.3)', stopOpacity: 1}} />
-              <stop offset="100%" style={{stopColor: 'rgba(6, 182, 212, 0.08)', stopOpacity: 1}} />
-            </linearGradient>
-            <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{stopColor: 'rgba(30, 58, 138, 0.25)', stopOpacity: 1}} />
-              <stop offset="100%" style={{stopColor: 'rgba(30, 58, 138, 0.08)', stopOpacity: 1}} />
-            </linearGradient>
-            <linearGradient id="grad3" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" style={{stopColor: 'rgba(6, 182, 212, 0.15)', stopOpacity: 1}} />
-              <stop offset="100%" style={{stopColor: 'rgba(6, 182, 212, 0.02)', stopOpacity: 1}} />
-            </linearGradient>
-            <filter id="softBlur">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
-            </filter>
-          </defs>
-          
-          {/* Flowing top wave */}
-          <path d="M 0,80 Q 200,30 400,60 Q 600,90 800,50 Q 1000,20 1200,80 L 1200,0 Q 900,50 600,20 Q 300,50 0,0 Z" fill="url(#grad1)" filter="url(#softBlur)" />
-          
-          {/* Dynamic middle wave */}
-          <path d="M 0,200 Q 250,150 500,190 Q 750,230 1000,170 Q 1100,150 1200,190 L 1200,280 Q 800,320 400,300 Q 150,290 0,310 Z" fill="url(#grad3)" filter="url(#softBlur)" />
-          
-          {/* Flowing bottom wave */}
-          <path d="M 0,300 Q 300,270 600,290 Q 900,310 1200,280 L 1200,400 L 0,400 Z" fill="url(#grad2)" filter="url(#softBlur)" />
-        </svg>
-        
-        {/* Elegant gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5" />
-        
-        <div className="relative z-10 w-full">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+            backgroundSize: '34px 34px',
+            maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
+          }}
+        />
+
+        {/* Soft glowing orbs */}
+        <div className="absolute -top-40 -left-32 w-[460px] h-[460px] rounded-full bg-cyan-500/30 blur-[120px] animate-soft-pulse pointer-events-none" />
+        <div
+          className="absolute -bottom-48 -right-24 w-[520px] h-[520px] rounded-full bg-blue-500/30 blur-[120px] animate-soft-pulse pointer-events-none"
+          style={{ animationDelay: '1.8s' }}
+        />
+        <div
+          className="absolute top-1/3 right-1/4 w-[260px] h-[260px] rounded-full bg-sky-400/15 blur-[100px] animate-soft-pulse pointer-events-none"
+          style={{ animationDelay: '3.2s' }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            
+            {/* LEFT: Content */}
+            <div className="lg:col-span-7 text-center lg:text-left">
+              {banner.show_badge && (
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-white/90 text-xs sm:text-sm font-medium shadow-sm">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300" />
+                  </span>
+                  {banner.badge_text}
+                </span>
+              )}
+
+              <h1 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-bold text-white leading-[1.18] tracking-tight">
                 {banner.title}
               </h1>
-              
-              <p className="text-sm md:text-base lg:text-lg text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow">
+
+              <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg text-white/75 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 {banner.subtitle}
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
+
+              <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
                 {banner.show_primary_button && (
-                  <Link 
+                  <Link
                     to={banner.primary_button_link}
-                    className="group relative inline-flex items-center justify-center gap-2 bg-white text-primary-700 px-6 py-3 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 min-w-[160px]"
+                    className="group relative inline-flex items-center justify-center gap-2 bg-white text-primary-700 px-6 py-3 rounded-xl font-semibold text-sm shadow-[0_10px_30px_-10px_rgba(56,189,248,0.6)] hover:shadow-[0_14px_36px_-10px_rgba(56,189,248,0.85)] hover:-translate-y-0.5 transition-all duration-300 min-w-[170px]"
                   >
-                    <svg className="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4.5 h-4.5 w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     {banner.primary_button_text}
+                    <span className="absolute inset-0 rounded-xl ring-1 ring-white/40 pointer-events-none" />
                   </Link>
                 )}
-                
+
                 {banner.show_secondary_button && (
-                  <Link 
+                  <Link
                     to={banner.secondary_button_link}
-                    className="group inline-flex items-center justify-center gap-2 bg-white/10 text-white border-2 border-white/50 px-6 py-3 rounded-full font-semibold text-sm hover:bg-white hover:text-primary-700 transition-all duration-300 min-w-[160px]"
+                    className="group inline-flex items-center justify-center gap-2 bg-white/5 text-white border border-white/25 backdrop-blur-md px-6 py-3 rounded-xl font-semibold text-sm hover:bg-white/15 hover:border-white/40 transition-all duration-300 min-w-[170px]"
                   >
                     <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -307,37 +310,134 @@ function Home() {
                   </Link>
                 )}
               </div>
-              
-              <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+
+              {/* Trust chips */}
+              <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-2.5">
                 {banner.show_feature_1 && (
-                  <div className="flex items-center gap-2 text-white/90">
-                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <div className="inline-flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-full bg-white/8 border border-white/15 backdrop-blur-md text-white/90">
+                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400/30 to-sky-500/30 flex items-center justify-center ring-1 ring-white/20">
                       <FeatureIcon type={banner.feature_1_icon} />
-                    </div>
-                    <span className="font-medium text-sm">{banner.feature_1_text}</span>
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium">{banner.feature_1_text}</span>
                   </div>
                 )}
                 {banner.show_feature_2 && (
-                  <div className="flex items-center gap-2 text-white/90">
-                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <div className="inline-flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-full bg-white/8 border border-white/15 backdrop-blur-md text-white/90">
+                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400/30 to-sky-500/30 flex items-center justify-center ring-1 ring-white/20">
                       <FeatureIcon type={banner.feature_2_icon} />
-                    </div>
-                    <span className="font-medium text-sm">{banner.feature_2_text}</span>
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium">{banner.feature_2_text}</span>
                   </div>
                 )}
                 {banner.show_feature_3 && (
-                  <div className="flex items-center gap-2 text-white/90">
-                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <div className="inline-flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-full bg-white/8 border border-white/15 backdrop-blur-md text-white/90">
+                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400/30 to-sky-500/30 flex items-center justify-center ring-1 ring-white/20">
                       <FeatureIcon type={banner.feature_3_icon} />
-                    </div>
-                    <span className="font-medium text-sm">{banner.feature_3_text}</span>
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium">{banner.feature_3_text}</span>
                   </div>
                 )}
               </div>
             </div>
+
+            {/* RIGHT: Visual */}
+            <div className="hidden lg:flex lg:col-span-5 relative items-center justify-center">
+              <div className="relative w-[420px] h-[420px]">
+                {/* Outer glow */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/30 via-sky-500/20 to-blue-600/20 blur-2xl" />
+
+                {/* Pulse rings */}
+                <div className="absolute inset-8 rounded-full border border-white/10 animate-ring-pulse" />
+                <div className="absolute inset-8 rounded-full border border-white/10 animate-ring-pulse" style={{ animationDelay: '1.3s' }} />
+
+                {/* Central glass disc with stethoscope */}
+                <div className="absolute inset-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent" />
+                  <svg className="w-40 h-40 text-white/95 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.4}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 3v6a4 4 0 008 0V3" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 3h4M14 3h4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 13v3a4 4 0 008 0v-2" />
+                    <circle cx="18" cy="14" r="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+
+                  {/* ECG line */}
+                  <svg className="absolute bottom-12 left-0 right-0 mx-auto w-56 h-10 text-cyan-300" viewBox="0 0 200 40" fill="none">
+                    <path
+                      d="M0 20 H40 L48 20 L54 8 L62 32 L70 14 L78 26 L86 20 H120 L128 20 L134 6 L142 34 L150 16 L158 24 L166 20 H200"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="animate-ecg-draw"
+                    />
+                  </svg>
+                </div>
+
+                {/* Floating stat card 1 */}
+                <div className="absolute -top-2 -left-4 bg-white/95 backdrop-blur rounded-2xl px-4 py-3 shadow-xl border border-white/40 animate-slow-float">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.4}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-[11px] text-gray-500 leading-none">যাচাইকৃত</div>
+                      <div className="text-sm font-bold text-gray-800 leading-tight">১০০% নিরাপদ</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating stat card 2 */}
+                <div
+                  className="absolute top-10 -right-6 bg-white/95 backdrop-blur rounded-2xl px-4 py-3 shadow-xl border border-white/40 animate-slow-float"
+                  style={{ animationDelay: '1.2s' }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-[11px] text-gray-500 leading-none">অভিজ্ঞ</div>
+                      <div className="text-sm font-bold text-gray-800 leading-tight">৫০০+ ডাক্তার</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating stat card 3 */}
+                <div
+                  className="absolute -bottom-2 left-6 bg-white/95 backdrop-blur rounded-2xl px-4 py-3 shadow-xl border border-white/40 animate-slow-float"
+                  style={{ animationDelay: '2.4s' }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-[11px] text-gray-500 leading-none">দ্রুত</div>
+                      <div className="text-sm font-bold text-gray-800 leading-tight">২৪/৭ সিরিয়াল</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
+
+        {/* Smooth wave to next section */}
+        <svg
+          className="absolute bottom-0 left-0 right-0 w-full h-12 sm:h-16 text-[#f8fafc] pointer-events-none"
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M0 40 C 240 80, 480 0, 720 40 C 960 80, 1200 0, 1440 40 L1440 80 L0 80 Z" />
+        </svg>
       </section>
 
       <section className="py-16">

@@ -60,12 +60,14 @@ function AdminDoctors() {
   const doctorsPerPage = 10
   const [formData, setFormData] = useState({
     name: '',
+    slug: '',
     degrees: '',
     workplace_line1: '',
     workplace_line2: '',
     category: 'medicine',
     category_name: 'মেডিসিন বিশেষজ্ঞ',
     selected_categories: ['medicine'],
+    category_serials: {},
     district: 'রংপুর',
     chamber_address: '',
     phone: '',
@@ -164,19 +166,28 @@ function AdminDoctors() {
     if (name === 'category_select') {
       const catId = value
       let newCategories = [...formData.selected_categories]
+      const newSerials = { ...formData.category_serials }
       if (checked) {
         if (!newCategories.includes(catId)) {
           newCategories.push(catId)
         }
       } else {
         newCategories = newCategories.filter(c => c !== catId)
+        delete newSerials[catId]
       }
       const primaryCat = categories.find(c => c.id === newCategories[0])
       setFormData({
         ...formData,
         selected_categories: newCategories,
+        category_serials: newSerials,
         category: newCategories[0] || 'medicine',
         category_name: primaryCat?.name || 'মেডিসিন বিশেষজ্ঞ'
+      })
+    } else if (name && name.startsWith('category_serial_')) {
+      const catId = name.replace('category_serial_', '')
+      setFormData({
+        ...formData,
+        category_serials: { ...formData.category_serials, [catId]: value }
       })
     } else if (name === 'schedule_day') {
       const dayId = value
@@ -204,12 +215,14 @@ function AdminDoctors() {
     setEditingDoctor(null)
     setFormData({
       name: '',
+      slug: '',
       degrees: '',
       workplace_line1: '',
       workplace_line2: '',
       category: 'medicine',
       category_name: 'মেডিসিন বিশেষজ্ঞ',
       selected_categories: ['medicine'],
+      category_serials: {},
       district: 'রংপুর',
       chamber_address: '',
       phone: '',
@@ -244,14 +257,27 @@ function AdminDoctors() {
     }
     
     let selectedCats = [doctor.category]
+    let categorySerials = {}
     try {
       if (supabase && isConfigured) {
-        const { data } = await supabase
+        let { data, error } = await supabase
           .from('doctor_category_mappings')
-          .select('category_id')
+          .select('category_id, display_order')
           .eq('doctor_id', doctor.id)
+        if (error && /display_order/i.test((error.message || '') + ' ' + (error.details || ''))) {
+          const retry = await supabase
+            .from('doctor_category_mappings')
+            .select('category_id')
+            .eq('doctor_id', doctor.id)
+          data = retry.data
+        }
         if (data && data.length > 0) {
           selectedCats = data.map(d => d.category_id)
+          data.forEach(d => {
+            if (d.display_order !== null && d.display_order !== undefined) {
+              categorySerials[d.category_id] = String(d.display_order)
+            }
+          })
         }
       }
     } catch (e) {
@@ -260,12 +286,14 @@ function AdminDoctors() {
     
     setFormData({
       name: doctor.name,
+      slug: doctor.slug || '',
       degrees: doctor.degrees,
       workplace_line1: doctor.workplace_line1 || '',
       workplace_line2: doctor.workplace_line2 || '',
       category: doctor.category,
       category_name: doctor.category_name,
       selected_categories: selectedCats,
+      category_serials: categorySerials,
       district: doctor.district,
       chamber_address: doctor.chamber_address,
       phone: doctor.phone || '',
@@ -304,6 +332,33 @@ function AdminDoctors() {
     setEditingReview(null)
     fetchReviews(doctor.id)
     setShowReviewModal(true)
+  }
+
+  function slugify(input) {
+    if (!input) return ''
+    return String(input)
+      .toLowerCase()
+      .trim()
+      .replace(/[\s_]+/g, '-')
+      .replace(/[^\u0980-\u09FFa-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+  }
+
+  function handleSlugChange(e) {
+    const cleaned = e.target.value
+      .toLowerCase()
+      .replace(/[\s_]+/g, '-')
+      .replace(/[^\u0980-\u09FFa-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+    setFormData({ ...formData, slug: cleaned })
+  }
+
+  function autoFillSlug() {
+    const generated = slugify(formData.name)
+    if (generated) {
+      setFormData({ ...formData, slug: generated })
+    }
   }
 
   function generateAccessCode() {
@@ -378,9 +433,10 @@ function AdminDoctors() {
         return
       }
       
-      const { selected_categories, ...restFormData } = formData
+      const { selected_categories, category_serials, ...restFormData } = formData
       const dataToSave = {
         ...restFormData,
+        slug: formData.slug && formData.slug.trim() !== '' ? formData.slug.trim() : null,
         schedule_days: JSON.stringify(formData.schedule_days),
         rating: formData.rating === '' ? null : parseFloat(formData.rating),
         display_order: formData.display_order === '' ? null : parseInt(formData.display_order),
@@ -392,18 +448,41 @@ function AdminDoctors() {
       
       let doctorId = editingDoctor?.id
       
-      const isMissingDisplayOrderColumn = (err) => {
+      const isMissingColumn = (err, columnName) => {
         const msg = (err?.message || '') + ' ' + (err?.details || '')
-        return /display_order/i.test(msg) && /(does not exist|column|schema cache)/i.test(msg)
+        const re = new RegExp(columnName, 'i')
+        return re.test(msg) && /(does not exist|column|schema cache)/i.test(msg)
       }
-      
+      const isDuplicateSlug = (err) => {
+        const msg = (err?.message || '') + ' ' + (err?.details || '')
+        return /slug/i.test(msg) && /(duplicate|unique|already exists)/i.test(msg)
+      }
+
+      const stripOptional = (payload) => {
+        const { display_order, slug, ...rest } = payload
+        return rest
+      }
+
       if (editingDoctor) {
         let { error } = await supabase
           .from('doctors')
           .update(dataToSave)
           .eq('id', editingDoctor.id)
-        
-        if (error && isMissingDisplayOrderColumn(error)) {
+
+        if (error && isDuplicateSlug(error)) {
+          alert('এই ইউআরএল (স্লাগ) আগে থেকেই অন্য একজন ডাক্তারের জন্য ব্যবহার করা হয়েছে। অনুগ্রহ করে অন্য একটি দিন।')
+          return
+        }
+        if (error && isMissingColumn(error, 'slug')) {
+          const { slug, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .update(fallback)
+            .eq('id', editingDoctor.id)
+          error = retry.error
+          if (!error) console.warn('slug column missing in doctors table; custom URL NOT saved. Run the SQL: ALTER TABLE doctors ADD COLUMN slug TEXT;')
+        }
+        if (error && isMissingColumn(error, 'display_order')) {
           const { display_order, ...fallback } = dataToSave
           const retry = await supabase
             .from('doctors')
@@ -411,6 +490,13 @@ function AdminDoctors() {
             .eq('id', editingDoctor.id)
           error = retry.error
           if (!error) console.warn('display_order column missing in doctors table; saved without it. Run the SQL: ALTER TABLE doctors ADD COLUMN display_order INTEGER;')
+        }
+        if (error && isMissingColumn(error, 'display_order') && isMissingColumn(error, 'slug')) {
+          const retry = await supabase
+            .from('doctors')
+            .update(stripOptional(dataToSave))
+            .eq('id', editingDoctor.id)
+          error = retry.error
         }
         if (error) throw error
       } else {
@@ -421,8 +507,23 @@ function AdminDoctors() {
           .insert([dataToSave])
           .select('id')
           .single()
-        
-        if (error && isMissingDisplayOrderColumn(error)) {
+
+        if (error && isDuplicateSlug(error)) {
+          alert('এই ইউআরএল (স্লাগ) আগে থেকেই অন্য একজন ডাক্তারের জন্য ব্যবহার করা হয়েছে। অনুগ্রহ করে অন্য একটি দিন।')
+          return
+        }
+        if (error && isMissingColumn(error, 'slug')) {
+          const { slug, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .insert([fallback])
+            .select('id')
+            .single()
+          data = retry.data
+          error = retry.error
+          if (!error) console.warn('slug column missing in doctors table; custom URL NOT saved. Run the SQL: ALTER TABLE doctors ADD COLUMN slug TEXT;')
+        }
+        if (error && isMissingColumn(error, 'display_order')) {
           const { display_order, ...fallback } = dataToSave
           const retry = await supabase
             .from('doctors')
@@ -445,16 +546,31 @@ function AdminDoctors() {
         
         const categoryInserts = selected_categories.map(catId => {
           const cat = categories.find(c => c.id === catId)
+          const rawSerial = category_serials?.[catId]
+          const serial = rawSerial === '' || rawSerial === null || rawSerial === undefined
+            ? null
+            : parseInt(rawSerial)
           return {
             doctor_id: doctorId,
             category_id: catId,
-            category_name: cat?.name || catId
+            category_name: cat?.name || catId,
+            display_order: Number.isFinite(serial) ? serial : null
           }
         })
         
-        await supabase
+        let { error: mapErr } = await supabase
           .from('doctor_category_mappings')
           .insert(categoryInserts)
+        
+        if (mapErr && /display_order/i.test((mapErr.message || '') + ' ' + (mapErr.details || ''))) {
+          const fallbackInserts = categoryInserts.map(({ display_order, ...rest }) => rest)
+          const retry = await supabase
+            .from('doctor_category_mappings')
+            .insert(fallbackInserts)
+          mapErr = retry.error
+          if (!mapErr) console.warn('display_order column missing in doctor_category_mappings table; per-category serials NOT saved. Run the SQL: ALTER TABLE doctor_category_mappings ADD COLUMN display_order INTEGER;')
+        }
+        if (mapErr) console.error('Mapping save error:', mapErr)
       }
       
       setShowModal(false)
@@ -932,6 +1048,45 @@ function AdminDoctors() {
                 </div>
               </div>
 
+              <div className="bg-primary-50 border border-primary-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2 gap-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    কাস্টম ইউআরএল (স্লাগ)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={autoFillSlug}
+                    disabled={!formData.name}
+                    className="text-xs px-2 py-1 rounded border border-primary-300 text-primary-700 bg-white hover:bg-primary-100 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                  >
+                    নাম থেকে তৈরি করুন
+                  </button>
+                </div>
+                <div className="flex items-center gap-1 bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
+                  <span className="px-3 py-2 text-gray-500 bg-gray-50 border-r border-gray-200 text-sm whitespace-nowrap select-all">
+                    /doctor/
+                  </span>
+                  <input
+                    type="text"
+                    name="slug"
+                    className="flex-1 px-3 py-2 outline-none text-sm"
+                    placeholder="dr-rahim-ahmed"
+                    value={formData.slug}
+                    onChange={handleSlugChange}
+                  />
+                </div>
+                <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                  ইউআরএলে ডাক্তারের নামের জায়গায় কী দেখাবে সেটি লিখুন (যেমন: <span className="font-mono">dr-rahim-ahmed</span>)। 
+                  শুধু ইংরেজি অক্ষর, সংখ্যা ও হাইফেন (-) ব্যবহার করুন। 
+                  খালি রাখলে আগের মতো রেন্ডম কোড দিয়ে কাজ চলবে।
+                </p>
+                {formData.slug && (
+                  <p className="text-xs text-primary-700 mt-1.5">
+                    প্রিভিউ: <span className="font-mono">/doctor/{formData.slug}</span>
+                  </p>
+                )}
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">বর্তমান কর্মস্থল</label>
                 <div className="space-y-2">
@@ -972,6 +1127,37 @@ function AdminDoctors() {
                 )}
                 <p className="text-xs text-gray-500 mt-1">প্রথম নির্বাচিত বিভাগটি প্রাথমিক বিভাগ হিসেবে দেখানো হবে</p>
               </div>
+
+              {formData.selected_categories.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    প্রতিটি বিভাগে এই ডাক্তারের ক্রম (পজিশন)
+                  </label>
+                  <p className="text-xs text-gray-500 mb-2">
+                    প্রতিটি নির্বাচিত বিভাগের জন্য একটি ক্রম নম্বর দিন (যেমন: ১, ২, ৩...)। ছোট সংখ্যা আগে দেখানো হবে। ফাঁকা রাখলে রেটিং অনুসারে দেখানো হবে।
+                  </p>
+                  <div className="border border-gray-300 rounded-lg p-3 bg-gray-50 space-y-2 max-h-64 overflow-y-auto">
+                    {formData.selected_categories.map(catId => {
+                      const cat = categories.find(c => c.id === catId)
+                      if (!cat) return null
+                      return (
+                        <div key={catId} className="flex items-center justify-between gap-3 bg-white p-2 rounded border border-gray-200">
+                          <span className="text-sm text-gray-700 flex-1">{cat.name}</span>
+                          <input
+                            type="number"
+                            min="1"
+                            name={`category_serial_${catId}`}
+                            value={formData.category_serials?.[catId] ?? ''}
+                            onChange={handleChange}
+                            placeholder="ক্রম"
+                            className="w-24 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">জেলা *</label>
