@@ -52,7 +52,7 @@ const categories = [
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট', nameEn: 'ফিজিওথেরাপি', icon: '/icons/physiotherapy.webp' },
   { id: 'nutrition', name: 'পুষ্টিবিদ', nameEn: 'নিউট্রিশন', icon: '/icons/nutrition.webp' },
   { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', nameEn: 'বন্ধ্যাত্ব ও প্রজনন', icon: '/icons/infertility.png' },
-  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন', nameEn: 'ফিজিক্যাল মেডিসিন', icon: '/icons/physical-medicine.png' },
+  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ', nameEn: 'ফিজিক্যাল মেডিসিন', icon: '/icons/physical-medicine.png' },
   { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন', nameEn: 'কলোরেক্টাল সার্জারী', icon: '/icons/colorectal-surgery.png' },
   { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', nameEn: 'বক্ষব্যাধি', icon: '/icons/chest-medicine.png' },
   { id: 'neurosurgery', name: 'নিউরো সার্জন', nameEn: 'নিউরো সার্জারী', icon: '/icons/neurosurgery.png' },
@@ -131,6 +131,7 @@ function SpecialistDoctors() {
         .eq('is_active', true)
         .eq('rating', 5)
         .order('rating', { ascending: false })
+        .order('display_order', { ascending: true, nullsFirst: false })
       
       if (error) throw error
       setDoctors(data || [])
@@ -158,6 +159,7 @@ function SpecialistDoctors() {
           .eq('is_active', true)
           .eq('rating', 5)
           .order('rating', { ascending: false })
+          .order('display_order', { ascending: true, nullsFirst: false })
         
         if (error) throw error
         setDoctors(data || [])
@@ -186,6 +188,7 @@ function SpecialistDoctors() {
             .eq('is_active', true)
             .in('id', allDoctorIds)
             .order('rating', { ascending: false })
+            .order('display_order', { ascending: true, nullsFirst: false })
           
           if (error) throw error
           setDoctors(allDoctors || [])
@@ -227,6 +230,7 @@ function SpecialistDoctors() {
         .eq('is_active', true)
         .ilike('name', `%${searchTerm}%`)
         .order('rating', { ascending: false })
+        .order('display_order', { ascending: true, nullsFirst: false })
       
       if (error) throw error
       setDoctors(data || [])

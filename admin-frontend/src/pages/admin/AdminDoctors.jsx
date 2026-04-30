@@ -30,7 +30,7 @@ const categories = [
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট' },
   { id: 'nutrition', name: 'পুষ্টিবিদ' },
   { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ' },
-  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন' },
+  { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ' },
   { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন' },
   { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ' },
   { id: 'neurosurgery', name: 'নিউরো সার্জন' },
@@ -78,6 +78,7 @@ function AdminDoctors() {
     about: '',
     image_url: '',
     rating: '',
+    display_order: '',
     reviews_count: '',
     notice: '',
     visiting_card_url: '',
@@ -221,6 +222,7 @@ function AdminDoctors() {
       about: '',
       image_url: '',
       rating: '',
+      display_order: '',
       reviews_count: '',
       notice: '',
       visiting_card_url: '',
@@ -276,6 +278,7 @@ function AdminDoctors() {
       about: doctor.about || '',
       image_url: doctor.image_url || '',
       rating: doctor.rating || '',
+      display_order: doctor.display_order ?? '',
       reviews_count: doctor.reviews_count || '',
       notice: doctor.notice || '',
       visiting_card_url: doctor.visiting_card_url || '',
@@ -380,6 +383,7 @@ function AdminDoctors() {
         ...restFormData,
         schedule_days: JSON.stringify(formData.schedule_days),
         rating: formData.rating === '' ? null : parseFloat(formData.rating),
+        display_order: formData.display_order === '' ? null : parseInt(formData.display_order),
         reviews_count: formData.reviews_count === '' ? null : parseInt(formData.reviews_count),
         daily_appointment_limit: formData.daily_appointment_limit === '' ? null : parseInt(formData.daily_appointment_limit),
         paid_appointment_limit: formData.paid_appointment_limit === '' ? null : parseInt(formData.paid_appointment_limit),
@@ -1055,11 +1059,16 @@ function AdminDoctors() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">রেটিং (১-৫)</label>
                   <input type="number" name="rating" step="0.1" min="0" max="5" className="input-field" placeholder="4.5" value={formData.rating} onChange={handleChange} />
                   <p className="text-xs text-gray-500 mt-1">০ থেকে ৫ এর মধ্যে</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">ক্রমিক</label>
+                  <input type="number" name="display_order" min="0" className="input-field" placeholder="1" value={formData.display_order} onChange={handleChange} />
+                  <p className="text-xs text-gray-500 mt-1">একই রেটিং এর মধ্যে অবস্থান (১, ২, ৩...)</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">রিভিউ সংখ্যা</label>

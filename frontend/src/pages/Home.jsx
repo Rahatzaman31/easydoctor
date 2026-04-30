@@ -56,7 +56,7 @@ const categories = [
   { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.webp', isImage: true },
   { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.webp', isImage: true },
   { id: 'infertility', title: 'বন্ধ্যাত্ব ও প্রজনন', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', icon: '/icons/infertility.png', isImage: true },
-  { id: 'physical-medicine', title: 'ফিজিক্যাল মেডিসিন', name: 'ফিজিক্যাল মেডিসিন এন্ড রিহ্যাবিলিটেশন', icon: '/icons/physical-medicine.png', isImage: true },
+  { id: 'physical-medicine', title: 'ফিজিক্যাল মেডিসিন', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ', icon: '/icons/physical-medicine.png', isImage: true },
   { id: 'colorectal-surgery', title: 'কলোরেক্টাল সার্জারী', name: 'কলোরেক্টাল সার্জন', icon: '/icons/colorectal-surgery.png', isImage: true },
   { id: 'chest-medicine', title: 'বক্ষব্যাধি', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', icon: '/icons/chest-medicine.png', isImage: true },
   { id: 'neurosurgery', title: 'নিউরো সার্জারী', name: 'নিউরো সার্জন', icon: '/icons/neurosurgery.png', isImage: true },
@@ -353,7 +353,7 @@ function Home() {
                 className="card text-center hover:border-primary-500 border-2 border-transparent"
               >
                 <img src={cat.icon} alt={cat.title} className="w-10 h-10 mx-auto mb-3" width="40" height="40" loading="lazy" />
-                <h3 className="font-semibold text-lg text-gray-800">{cat.title}</h3>
+                <h3 className="font-semibold text-base text-gray-800 whitespace-nowrap">{cat.title}</h3>
                 <p className="text-gray-500 text-sm">{cat.name}</p>
               </Link>
             ))}
