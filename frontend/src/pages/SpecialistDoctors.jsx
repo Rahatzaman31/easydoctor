@@ -59,6 +59,21 @@ const categories = [
   { id: 'hematology', name: 'রক্ত রোগ বিশেষজ্ঞ', nameEn: 'রক্ত রোগ', icon: '/icons/hematology.png' },
 ]
 
+function sortByDisplayOrder(list) {
+  return [...list].sort((a, b) => {
+    const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0)
+    if (ratingDiff !== 0) return ratingDiff
+    const ao = a.display_order
+    const bo = b.display_order
+    const aHas = ao !== null && ao !== undefined && ao !== ''
+    const bHas = bo !== null && bo !== undefined && bo !== ''
+    if (aHas && bHas) return Number(ao) - Number(bo)
+    if (aHas) return -1
+    if (bHas) return 1
+    return 0
+  })
+}
+
 function SpecialistDoctors() {
   const [searchParams] = useSearchParams()
   const [doctors, setDoctors] = useState([])
@@ -131,10 +146,9 @@ function SpecialistDoctors() {
         .eq('is_active', true)
         .eq('rating', 5)
         .order('rating', { ascending: false })
-        .order('display_order', { ascending: true, nullsFirst: false })
       
       if (error) throw error
-      setDoctors(data || [])
+      setDoctors(sortByDisplayOrder(data || []))
     } catch (error) {
       console.error('Error fetching doctors:', error)
       setDoctors([])
@@ -159,10 +173,9 @@ function SpecialistDoctors() {
           .eq('is_active', true)
           .eq('rating', 5)
           .order('rating', { ascending: false })
-          .order('display_order', { ascending: true, nullsFirst: false })
         
         if (error) throw error
-        setDoctors(data || [])
+        setDoctors(sortByDisplayOrder(data || []))
       } else {
         const { data: primaryDoctors } = await supabase
           .from('doctors')
@@ -188,10 +201,9 @@ function SpecialistDoctors() {
             .eq('is_active', true)
             .in('id', allDoctorIds)
             .order('rating', { ascending: false })
-            .order('display_order', { ascending: true, nullsFirst: false })
           
           if (error) throw error
-          setDoctors(allDoctors || [])
+          setDoctors(sortByDisplayOrder(allDoctors || []))
         } else {
           setDoctors([])
         }
@@ -230,10 +242,9 @@ function SpecialistDoctors() {
         .eq('is_active', true)
         .ilike('name', `%${searchTerm}%`)
         .order('rating', { ascending: false })
-        .order('display_order', { ascending: true, nullsFirst: false })
       
       if (error) throw error
-      setDoctors(data || [])
+      setDoctors(sortByDisplayOrder(data || []))
     } catch (error) {
       console.error('Error searching doctors:', error)
       setDoctors([])

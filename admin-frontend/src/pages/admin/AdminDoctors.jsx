@@ -392,22 +392,47 @@ function AdminDoctors() {
       
       let doctorId = editingDoctor?.id
       
+      const isMissingDisplayOrderColumn = (err) => {
+        const msg = (err?.message || '') + ' ' + (err?.details || '')
+        return /display_order/i.test(msg) && /(does not exist|column|schema cache)/i.test(msg)
+      }
+      
       if (editingDoctor) {
-        const { error } = await supabase
+        let { error } = await supabase
           .from('doctors')
           .update(dataToSave)
           .eq('id', editingDoctor.id)
         
+        if (error && isMissingDisplayOrderColumn(error)) {
+          const { display_order, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .update(fallback)
+            .eq('id', editingDoctor.id)
+          error = retry.error
+          if (!error) console.warn('display_order column missing in doctors table; saved without it. Run the SQL: ALTER TABLE doctors ADD COLUMN display_order INTEGER;')
+        }
         if (error) throw error
       } else {
         dataToSave.access_code = await generateUniqueAccessCode()
         dataToSave.package_type = 'standard'
-        const { data, error } = await supabase
+        let { data, error } = await supabase
           .from('doctors')
           .insert([dataToSave])
           .select('id')
           .single()
         
+        if (error && isMissingDisplayOrderColumn(error)) {
+          const { display_order, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .insert([fallback])
+            .select('id')
+            .single()
+          data = retry.data
+          error = retry.error
+          if (!error) console.warn('display_order column missing in doctors table; saved without it. Run the SQL: ALTER TABLE doctors ADD COLUMN display_order INTEGER;')
+        }
         if (error) throw error
         doctorId = data.id
       }
