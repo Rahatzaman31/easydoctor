@@ -87,7 +87,8 @@ function AdminDoctors() {
     slider_photo_1_url: '',
     slider_photo_2_url: '',
     slider_photo_3_url: '',
-    is_active: true
+    is_active: true,
+    is_verified: false
   })
 
   const [showExpertiseModal, setShowExpertiseModal] = useState(false)
@@ -242,7 +243,8 @@ function AdminDoctors() {
       slider_photo_1_url: '',
       slider_photo_2_url: '',
       slider_photo_3_url: '',
-      is_active: true
+      is_active: true,
+      is_verified: false
     })
     setShowModal(true)
   }
@@ -313,7 +315,8 @@ function AdminDoctors() {
       slider_photo_1_url: doctor.slider_photo_1_url || '',
       slider_photo_2_url: doctor.slider_photo_2_url || '',
       slider_photo_3_url: doctor.slider_photo_3_url || '',
-      is_active: doctor.is_active
+      is_active: doctor.is_active,
+      is_verified: doctor.is_verified || false
     })
     setShowModal(true)
   }
@@ -459,7 +462,7 @@ function AdminDoctors() {
       }
 
       const stripOptional = (payload) => {
-        const { display_order, slug, ...rest } = payload
+        const { display_order, slug, is_verified, ...rest } = payload
         return rest
       }
 
@@ -491,7 +494,16 @@ function AdminDoctors() {
           error = retry.error
           if (!error) console.warn('display_order column missing in doctors table; saved without it. Run the SQL: ALTER TABLE doctors ADD COLUMN display_order INTEGER;')
         }
-        if (error && isMissingColumn(error, 'display_order') && isMissingColumn(error, 'slug')) {
+        if (error && isMissingColumn(error, 'is_verified')) {
+          const { is_verified, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .update(fallback)
+            .eq('id', editingDoctor.id)
+          error = retry.error
+          if (!error) console.warn('is_verified column missing; run supabase_add_is_verified.sql')
+        }
+        if (error) {
           const retry = await supabase
             .from('doctors')
             .update(stripOptional(dataToSave))
@@ -533,6 +545,26 @@ function AdminDoctors() {
           data = retry.data
           error = retry.error
           if (!error) console.warn('display_order column missing in doctors table; saved without it. Run the SQL: ALTER TABLE doctors ADD COLUMN display_order INTEGER;')
+        }
+        if (error && isMissingColumn(error, 'is_verified')) {
+          const { is_verified, ...fallback } = dataToSave
+          const retry = await supabase
+            .from('doctors')
+            .insert([fallback])
+            .select('id')
+            .single()
+          data = retry.data
+          error = retry.error
+          if (!error) console.warn('is_verified column missing; run supabase_add_is_verified.sql')
+        }
+        if (error) {
+          const retry = await supabase
+            .from('doctors')
+            .insert([stripOptional(dataToSave)])
+            .select('id')
+            .single()
+          data = retry.data
+          error = retry.error
         }
         if (error) throw error
         doctorId = data.id
@@ -1294,7 +1326,7 @@ function AdminDoctors() {
                 <p className="text-xs text-gray-500 mt-1">ডাক্তার ছুটি/কনফারেন্সে থাকলে এখানে লিখুন (ঐচ্ছিক)</p>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 flex-wrap">
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="is_active" id="is_active" checked={formData.is_active} onChange={handleChange} className="w-4 h-4" />
                   <label htmlFor="is_active" className="text-sm text-gray-700">সক্রিয় (রোগীরা দেখতে পাবে)</label>
@@ -1302,6 +1334,13 @@ function AdminDoctors() {
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="online_appointment" id="online_appointment" checked={formData.online_appointment} onChange={handleChange} className="w-4 h-4" />
                   <label htmlFor="online_appointment" className="text-sm text-gray-700">অনলাইন সিরিয়াল চালু</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" name="is_verified" id="is_verified" checked={formData.is_verified} onChange={handleChange} className="w-4 h-4 accent-blue-600" />
+                  <label htmlFor="is_verified" className="text-sm text-gray-700 flex items-center gap-1.5">
+                    <img src="https://cdn-icons-png.flaticon.com/32/5253/5253968.png" alt="verified" className="w-4 h-4 inline" />
+                    যাচাইকৃত সদস্য (কার্ডে ব্যাজ দেখাবে)
+                  </label>
                 </div>
               </div>
 

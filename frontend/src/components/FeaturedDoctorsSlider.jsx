@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../lib/supabase'
 
 const toBengaliNumber = (num) => {
@@ -8,6 +8,7 @@ const toBengaliNumber = (num) => {
 }
 
 function FeaturedDoctorsSlider() {
+  const navigate = useNavigate()
   const [featuredDoctors, setFeaturedDoctors] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -71,7 +72,6 @@ function FeaturedDoctorsSlider() {
         .select('*')
         .eq('is_active', true)
         .eq('is_featured', true)
-        .limit(10)
       
       if (error) throw error
       setFeaturedDoctors(data || [])
@@ -151,7 +151,7 @@ function FeaturedDoctorsSlider() {
                         key={doctor.id} 
                         className="flex-1 min-w-0"
                       >
-                        <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-slate-200 hover:border-teal-500 h-full">
+                        <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-slate-200 hover:border-teal-500 h-full cursor-pointer" onClick={() => navigate(`/doctor/${doctor.slug || doctor.id}`)}>
                           <div className="relative bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 p-4">
                             <div className="absolute top-2 right-2 bg-teal-600 px-2 py-1 rounded-full">
                               <span className="text-xs font-bold text-white">শীর্ষ</span>
@@ -184,6 +184,7 @@ function FeaturedDoctorsSlider() {
                               </span>
                               <Link 
                                 to={`/doctor/${doctor.slug || doctor.id}`}
+                                onClick={e => e.stopPropagation()}
                                 className="block w-full text-center bg-gradient-to-r from-teal-600 to-teal-700 text-white py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold hover:from-teal-700 hover:to-teal-800 transition-all"
                               >
                                 বিস্তারিত দেখুন

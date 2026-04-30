@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { supabase, isConfigured } from '../lib/supabase'
 import SerialTypeModal from '../components/SerialTypeModal'
 
@@ -97,6 +97,7 @@ function sortByCategorySerial(list, serialMap) {
 }
 
 function SpecialistDoctors() {
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [doctors, setDoctors] = useState([])
   const [loading, setLoading] = useState(true)
@@ -529,16 +530,17 @@ function SpecialistDoctors() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {doctors.map(doctor => (
-              <div key={doctor.id} className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-primary-300">
+              <div key={doctor.id} className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-primary-300 cursor-pointer" onClick={() => navigate(`/doctor/${doctor.slug || doctor.id}`)}>
                 <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 p-6">
-                  <div className="absolute top-3 right-3">
-                    <span className={`text-[10px] font-semibold px-2 py-1 rounded-full shadow-md ${
-                      doctor.online_appointment !== false 
-                        ? 'bg-green-500 text-white' 
-                        : 'bg-orange-500 text-white'
-                    }`}>
-                      {doctor.online_appointment !== false ? 'online serial' : 'phone serial'}
-                    </span>
+                  <div className="absolute top-3 right-3 w-8 h-8">
+                    {doctor.is_verified && (
+                      <img
+                        src="/verified-badge.png"
+                        alt="যাচাইকৃত"
+                        title="যাচাইকৃত সদস্য"
+                        className="w-8 h-8 drop-shadow-lg"
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col items-center">
                     {doctor.image_url ? (
@@ -610,7 +612,11 @@ function SpecialistDoctors() {
                     </div>
                   )}
                   <div className="flex gap-2">
-                    <Link to={`/doctor/${doctor.slug || doctor.id}`} className="flex-1 text-center py-3 px-4 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-600 hover:text-white transition-all text-sm group/btn">
+                    <Link
+                      to={`/doctor/${doctor.slug || doctor.id}`}
+                      onClick={e => e.stopPropagation()}
+                      className="flex-1 text-center py-3 px-4 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-600 hover:text-white transition-all text-sm group/btn"
+                    >
                       <span className="flex items-center justify-center gap-1">
                         বিস্তারিত
                         <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -619,19 +625,24 @@ function SpecialistDoctors() {
                       </span>
                     </Link>
                     {doctor.notice ? (
-                      <button disabled className="flex-1 text-center py-3 px-4 bg-gray-400 text-white rounded-xl font-semibold text-sm cursor-not-allowed opacity-75">
+                      <button
+                        disabled
+                        onClick={e => e.stopPropagation()}
+                        className="flex-1 text-center py-3 px-4 bg-gray-400 text-white rounded-xl font-semibold text-sm cursor-not-allowed opacity-75"
+                      >
                         সিরিয়াল বন্ধ
                       </button>
                     ) : doctor.is_serial_enabled === false ? (
                       <Link 
                         to={`/doctor/${doctor.slug || doctor.id}`}
+                        onClick={e => e.stopPropagation()}
                         className="flex-1 text-center py-3 px-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                       >
                         সিরিয়াল নিন
                       </Link>
                     ) : (
                       <button 
-                        onClick={() => handleSerialClick(doctor.id)} 
+                        onClick={e => { e.stopPropagation(); handleSerialClick(doctor.id); }}
                         className="flex-1 text-center py-3 px-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                       >
                         সিরিয়াল নিন
