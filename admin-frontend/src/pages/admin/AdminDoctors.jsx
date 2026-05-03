@@ -1338,13 +1338,8 @@ function AdminDoctors() {
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="is_verified" id="is_verified" checked={formData.is_verified} onChange={handleChange} className="w-4 h-4 accent-blue-600" />
                   <label htmlFor="is_verified" className="text-sm text-gray-700 flex items-center gap-1.5">
-<<<<<<< HEAD
-                    <img src="https://cdn-icons-png.flaticon.com/32/10703/10703080.png" alt="verified" className="w-4 h-4 inline" />
-                    verified — যাচাইকৃত সদস্য (কার্ডে ব্যাজ দেখাবে)
-=======
                     <img src="https://cdn-icons-png.flaticon.com/32/5253/5253968.png" alt="verified" className="w-4 h-4 inline" />
                     যাচাইকৃত সদস্য (কার্ডে ব্যাজ দেখাবে)
->>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                   </label>
                 </div>
               </div>
