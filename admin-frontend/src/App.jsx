@@ -28,6 +28,8 @@ import AdminAdvertisementSettings from './pages/admin/AdminAdvertisementSettings
 import AdminProfileAdBanners from './pages/admin/AdminProfileAdBanners'
 import AdminSerialTypeSettings from './pages/admin/AdminSerialTypeSettings'
 import AdminChat from './pages/admin/AdminChat'
+import AdminSerialPrint from './pages/admin/AdminSerialPrint'
+import AdminSerialPrintDetail from './pages/admin/AdminSerialPrintDetail'
 
 function App() {
   return (
@@ -64,6 +66,8 @@ function App() {
           <Route path="/admin/advertisement-settings" element={<AdminAdvertisementSettings />} />
           <Route path="/admin/profile-ad-banners" element={<AdminProfileAdBanners />} />
           <Route path="/admin/serial-type-settings" element={<AdminSerialTypeSettings />} />
+          <Route path="/admin/serial-print" element={<AdminSerialPrint />} />
+          <Route path="/admin/serial-print/:doctorName" element={<AdminSerialPrintDetail />} />
           </Routes>
         </div>
       </Router>

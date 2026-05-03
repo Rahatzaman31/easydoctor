@@ -25,6 +25,7 @@ function AdminSidebar() {
     { path: '/admin/doctors', icon: '👨‍⚕️', label: 'ডাক্তার' },
     { path: '/admin/paid-appointments', icon: '💎', label: 'পেইড সিরিয়াল' },
     { path: '/admin/appointments', icon: '📅', label: 'অ্যাপয়েন্টমেন্ট' },
+    { path: '/admin/serial-print', icon: '🖨️', label: 'সিরিয়াল প্রিন্ট' },
   ]
 
   const dropdownMenus = [

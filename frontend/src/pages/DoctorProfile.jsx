@@ -72,7 +72,8 @@ function DoctorProfile() {
     review_text: ''
   })
   const [showSerialTypeModal, setShowSerialTypeModal] = useState(false)
-  const [adBanner, setAdBanner] = useState(null)
+  const [topAdBanner, setTopAdBanner] = useState(null)
+  const [bottomAdBanner, setBottomAdBanner] = useState(null)
   const [currentSliderIndex, setCurrentSliderIndex] = useState(0)
 
   useEffect(() => {
@@ -186,7 +187,8 @@ function DoctorProfile() {
   async function fetchAdBanner() {
     try {
       if (!supabase || !isConfigured || !doctorId) return
-      setAdBanner(null)
+      setTopAdBanner(null)
+      setBottomAdBanner(null)
       const { data, error } = await supabase
         .from('profile_ad_banner_doctors')
         .select(`
@@ -202,8 +204,7 @@ function DoctorProfile() {
         `)
         .eq('doctor_id', doctorId)
         .eq('profile_ad_banners.is_active', true)
-        .limit(1)
-        .maybeSingle()
+        .order('created_at', { ascending: true })
       
       if (error) {
         if (error.code !== 'PGRST116') {
@@ -212,9 +213,9 @@ function DoctorProfile() {
         return
       }
       
-      if (data?.profile_ad_banners) {
-        setAdBanner(data.profile_ad_banners)
-      }
+      const banners = (data || []).map(item => item.profile_ad_banners).filter(Boolean)
+      setTopAdBanner(banners[0] || null)
+      setBottomAdBanner(banners[1] || null)
     } catch (error) {
       console.error('Error fetching ad banner:', error)
     }
@@ -317,18 +318,18 @@ function DoctorProfile() {
     return '/rangpur-specialist-doctors-list-online-serial'
   }
 
-  const getBannerLink = () => {
-    if (!adBanner) return null
-    return adBanner.link_url
+  const getBannerLink = (banner) => {
+    if (!banner) return null
+    return banner.link_url
   }
 
-  const getBannerImageUrl = () => {
-    if (!adBanner) return null
+  const getBannerImageUrl = (banner) => {
+    if (!banner) return null
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-    if (isMobile && adBanner.mobile_image_url) {
-      return adBanner.mobile_image_url
+    if (isMobile && banner.mobile_image_url) {
+      return banner.mobile_image_url
     }
-    return adBanner.image_url
+    return banner.image_url
   }
 
   if (!doctor) {
@@ -350,27 +351,27 @@ function DoctorProfile() {
         type="profile"
         structuredData={getDoctorStructuredData(doctor)}
       />
-      {adBanner && (
+      {topAdBanner && (
         <div className="mb-4">
-          {getBannerLink() ? (
+          {getBannerLink(topAdBanner) ? (
             <a 
-              href={getBannerLink()} 
+              href={getBannerLink(topAdBanner)} 
               target="_blank" 
               rel="noopener noreferrer"
               className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               <img 
-                src={getBannerImageUrl()} 
-                alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+                src={getBannerImageUrl(topAdBanner)} 
+                alt={topAdBanner.title}
+                className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
               />
             </a>
           ) : (
             <div className="overflow-hidden rounded-lg shadow-sm">
               <img 
-                src={getBannerImageUrl()} 
-                alt={adBanner.title}
-                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+                src={getBannerImageUrl(topAdBanner)} 
+                alt={topAdBanner.title}
+                className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
               />
             </div>
           )}
@@ -766,27 +767,27 @@ function DoctorProfile() {
             </div>
           </div>
 
-          {adBanner && (
+          {bottomAdBanner && (
             <div className="mt-6">
-              {getBannerLink() ? (
+              {getBannerLink(bottomAdBanner) ? (
                 <a 
-                  href={getBannerLink()} 
+                  href={getBannerLink(bottomAdBanner)} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
                 >
                   <img 
-                    src={getBannerImageUrl()} 
-                    alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+                    src={getBannerImageUrl(bottomAdBanner)} 
+                    alt={bottomAdBanner.title}
+                    className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
                   />
                 </a>
               ) : (
                 <div className="overflow-hidden rounded-lg shadow-sm">
                   <img 
-                    src={getBannerImageUrl()} 
-                    alt={adBanner.title}
-                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+                    src={getBannerImageUrl(bottomAdBanner)} 
+                    alt={bottomAdBanner.title}
+                    className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
                   />
                 </div>
               )}
@@ -1089,7 +1090,6 @@ function DoctorProfile() {
                           </div>
                           <div className="sm:hidden flex-1">
                             <h3 className="font-semibold text-gray-800 text-sm">{review.patient_name}</h3>
-                            <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
                           </div>
                           <div className="sm:hidden flex items-center gap-0.5 bg-yellow-50 px-2 py-1 rounded-full">
                             {[1, 2, 3, 4, 5].map((star) => (
@@ -1108,7 +1108,6 @@ function DoctorProfile() {
                           <div className="hidden sm:flex items-center justify-between mb-2">
                             <div>
                               <h3 className="font-semibold text-gray-800">{review.patient_name}</h3>
-                              <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
                             </div>
                             <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
                               {[1, 2, 3, 4, 5].map((star) => (

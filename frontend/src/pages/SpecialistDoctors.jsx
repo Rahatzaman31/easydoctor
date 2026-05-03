@@ -532,14 +532,16 @@ function SpecialistDoctors() {
             {doctors.map(doctor => (
               <div key={doctor.id} className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-primary-300 cursor-pointer" onClick={() => navigate(`/doctor/${doctor.slug || doctor.id}`)}>
                 <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 p-6">
-                  <div className="absolute top-3 right-3 w-8 h-8">
+                  <div className="absolute top-3 right-3">
                     {doctor.is_verified && (
-                      <img
-                        src="/verified-badge.png"
-                        alt="যাচাইকৃত"
-                        title="যাচাইকৃত সদস্য"
-                        className="w-8 h-8 drop-shadow-lg"
-                      />
+                      <div className="flex items-center gap-1">
+                        <span className="text-[11px] font-bold text-white leading-none tracking-wide drop-shadow">verified</span>
+                        <img
+                          src="/verified-badge.png"
+                          alt="verified"
+                          className="w-5 h-5 flex-shrink-0 drop-shadow"
+                        />
+                      </div>
                     )}
                   </div>
                   <div className="flex flex-col items-center">
