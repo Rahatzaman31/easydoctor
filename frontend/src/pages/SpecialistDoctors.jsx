@@ -28,8 +28,10 @@ const toBengaliNumber = (num) => {
 const categories = [
   { id: 'all', name: 'সকল বিভাগ', nameEn: 'সকল', icon: '/icons/services/doctor.webp' },
   { id: 'medicine', name: 'মেডিসিন বিশেষজ্ঞ', nameEn: 'মেডিসিন', icon: '/icons/medicine.webp' },
+  { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', nameEn: 'বক্ষব্যাধি', icon: '/icons/chest-medicine.png' },
   { id: 'cardiology', name: 'হৃদরোগ বিশেষজ্ঞ', nameEn: 'কার্ডিওলজি', icon: '/icons/cardiology.webp' },
   { id: 'neurology', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', nameEn: 'নিউরোলজি', icon: '/icons/neurology.webp' },
+  { id: 'neurosurgery', name: 'নিউরো সার্জন', nameEn: 'নিউরো সার্জারী', icon: '/icons/neurosurgery.png' },
   { id: 'gynecology', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', nameEn: 'গাইনি', icon: '/icons/gynecology.webp' },
   { id: 'pediatrics', name: 'শিশু রোগ বিশেষজ্ঞ', nameEn: 'পেডিয়াট্রিক্স', icon: '/icons/pediatrics.webp' },
   { id: 'orthopedics', name: 'হাড় ও জয়েন্ট রোগ বিশেষজ্ঞ', nameEn: 'অর্থোপেডিক্স', icon: '/icons/orthopedics.webp' },
@@ -39,9 +41,11 @@ const categories = [
   { id: 'ophthalmology', name: 'চক্ষু রোগ বিশেষজ্ঞ', nameEn: 'অফথালমোলজি', icon: '/icons/ophthalmology.webp' },
   { id: 'dental', name: 'দন্ত বিশেষজ্ঞ', nameEn: 'ডেন্টাল', icon: '/icons/dental.webp' },
   { id: 'surgery', name: 'সার্জারি বিশেষজ্ঞ', nameEn: 'সার্জারি', icon: '/icons/surgery.webp' },
+  { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন', nameEn: 'কলোরেক্টাল সার্জারী', icon: '/icons/colorectal-surgery.png' },
   { id: 'oncology', name: 'ক্যান্সার রোগ বিশেষজ্ঞ', nameEn: 'অনকোলজি', icon: '/icons/oncology.webp' },
   { id: 'pulmonology', name: 'শ্বাসতন্ত্র রোগ বিশেষজ্ঞ', nameEn: 'পালমোনোলজি', icon: '/icons/pulmonology.webp' },
   { id: 'endocrinology', name: 'হরমোন রোগ বিশেষজ্ঞ', nameEn: 'এন্ডোক্রাইনোলজি', icon: '/icons/endocrinology.webp' },
+  { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', nameEn: 'বন্ধ্যাত্ব ও প্রজনন', icon: '/icons/infertility.png' },
   { id: 'anesthesia', name: 'চেতনানাশক বিশেষজ্ঞ', nameEn: 'অ্যানেসথেসিয়া', icon: '/icons/anesthesia.webp' },
   { id: 'nephrology', name: 'কিডনি রোগ বিশেষজ্ঞ', nameEn: 'নেফ্রোলজি', icon: '/icons/kidney.webp' },
   { id: 'urology', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', nameEn: 'ইউরোলজি', icon: '/icons/urology.webp' },
@@ -51,11 +55,7 @@ const categories = [
   { id: 'plastic-surgery', name: 'প্লাস্টিক সার্জন', nameEn: 'প্লাস্টিক সার্জারি', icon: '/icons/plastic-surgery.webp' },
   { id: 'physiotherapy', name: 'ফিজিওথেরাপিস্ট', nameEn: 'ফিজিওথেরাপি', icon: '/icons/physiotherapy.webp' },
   { id: 'nutrition', name: 'পুষ্টিবিদ', nameEn: 'নিউট্রিশন', icon: '/icons/nutrition.webp' },
-  { id: 'infertility', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', nameEn: 'বন্ধ্যাত্ব ও প্রজনন', icon: '/icons/infertility.png' },
   { id: 'physical-medicine', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ', nameEn: 'ফিজিক্যাল মেডিসিন', icon: '/icons/physical-medicine.png' },
-  { id: 'colorectal-surgery', name: 'কলোরেক্টাল সার্জন', nameEn: 'কলোরেক্টাল সার্জারী', icon: '/icons/colorectal-surgery.png' },
-  { id: 'chest-medicine', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', nameEn: 'বক্ষব্যাধি', icon: '/icons/chest-medicine.png' },
-  { id: 'neurosurgery', name: 'নিউরো সার্জন', nameEn: 'নিউরো সার্জারী', icon: '/icons/neurosurgery.png' },
   { id: 'hematology', name: 'রক্ত রোগ বিশেষজ্ঞ', nameEn: 'রক্ত রোগ', icon: '/icons/hematology.png' },
 ]
 
@@ -532,14 +532,17 @@ function SpecialistDoctors() {
             {doctors.map(doctor => (
               <div key={doctor.id} className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-primary-300 cursor-pointer" onClick={() => navigate(`/doctor/${doctor.slug || doctor.id}`)}>
                 <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 p-6">
-                  <div className="absolute top-3 right-3 w-8 h-8">
+                  <div className="absolute top-3 right-3">
                     {doctor.is_verified && (
-                      <img
-                        src="/verified-badge.png"
-                        alt="যাচাইকৃত"
-                        title="যাচাইকৃত সদস্য"
-                        className="w-8 h-8 drop-shadow-lg"
-                      />
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-semibold text-white drop-shadow">Verified</span>
+                        <img
+                          src="/trusted-badge.png"
+                          alt="Verified"
+                          title="যাচাইকৃত সদস্য"
+                          className="w-7 h-7 drop-shadow-lg"
+                        />
+                      </div>
                     )}
                   </div>
                   <div className="flex flex-col items-center">

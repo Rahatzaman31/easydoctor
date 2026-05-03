@@ -1089,7 +1089,6 @@ function DoctorProfile() {
                           </div>
                           <div className="sm:hidden flex-1">
                             <h3 className="font-semibold text-gray-800 text-sm">{review.patient_name}</h3>
-                            <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
                           </div>
                           <div className="sm:hidden flex items-center gap-0.5 bg-yellow-50 px-2 py-1 rounded-full">
                             {[1, 2, 3, 4, 5].map((star) => (
@@ -1108,7 +1107,6 @@ function DoctorProfile() {
                           <div className="hidden sm:flex items-center justify-between mb-2">
                             <div>
                               <h3 className="font-semibold text-gray-800">{review.patient_name}</h3>
-                              <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
                             </div>
                             <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
                               {[1, 2, 3, 4, 5].map((star) => (
