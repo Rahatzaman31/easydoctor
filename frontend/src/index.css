@@ -1,0 +1,356 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  50% {
+    transform: translateY(-40px) translateX(-10px);
+  }
+  75% {
+    transform: translateY(-20px) translateX(10px);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes soft-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes slow-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes ecg-draw {
+  0% {
+    stroke-dashoffset: 600;
+  }
+  60%, 100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 7s ease-in-out infinite;
+}
+
+.animate-slow-float {
+  animation: slow-float 5s ease-in-out infinite;
+}
+
+.animate-ring-pulse {
+  animation: ring-pulse 2.6s ease-out infinite;
+}
+
+.animate-ecg-draw {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: ecg-draw 3.2s ease-in-out infinite;
+}
+
+* {
+  font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f8fafc;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+img {
+  content-visibility: auto;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium text-sm sm:text-base;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 px-4 sm:px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm sm:text-base;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-md p-4 lg:p-6 hover:shadow-lg transition-shadow;
+  }
+  
+  .card-responsive {
+    @apply bg-white rounded-xl shadow-md p-4 lg:p-6;
+  }
+  
+  .input-field {
+    @apply w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none text-sm sm:text-base;
+  }
+  
+  .section-shell {
+    @apply px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+  }
+  
+  .admin-card {
+    @apply bg-white rounded-xl shadow-md p-4 lg:p-6 mb-4 lg:mb-6;
+  }
+  
+  .admin-table-wrapper {
+    @apply bg-white rounded-xl shadow-md overflow-hidden;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.prose .ql-size-small {
+  font-size: 0.75em;
+}
+
+.prose .ql-size-large {
+  font-size: 1.5em;
+}
+
+.prose .ql-size-huge {
+  font-size: 2.5em;
+}
+
+.prose .ql-font-serif {
+  font-family: Georgia, Times New Roman, serif;
+}
+
+.prose .ql-font-monospace {
+  font-family: Monaco, Courier New, monospace;
+}
+
+.prose .ql-align-center {
+  text-align: center;
+}
+
+.prose .ql-align-right {
+  text-align: right;
+}
+
+.prose .ql-align-justify {
+  text-align: justify;
+}
+
+.prose .ql-indent-1 {
+  padding-left: 3em;
+}
+
+.prose .ql-indent-2 {
+  padding-left: 6em;
+}
+
+.prose .ql-indent-3 {
+  padding-left: 9em;
+}
+
+.prose ul[data-checked="true"] > li::before,
+.prose ul[data-checked="false"] > li::before {
+  content: none;
+}
+
+.prose ol,
+.prose ul {
+  padding-left: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol li,
+.prose ul li {
+  padding-left: 0.5em;
+  margin-bottom: 0.25em;
+}
+
+.prose blockquote {
+  border-left: 4px solid #0d9488;
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.prose a {
+  color: #0d9488;
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: #0f766e;
+}
+
+.embedded-doctor-cards a {
+  text-decoration: none !important;
+}
+
+.embedded-doctor-cards a * {
+  text-decoration: none !important;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose u {
+  text-decoration: underline;
+}
+
+.prose s {
+  text-decoration: line-through;
+}
+
+.prose sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
+.prose sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+
+.prose h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.prose h3 {
+  font-size: 1.17em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.prose p {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.prose p:empty,
+.prose p br:only-child {
+  display: block;
+  height: 0.5em;
+  margin: 0;
+}
+
+.prose p + p {
+  margin-top: 0.25em;
+}
+
+.prose pre {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}

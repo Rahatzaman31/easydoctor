@@ -1,0 +1,79 @@
+{
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/public/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/rangpur-specialist-doctors-list-online-serial",
+      "destination": "/specialist-doctors",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/doctor/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot|Googlebot|bingbot|yandexbot|baiduspider|DuckDuckBot|Sogou|Slurp|ia_archiver).*"
+        }
+      ],
+      "destination": "/api/og-doctor?slug=:slug"
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Pinterest|Slackbot|TelegramBot|Discordbot|Googlebot|bingbot|yandexbot|baiduspider|DuckDuckBot|Sogou|Slurp|ia_archiver).*"
+        }
+      ],
+      "destination": "/api/og-blog?slug=:slug"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    { 
+      "source": "/(.*)", 
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /doctor.admin/
+Disallow: /doctor.admin/*
+Disallow: /api/
+Disallow: /*?utm_
+Disallow: /*?ref=
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /doctor.admin/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /doctor.admin/
+
+Sitemap: https://easydoctorrangpur.com/sitemap.xml
+
+Crawl-delay: 5
