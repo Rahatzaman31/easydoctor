@@ -532,6 +532,7 @@ function SpecialistDoctors() {
             {doctors.map(doctor => (
               <div key={doctor.id} className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-primary-300 cursor-pointer" onClick={() => navigate(`/doctor/${doctor.slug || doctor.id}`)}>
                 <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 p-6">
+<<<<<<< HEAD
                   <div className="absolute top-3 right-3">
                     {doctor.is_verified && (
                       <div className="flex items-center gap-1">
@@ -542,6 +543,16 @@ function SpecialistDoctors() {
                           className="w-5 h-5 flex-shrink-0 drop-shadow"
                         />
                       </div>
+=======
+                  <div className="absolute top-3 right-3 w-8 h-8">
+                    {doctor.is_verified && (
+                      <img
+                        src="/verified-badge.png"
+                        alt="যাচাইকৃত"
+                        title="যাচাইকৃত সদস্য"
+                        className="w-8 h-8 drop-shadow-lg"
+                      />
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                     )}
                   </div>
                   <div className="flex flex-col items-center">

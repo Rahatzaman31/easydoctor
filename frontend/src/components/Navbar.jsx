@@ -45,6 +45,19 @@ function Navbar({ mediProductsVisible = false }) {
               হাসপাতাল ও ডায়াগনস্টিক
             </Link>
             <Link 
+<<<<<<< HEAD
+=======
+              to="/ambulance" 
+              className={`font-medium transition-all ${
+                location.pathname === '/ambulance' 
+                  ? 'text-primary-600 bg-primary-50 px-3 py-2 rounded-lg' 
+                  : 'text-gray-700 hover:text-primary-600'
+              }`}
+            >
+              অ্যাম্বুলেন্স
+            </Link>
+            <Link 
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
               to="/blog" 
               className={`font-medium transition-all ${
                 location.pathname === '/blog' || location.pathname.startsWith('/blog/') 
@@ -147,6 +160,20 @@ function Navbar({ mediProductsVisible = false }) {
               হাসপাতাল ও ডায়াগনস্টিক
             </Link>
             <Link 
+<<<<<<< HEAD
+=======
+              to="/ambulance" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                location.pathname === '/ambulance'
+                  ? 'bg-primary-100 text-primary-700 font-semibold'
+                  : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+              }`}
+            >
+              অ্যাম্বুলেন্স
+            </Link>
+            <Link 
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
               to="/blog" 
               onClick={() => setIsOpen(false)}
               className={`block px-4 py-3 rounded-lg font-medium transition-colors ${

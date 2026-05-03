@@ -34,7 +34,10 @@ const categories = [
   { id: 'medicine', title: 'মেডিসিন', name: 'মেডিসিন বিশেষজ্ঞ', icon: '/icons/medicine.webp', isImage: true },
   { id: 'cardiology', title: 'হৃদরোগ', name: 'হৃদরোগ বিশেষজ্ঞ', icon: '/icons/cardiology.webp', isImage: true },
   { id: 'neurology', title: 'নিউরোলজি', name: 'মস্তিষ্ক ও স্নায়ু রোগ বিশেষজ্ঞ', icon: '/icons/neurology.webp', isImage: true },
+<<<<<<< HEAD
   { id: 'neurosurgery', title: 'নিউরো সার্জারী', name: 'নিউরো সার্জন', icon: '/icons/neurosurgery.png', isImage: true },
+=======
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
   { id: 'gynecology', title: 'স্ত্রীরোগ', name: 'প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ', icon: '/icons/gynecology.webp', isImage: true },
   { id: 'pediatrics', title: 'শিশু', name: 'শিশু রোগ বিশেষজ্ঞ', icon: '/icons/pediatrics.webp', isImage: true },
   { id: 'orthopedics', title: 'অর্থোপেডিক্স', name: 'হাড় ও জয়েন্ট রোগ বিশেষজ্ঞ', icon: '/icons/orthopedics.webp', isImage: true },
@@ -44,11 +47,17 @@ const categories = [
   { id: 'ophthalmology', title: 'চক্ষু', name: 'চক্ষু রোগ বিশেষজ্ঞ', icon: '/icons/ophthalmology.webp', isImage: true },
   { id: 'dental', title: 'দন্ত', name: 'দন্ত বিশেষজ্ঞ', icon: '/icons/dental.webp', isImage: true },
   { id: 'surgery', title: 'সার্জারি', name: 'সার্জারি বিশেষজ্ঞ', icon: '/icons/surgery.webp', isImage: true },
+<<<<<<< HEAD
   { id: 'colorectal-surgery', title: 'কলোরেক্টাল সার্জারী', name: 'কলোরেক্টাল সার্জন', icon: '/icons/colorectal-surgery.png', isImage: true },
   { id: 'oncology', title: 'ক্যান্সার', name: 'ক্যান্সার রোগ বিশেষজ্ঞ', icon: '/icons/oncology.webp', isImage: true },
   { id: 'pulmonology', title: 'ফুসফুস', name: 'শ্বাসতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/pulmonology.webp', isImage: true },
   { id: 'endocrinology', title: 'হরমোন', name: 'হরমোন রোগ বিশেষজ্ঞ', icon: '/icons/endocrinology.webp', isImage: true },
   { id: 'infertility', title: 'বন্ধ্যাত্ব ও প্রজনন', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', icon: '/icons/infertility.png', isImage: true },
+=======
+  { id: 'oncology', title: 'ক্যান্সার', name: 'ক্যান্সার রোগ বিশেষজ্ঞ', icon: '/icons/oncology.webp', isImage: true },
+  { id: 'pulmonology', title: 'ফুসফুস', name: 'শ্বাসতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/pulmonology.webp', isImage: true },
+  { id: 'endocrinology', title: 'হরমোন', name: 'হরমোন রোগ বিশেষজ্ঞ', icon: '/icons/endocrinology.webp', isImage: true },
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
   { id: 'anesthesia', title: 'চেতনানাশক', name: 'চেতনানাশক বিশেষজ্ঞ', icon: '/icons/anesthesia.webp', isImage: true },
   { id: 'nephrology', title: 'কিডনি', name: 'কিডনি রোগ বিশেষজ্ঞ', icon: '/icons/kidney.webp', isImage: true },
   { id: 'urology', title: 'মূত্রতন্ত্র', name: 'মূত্রতন্ত্র রোগ বিশেষজ্ঞ', icon: '/icons/urology.webp', isImage: true },
@@ -58,8 +67,16 @@ const categories = [
   { id: 'plastic-surgery', title: 'প্লাস্টিক সার্জারি', name: 'প্লাস্টিক সার্জন', icon: '/icons/plastic-surgery.webp', isImage: true },
   { id: 'physiotherapy', title: 'ফিজিওথেরাপি', name: 'ফিজিওথেরাপিস্ট', icon: '/icons/physiotherapy.webp', isImage: true },
   { id: 'nutrition', title: 'পুষ্টি', name: 'পুষ্টিবিদ', icon: '/icons/nutrition.webp', isImage: true },
+<<<<<<< HEAD
   { id: 'chest-medicine', title: 'বক্ষব্যাধি', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', icon: '/icons/chest-medicine.png', isImage: true },
   { id: 'physical-medicine', title: 'ফিজিক্যাল মেডিসিন', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ', icon: '/icons/physical-medicine.png', isImage: true },
+=======
+  { id: 'infertility', title: 'বন্ধ্যাত্ব ও প্রজনন', name: 'বন্ধ্যাত্ব ও প্রজনন হরমোন বিশেষজ্ঞ', icon: '/icons/infertility.png', isImage: true },
+  { id: 'physical-medicine', title: 'ফিজিক্যাল মেডিসিন', name: 'ফিজিক্যাল মেডিসিন বিশেষজ্ঞ', icon: '/icons/physical-medicine.png', isImage: true },
+  { id: 'colorectal-surgery', title: 'কলোরেক্টাল সার্জারী', name: 'কলোরেক্টাল সার্জন', icon: '/icons/colorectal-surgery.png', isImage: true },
+  { id: 'chest-medicine', title: 'বক্ষব্যাধি', name: 'বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ', icon: '/icons/chest-medicine.png', isImage: true },
+  { id: 'neurosurgery', title: 'নিউরো সার্জারী', name: 'নিউরো সার্জন', icon: '/icons/neurosurgery.png', isImage: true },
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
   { id: 'hematology', title: 'রক্ত রোগ', name: 'রক্ত রোগ বিশেষজ্ঞ', icon: '/icons/hematology.png', isImage: true },
 ]
 
@@ -388,7 +405,11 @@ function Home() {
                     </div>
                     <div>
                       <div className="text-[10px] text-gray-500 leading-none">অভিজ্ঞ</div>
+<<<<<<< HEAD
                       <div className="text-sm font-bold text-gray-800 leading-tight">২৫০+ ডাক্তার</div>
+=======
+                      <div className="text-sm font-bold text-gray-800 leading-tight">৫০০+ ডাক্তার</div>
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                     </div>
                   </div>
                 </div>

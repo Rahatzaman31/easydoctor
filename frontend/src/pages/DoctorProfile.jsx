@@ -72,8 +72,12 @@ function DoctorProfile() {
     review_text: ''
   })
   const [showSerialTypeModal, setShowSerialTypeModal] = useState(false)
+<<<<<<< HEAD
   const [topAdBanner, setTopAdBanner] = useState(null)
   const [bottomAdBanner, setBottomAdBanner] = useState(null)
+=======
+  const [adBanner, setAdBanner] = useState(null)
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
   const [currentSliderIndex, setCurrentSliderIndex] = useState(0)
 
   useEffect(() => {
@@ -187,8 +191,12 @@ function DoctorProfile() {
   async function fetchAdBanner() {
     try {
       if (!supabase || !isConfigured || !doctorId) return
+<<<<<<< HEAD
       setTopAdBanner(null)
       setBottomAdBanner(null)
+=======
+      setAdBanner(null)
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
       const { data, error } = await supabase
         .from('profile_ad_banner_doctors')
         .select(`
@@ -204,7 +212,12 @@ function DoctorProfile() {
         `)
         .eq('doctor_id', doctorId)
         .eq('profile_ad_banners.is_active', true)
+<<<<<<< HEAD
         .order('created_at', { ascending: true })
+=======
+        .limit(1)
+        .maybeSingle()
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
       
       if (error) {
         if (error.code !== 'PGRST116') {
@@ -213,9 +226,15 @@ function DoctorProfile() {
         return
       }
       
+<<<<<<< HEAD
       const banners = (data || []).map(item => item.profile_ad_banners).filter(Boolean)
       setTopAdBanner(banners[0] || null)
       setBottomAdBanner(banners[1] || null)
+=======
+      if (data?.profile_ad_banners) {
+        setAdBanner(data.profile_ad_banners)
+      }
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
     } catch (error) {
       console.error('Error fetching ad banner:', error)
     }
@@ -318,6 +337,7 @@ function DoctorProfile() {
     return '/rangpur-specialist-doctors-list-online-serial'
   }
 
+<<<<<<< HEAD
   const getBannerLink = (banner) => {
     if (!banner) return null
     return banner.link_url
@@ -330,6 +350,20 @@ function DoctorProfile() {
       return banner.mobile_image_url
     }
     return banner.image_url
+=======
+  const getBannerLink = () => {
+    if (!adBanner) return null
+    return adBanner.link_url
+  }
+
+  const getBannerImageUrl = () => {
+    if (!adBanner) return null
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    if (isMobile && adBanner.mobile_image_url) {
+      return adBanner.mobile_image_url
+    }
+    return adBanner.image_url
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
   }
 
   if (!doctor) {
@@ -351,27 +385,47 @@ function DoctorProfile() {
         type="profile"
         structuredData={getDoctorStructuredData(doctor)}
       />
+<<<<<<< HEAD
       {topAdBanner && (
         <div className="mb-4">
           {getBannerLink(topAdBanner) ? (
             <a 
               href={getBannerLink(topAdBanner)} 
+=======
+      {adBanner && (
+        <div className="mb-4">
+          {getBannerLink() ? (
+            <a 
+              href={getBannerLink()} 
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
               target="_blank" 
               rel="noopener noreferrer"
               className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               <img 
+<<<<<<< HEAD
                 src={getBannerImageUrl(topAdBanner)} 
                 alt={topAdBanner.title}
                 className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
+=======
+                src={getBannerImageUrl()} 
+                alt={adBanner.title}
+                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
               />
             </a>
           ) : (
             <div className="overflow-hidden rounded-lg shadow-sm">
               <img 
+<<<<<<< HEAD
                 src={getBannerImageUrl(topAdBanner)} 
                 alt={topAdBanner.title}
                 className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
+=======
+                src={getBannerImageUrl()} 
+                alt={adBanner.title}
+                className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
               />
             </div>
           )}
@@ -767,27 +821,47 @@ function DoctorProfile() {
             </div>
           </div>
 
+<<<<<<< HEAD
           {bottomAdBanner && (
             <div className="mt-6">
               {getBannerLink(bottomAdBanner) ? (
                 <a 
                   href={getBannerLink(bottomAdBanner)} 
+=======
+          {adBanner && (
+            <div className="mt-6">
+              {getBannerLink() ? (
+                <a 
+                  href={getBannerLink()} 
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
                 >
                   <img 
+<<<<<<< HEAD
                     src={getBannerImageUrl(bottomAdBanner)} 
                     alt={bottomAdBanner.title}
                     className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
+=======
+                    src={getBannerImageUrl()} 
+                    alt={adBanner.title}
+                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                   />
                 </a>
               ) : (
                 <div className="overflow-hidden rounded-lg shadow-sm">
                   <img 
+<<<<<<< HEAD
                     src={getBannerImageUrl(bottomAdBanner)} 
                     alt={bottomAdBanner.title}
                     className="w-full h-auto object-contain max-h-[150px] md:max-h-[150px]"
+=======
+                    src={getBannerImageUrl()} 
+                    alt={adBanner.title}
+                    className="w-full h-auto object-contain max-h-[120px] md:max-h-[120px]"
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                   />
                 </div>
               )}
@@ -1090,6 +1164,10 @@ function DoctorProfile() {
                           </div>
                           <div className="sm:hidden flex-1">
                             <h3 className="font-semibold text-gray-800 text-sm">{review.patient_name}</h3>
+<<<<<<< HEAD
+=======
+                            <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                           </div>
                           <div className="sm:hidden flex items-center gap-0.5 bg-yellow-50 px-2 py-1 rounded-full">
                             {[1, 2, 3, 4, 5].map((star) => (
@@ -1108,6 +1186,10 @@ function DoctorProfile() {
                           <div className="hidden sm:flex items-center justify-between mb-2">
                             <div>
                               <h3 className="font-semibold text-gray-800">{review.patient_name}</h3>
+<<<<<<< HEAD
+=======
+                              <span className="text-xs text-gray-400">{getRelativeTimeBengali(review.displayDaysAgo)}</span>
+>>>>>>> 49bf229bdd66a41754c33f79d8f84d9e809d91cd
                             </div>
                             <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
                               {[1, 2, 3, 4, 5].map((star) => (
